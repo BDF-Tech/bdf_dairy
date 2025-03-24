@@ -1,0 +1,50 @@
+{
+ "add_total_row": 0,
+ "columns": [],
+ "creation": "2025-03-24 17:13:07.121498",
+ "disabled": 0,
+ "docstatus": 0,
+ "doctype": "Report",
+ "filters": [],
+ "idx": 0,
+ "is_standard": "Yes",
+ "json": "{}",
+ "letter_head": "BDF Letter Head New",
+ "letterhead": null,
+ "modified": "2025-03-24 17:23:18.929352",
+ "modified_by": "Administrator",
+ "module": "BDF Dairy",
+ "name": "BMC Wise Milk Collection",
+ "owner": "Administrator",
+ "prepared_report": 0,
+ "ref_doctype": "Milk Entry",
+ "report_name": "BMC Wise Milk Collection",
+ "report_type": "Script Report",
+ "roles": [
+  {
+   "role": "System Manager"
+  },
+  {
+   "role": "Dairy"
+  },
+  {
+   "role": "BDF BMC Employee"
+  },
+  {
+   "role": "BDF Executive"
+  },
+  {
+   "role": "BDF Purchase Manager"
+  },
+  {
+   "role": "Warehouse Manager"
+  },
+  {
+   "role": "BDF Plant Manager"
+  },
+  {
+   "role": "BDF Milk Data Entry"
+  }
+ ],
+ "timeout": 0
+}
