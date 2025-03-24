@@ -431,15 +431,21 @@ class StockBalanceReport:
 					"label": _("Balance Qty"),
 					"fieldname": "bal_qty",
 					"fieldtype": "Float",
-					"width": 100,
+					"width": 150,
 					"convertible": "qty",
 				},
 				{
 					"label": _("Balance Value"),
 					"fieldname": "bal_val",
 					"fieldtype": "Currency",
-					"width": 100,
+					"width": 150,
 					"options": "Company:company:default_currency",
+				},
+    			{
+					"label": _("Item Balance Value"),
+					"fieldname": "itm_bal_val",
+					"width": 100,
+					"fieldtype": "Float"
 				},
 				{
 					"label": _("Opening Qty"),
@@ -484,12 +490,20 @@ class StockBalanceReport:
     			{
 					"label": _("Item Valuation Rate"),
 					"fieldname": "itm_val_rate",
+					"fieldtype": self.filters.valuation_field_type or "Currency",
 					"width": 90,
-				},{
-					"label": _("Item Balance Value"),
-					"fieldname": "itm_bal_val",
-					"width": 90,
+					"convertible": "rate",
+					"options": "Company:company:default_currency"
+					if self.filters.valuation_field_type == "Currency"
+					else None,
 				},
+    			# {
+				# 	"label": _("Item Valuation Rate"),
+				# 	"fieldname": "itm_val_rate",
+				# 	"width": 90,
+				# 	"fieldtype": "Float",
+    			# 	"options": "Company:company:default_currency"
+				# },
 				{
 					"label": _("Reserved Stock"),
 					"fieldname": "reserved_stock",
