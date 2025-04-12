@@ -64,25 +64,26 @@ class TankerInward(Document):
 		self.create_stock_entry(stock_entry_type="Material Transfer", items=items)
 
 	def create_stock_entry(self, stock_entry_type, items, user_remark = None):
-		try:
-			stock_entry = frappe.new_doc("Stock Entry")
-			stock_entry.stock_entry_type = stock_entry_type
+		# try:
+		stock_entry = frappe.new_doc("Stock Entry")
+		stock_entry.stock_entry_type = stock_entry_type
 
-			for item in items:
-				stock_entry.append("items", item)
-			stock_entry.custom_tanker_inward = self.name
-			if user_remark:
-				stock_entry.custom_user_remark = user_remark
-			stock_entry.insert()
-			stock_entry.submit()
-			frappe.db.commit()
+		for item in items:
+			stock_entry.append("items", item)
+		stock_entry.custom_tanker_inward = self.name
+		if user_remark:
+			stock_entry.custom_user_remark = user_remark
+		# stock_entry.insert()
+		stock_entry.save()
+		stock_entry.submit()
+			# frappe.db.commit()
 
-		except frappe.ValidationError as e:
-			frappe.db.rollback()
-			frappe.throw(f"Validation Error: {e}")
-		except Exception as e:
-			frappe.db.rollback()
-			frappe.throw(f"Error: {e}")
+		# except frappe.ValidationError as e:
+		# 	frappe.db.rollback()
+		# 	frappe.throw(f"Validation Error: {e}")
+		# except Exception as e:
+		# 	frappe.db.rollback()
+		# 	frappe.throw(f"Error: {e}")
 
 	@frappe.whitelist()
 	def get_material_receipt(self):
