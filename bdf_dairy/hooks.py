@@ -232,4 +232,10 @@ fixtures = [
             ["name", "in", ["Material Transfer For Gate Pass"]],
         ],
     },
+    {
+        "doctype": "Custom Field",
+        "filters": [
+            ["name","in",["Purchase Invoice-custom_farmer_billing"]]
+        ]    
+    }
 ]

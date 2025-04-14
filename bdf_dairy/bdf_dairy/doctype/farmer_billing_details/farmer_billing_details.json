@@ -1,0 +1,149 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-04-13 09:43:41.673386",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "milk_entry_date",
+  "milk_entry_shift",
+  "milk_entry",
+  "column_break_njcb",
+  "farmer",
+  "farmer_name",
+  "milk_type",
+  "column_break_rgkl",
+  "fat_",
+  "snf_",
+  "purchase_receipt",
+  "column_break_agrb",
+  "qty",
+  "rate",
+  "amount"
+ ],
+ "fields": [
+  {
+   "columns": 1,
+   "fetch_from": "milk_entry.date",
+   "fetch_if_empty": 1,
+   "fieldname": "milk_entry_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Milk Entry Date"
+  },
+  {
+   "columns": 1,
+   "fetch_from": "milk_entry.shift",
+   "fetch_if_empty": 1,
+   "fieldname": "milk_entry_shift",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Milk Entry Shift",
+   "options": "\nMorning\nEvening"
+  },
+  {
+   "fieldname": "milk_entry",
+   "fieldtype": "Link",
+   "label": "Milk Entry",
+   "options": "Milk Entry"
+  },
+  {
+   "fieldname": "column_break_njcb",
+   "fieldtype": "Column Break"
+  },
+  {
+   "columns": 2,
+   "fieldname": "farmer_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Farmer Name"
+  },
+  {
+   "columns": 1,
+   "fetch_from": "milk_entry.member",
+   "fetch_if_empty": 1,
+   "fieldname": "farmer",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Farmer",
+   "options": "Supplier"
+  },
+  {
+   "fieldname": "column_break_rgkl",
+   "fieldtype": "Column Break"
+  },
+  {
+   "columns": 1,
+   "fetch_from": "milk_entry.fat",
+   "fetch_if_empty": 1,
+   "fieldname": "fat_",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "FAT %"
+  },
+  {
+   "columns": 1,
+   "fetch_from": "milk_entry.snf",
+   "fetch_if_empty": 1,
+   "fieldname": "snf_",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "SNF %"
+  },
+  {
+   "fieldname": "column_break_agrb",
+   "fieldtype": "Column Break"
+  },
+  {
+   "columns": 1,
+   "fetch_from": "milk_entry.volume",
+   "fetch_if_empty": 1,
+   "fieldname": "qty",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Qty"
+  },
+  {
+   "columns": 1,
+   "fetch_from": "milk_entry.unit_price_with_incentive",
+   "fetch_if_empty": 1,
+   "fieldname": "rate",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Rate"
+  },
+  {
+   "columns": 1,
+   "fieldname": "amount",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Amount"
+  },
+  {
+   "fieldname": "purchase_receipt",
+   "fieldtype": "Link",
+   "label": "Purchase Receipt",
+   "options": "Purchase Receipt"
+  },
+  {
+   "fieldname": "milk_type",
+   "fieldtype": "Select",
+   "label": "Milk Type",
+   "options": "Cow\nBuffalo\nMix"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2025-04-14 13:03:45.416232",
+ "modified_by": "Administrator",
+ "module": "BDF Dairy",
+ "name": "Farmer Billing Details",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

@@ -3,6 +3,7 @@
   "add_to_transit": 0,
   "docstatus": 0,
   "doctype": "Stock Entry Type",
+  "is_standard": 0,
   "modified": "2024-12-17 20:53:45.703969",
   "name": "Material Transfer For Gate Pass",
   "purpose": "Material Transfer"
