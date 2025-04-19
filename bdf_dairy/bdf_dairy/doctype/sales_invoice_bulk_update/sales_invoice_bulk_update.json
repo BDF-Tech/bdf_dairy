@@ -1,0 +1,167 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:SIBU-{####}",
+ "creation": "2025-04-19 12:38:20.449774",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "amended_from",
+  "section_break_wqma",
+  "from_date",
+  "column_break_12vq8",
+  "to_date",
+  "column_break_vfji9",
+  "shift",
+  "column_break_kniq",
+  "route",
+  "section_break_saidx",
+  "posting_date",
+  "sales_invoices",
+  "column_break_lw9ve",
+  "posting_time",
+  "select_all",
+  "column_break_hoabu",
+  "payment_due_date",
+  "section_break_kfetr",
+  "date_update"
+ ],
+ "fields": [
+  {
+   "fieldname": "from_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "From Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_12vq8",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "to_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "To Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_vfji9",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "sales_invoices",
+   "fieldtype": "Button",
+   "label": "Get Sales Invoices"
+  },
+  {
+   "fieldname": "select_all",
+   "fieldtype": "Button",
+   "label": "Select All"
+  },
+  {
+   "fieldname": "section_break_saidx",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "posting_date",
+   "fieldtype": "Date",
+   "label": "Posting Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_lw9ve",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "posting_time",
+   "fieldtype": "Time",
+   "label": "Posting Time",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_hoabu",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "payment_due_date",
+   "fieldtype": "Date",
+   "label": "Payment Due Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_kfetr",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "date_update",
+   "fieldtype": "Table",
+   "label": "Sales Invoice Date Update",
+   "options": "Sales Invoice Date Update"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Sales Invoice Bulk Update",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "default": "Morning",
+   "fieldname": "shift",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Shift",
+   "options": "Morning\nEvening",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_kniq",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "route",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Route",
+   "options": "Route Master",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_wqma",
+   "fieldtype": "Section Break"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2025-04-19 13:26:21.028182",
+ "modified_by": "Administrator",
+ "module": "BDF Dairy",
+ "name": "Sales Invoice Bulk Update",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}

@@ -15,25 +15,35 @@ class FarmerBilling(Document):
 		self.create_purchase_invoice()
 
 	def before_save(self):
-		total_qty, total_avg_rate, total_amount = 0, 0, 0
+		self.get_running_total()
+
+	def get_running_total(self):
+		total_qty, total_amount = 0, 0
 		for row in self.farmer_billing_summary:
 			total_qty += row.qty
-			total_avg_rate += row.rate
 			total_amount += row.amount
 
 		self.total_qty = total_qty
-		self.average_rate = total_avg_rate
+		self.average_rate = total_amount / total_qty
 		self.total_amount = total_amount
 
 	@frappe.whitelist()
 	def get_milk_entry_detail_data(self):
 		self.farmer_billing_details.clear()
+		if not self.from_date:
+			frappe.throw("From Date Is Missing.")
+	
+		if not self.no_of_date:
+			frappe.throw("Number Of Days Is Missing.")
+
+		if not self.dcs:
+			frappe.throw("DCS Is Missing.")
 
 		milk_entries = frappe.get_all(
 			"Milk Entry",
 			filters={
 				'date': ['between', [self.from_date, self.to_date]],
-				'dcs_id': self.dcs, 'status': ['!=', 'Billed']
+				'dcs_id': self.dcs, 'docstatus': 1, 'status': ['!=', 'Billed']
 			},
 			fields=[
 				'name', 'date', 'shift', 'member', 'member_name', 'milk_type',
@@ -41,10 +51,10 @@ class FarmerBilling(Document):
 			],
 			order_by='member_name ASC, date ASC, shift DESC'
 		)
-		if not milk_entries:
-			frappe.throw("No Milk Entry Founds.")
 
-		# Cache purchase receipts for performance
+		if not milk_entries:
+			frappe.throw("No Milk Entry Found.")
+
 		entry_names = [entry['name'] for entry in milk_entries]
 		receipt_map = frappe._dict({
 			d.milk_entry: d.name for d in frappe.get_all(
@@ -54,67 +64,64 @@ class FarmerBilling(Document):
 			)
 		})
 
+		# Summary dictionary
+		farmer_summary = {}
+
 		for entry in milk_entries:
 			volume = entry['volume'] or 0
 			rate = entry['unit_price_with_incentive'] or 0
+			amount = volume * rate
+			member = entry['member']
+			member_name = entry['member_name']
 
+			# Append to child table
 			self.append('farmer_billing_details', {
 				'milk_entry_date': entry['date'],
 				'milk_entry_shift': entry['shift'],
 				'milk_entry': entry['name'],
 				'milk_type': entry['milk_type'],
-				'farmer': entry['member'],
-				'farmer_name': entry['member_name'],
+				'farmer': member,
+				'farmer_name': member_name,
 				'purchase_receipt': receipt_map.get(entry['name']),
 				'fat_': entry['fat'],
 				'snf_': entry['snf'],
 				'qty': volume,
 				'rate': rate,
-				'amount': volume * rate,
+				'amount': amount,
 			})
 
-		self.get_milk_entry_summary_data()
+			# Build the summary dict
+			if member not in farmer_summary:
+				farmer_summary[member] = {
+					"member_name": member_name,
+					"total_qty": 0,
+					"total_amount": 0,
+					"entry_count": 0
+				}
 
+			farmer_summary[member]["total_qty"] += volume
+			farmer_summary[member]["total_amount"] += amount
+			farmer_summary[member]["entry_count"] += 1
 
-	def get_milk_entry_summary_data(self):
-		self.farmer_billing_summary.clear()
-		total_qty, total_avg_rate, total_amount = 0, 0, 0
-		milk_entries = frappe.db.get_list(
-			"Milk Entry",
-			filters={
-				'date': ['between', [self.from_date, self.to_date]],
-				'dcs_id': self.dcs, 'status': ['!=', 'Billed']
-			},
-			fields=[
-				'member',
-				'member_name',
-				'SUM(volume) as total_volume',
-				'AVG(unit_price_with_incentive) as avg_rate'
-			],
-			group_by='member_name',
-			order_by='member_name ASC'
-		)
-		
-		for entry in milk_entries:
-			total_volume = entry.get('total_volume') or 0
-			avg_rate = entry.get('avg_rate') or 0
-			tot_amount = total_volume * avg_rate
+		# Prepare final list of dicts
+		summary_list = []
+		for member, data in farmer_summary.items():
+			summary_list.append({
+				'member': member,
+				'member_name': data["member_name"],
+				'qty': data["total_qty"],
+				'amount': data["total_amount"]
+			})
 
-			total_qty += total_volume
-			total_avg_rate += avg_rate
-			total_amount += tot_amount
-
+		for entry in summary_list:
 			self.append('farmer_billing_summary', {
 				'farmer': entry['member'],
 				'farmer_name': entry['member_name'],
-				'rate': avg_rate,
-				'qty': total_volume,
-				'amount': tot_amount
+				'qty':  entry['qty'],
+				'rate': entry['amount'] / entry['qty'],
+				'amount':  entry['amount']
 			})
-
-		self.total_qty = total_qty
-		self.average_rate = total_avg_rate
-		self.total_amount = total_amount
+		self.get_running_total()
 
 
 	def create_purchase_invoice(self):
@@ -157,7 +164,7 @@ class FarmerBilling(Document):
 
 		for entry in milk_entry:
 			frappe.db.set_value("Milk Entry", entry, 'status', 'Billed')
-   
+
 	def on_cancel(self):
 		purchase_invoices = frappe.get_list(
 			"Purchase Invoice",
