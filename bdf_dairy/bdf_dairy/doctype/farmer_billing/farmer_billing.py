@@ -106,7 +106,9 @@ class FarmerBilling(Document):
 			purchase_inv = frappe.new_doc("Purchase Invoice")
 			purchase_inv.supplier = farmer
 			purchase_inv.posting_date = self.billing_date
-			purchase_inv.custom_farmer_billing = self.name
+			purchase_inv.set_posting_time = 1
+			purchase_inv.due_date = self.due_date
+			purchase_inv.custom_farmer_billings = self.name
 			purchase_inv.company = self.company
 			purchase_inv.custom_remark = farmer
 			purchase_inv.cost_center = self.cost_center
