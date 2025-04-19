@@ -2,7 +2,6 @@
 # For license information, please see license.txt
 
 import frappe
-import json
 from frappe.model.document import Document
 
 
@@ -12,9 +11,19 @@ class FarmerBilling(Document):
 		counter = frappe.db.count("Farmer Billing", filters={"name": ["like", pattern]})
 		self.name = f"{self.from_date}--{self.to_date}--{self.dcs}--{counter + 1}"
 
-
 	def before_submit(self):
 		self.create_purchase_invoice()
+
+	def before_save(self):
+		total_qty, total_avg_rate, total_amount = 0, 0, 0
+		for row in self.farmer_billing_summary:
+			total_qty += row.qty
+			total_avg_rate += row.rate
+			total_amount += row.amount
+
+		self.total_qty = total_qty
+		self.average_rate = total_avg_rate
+		self.total_amount = total_amount
 
 	@frappe.whitelist()
 	def get_milk_entry_detail_data(self):
@@ -30,7 +39,7 @@ class FarmerBilling(Document):
 				'name', 'date', 'shift', 'member', 'member_name', 'milk_type',
 				'fat', 'snf', 'volume', 'unit_price_with_incentive'
 			],
-			order_by='date ASC, member ASC, shift DESC'
+			order_by='member_name ASC, date ASC, shift DESC'
 		)
 		if not milk_entries:
 			frappe.throw("No Milk Entry Founds.")
@@ -69,7 +78,7 @@ class FarmerBilling(Document):
 
 	def get_milk_entry_summary_data(self):
 		self.farmer_billing_summary.clear()
-
+		total_qty, total_avg_rate, total_amount = 0, 0, 0
 		milk_entries = frappe.db.get_list(
 			"Milk Entry",
 			filters={
@@ -82,20 +91,30 @@ class FarmerBilling(Document):
 				'SUM(volume) as total_volume',
 				'AVG(unit_price_with_incentive) as avg_rate'
 			],
-			group_by='member',
-			order_by='member ASC'
+			group_by='member_name',
+			order_by='member_name ASC'
 		)
 		
 		for entry in milk_entries:
 			total_volume = entry.get('total_volume') or 0
 			avg_rate = entry.get('avg_rate') or 0
+			tot_amount = total_volume * avg_rate
+
+			total_qty += total_volume
+			total_avg_rate += avg_rate
+			total_amount += tot_amount
 
 			self.append('farmer_billing_summary', {
 				'farmer': entry['member'],
 				'farmer_name': entry['member_name'],
+				'rate': avg_rate,
 				'qty': total_volume,
-				'amount': total_volume * avg_rate
+				'amount': tot_amount
 			})
+
+		self.total_qty = total_qty
+		self.average_rate = total_avg_rate
+		self.total_amount = total_amount
 
 
 	def create_purchase_invoice(self):
@@ -138,3 +157,25 @@ class FarmerBilling(Document):
 
 		for entry in milk_entry:
 			frappe.db.set_value("Milk Entry", entry, 'status', 'Billed')
+   
+	def on_cancel(self):
+		purchase_invoices = frappe.get_list(
+			"Purchase Invoice",
+			filters={"custom_farmer_billings": self.name},
+			pluck="name"
+		)
+
+		if not purchase_invoices:
+			frappe.msgprint("No linked Purchase Invoices found.")
+			return
+
+		for pi_name in purchase_invoices:
+			pi_doc = frappe.get_doc("Purchase Invoice", pi_name)
+			if pi_doc.docstatus == 1:
+				try:
+					pi_doc.cancel()
+					frappe.msgprint(f"Purchase Invoice {pi_name} has been cancelled.")
+				except Exception as e:
+					frappe.log_error(frappe.get_traceback(), f"Failed to cancel Purchase Invoice {pi_name}")
+					frappe.throw(f"Error cancelling Purchase Invoice {pi_name}: {str(e)}")
+

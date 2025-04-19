@@ -23,6 +23,12 @@
   "due_date",
   "summary_section",
   "farmer_billing_summary",
+  "section_break_numz",
+  "total_qty",
+  "column_break_qdbv",
+  "average_rate",
+  "column_break_xxzy",
+  "total_amount",
   "details_section",
   "farmer_billing_details",
   "connections_tab"
@@ -132,7 +138,7 @@
   {
    "fieldname": "no_of_date",
    "fieldtype": "Int",
-   "label": "No. of Date",
+   "label": "No. of Days",
    "reqd": 1
   },
   {
@@ -148,6 +154,36 @@
    "fieldname": "due_date",
    "fieldtype": "Date",
    "label": "Due Date"
+  },
+  {
+   "fieldname": "section_break_numz",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "total_qty",
+   "fieldtype": "Float",
+   "label": "Total Qty",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_qdbv",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "average_rate",
+   "fieldtype": "Currency",
+   "label": "Total Average Rate",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_xxzy",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "total_amount",
+   "fieldtype": "Currency",
+   "label": "Total Amount",
+   "read_only": 1
   }
  ],
  "grid_page_length": 50,
@@ -159,7 +195,7 @@
    "link_fieldname": "custom_farmer_billings"
   }
  ],
- "modified": "2025-04-19 10:57:56.388860",
+ "modified": "2025-04-19 11:37:06.039416",
  "modified_by": "Administrator",
  "module": "BDF Dairy",
  "name": "Farmer Billing",

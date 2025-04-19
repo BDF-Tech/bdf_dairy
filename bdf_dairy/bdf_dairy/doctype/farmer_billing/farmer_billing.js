@@ -2,6 +2,10 @@
 // For license information, please see license.txt
 
 frappe.ui.form.on("Farmer Billing", {
+    refresh(frm) {
+        frm.set_df_property('farmer_billing_summary', 'cannot_add_rows', true);
+        frm.set_df_property('farmer_billing_details', 'cannot_add_rows', true);
+    },
     async do_billing(frm){
         await get_milk_entry_data(frm)
     },

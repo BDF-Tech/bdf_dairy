@@ -217,7 +217,13 @@ fixtures = [
     {
         "doctype": "Server Script",
         "filters": [
-            ["name", "in", ["Validate WO to Syock Entry", "Process Loss Handling For Work Order", "Restrict To Create Multiple Sales Invoice", "Restrict And Update Automatic Rate", "Sales Invoice Minimum Order Quantity Validation", "Sales Order Minimum Order Quantity Validation"]],
+            ["name", "in", ["Validate WO to Syock Entry", 
+                            "Cancel Farmer Bill Invoice",
+                            "Restrict And Update Automatic Rate", 
+                            "Process Loss Handling For Work Order", 
+                            "Restrict To Create Multiple Sales Invoice", 
+                            "Sales Invoice Minimum Order Quantity Validation", 
+                            "Sales Order Minimum Order Quantity Validation"]],
         ],
     },
     {
@@ -235,7 +241,7 @@ fixtures = [
     {
         "doctype": "Custom Field",
         "filters": [
-            ["name","in",["Purchase Invoice-custom_farmer_billing"]]
+            ["name","in",["Purchase Invoice-custom_farmer_billings"]]
         ]    
     }
 ]
