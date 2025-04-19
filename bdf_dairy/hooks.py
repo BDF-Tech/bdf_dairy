@@ -243,5 +243,11 @@ fixtures = [
         "filters": [
             ["name","in",["Purchase Invoice-custom_farmer_billings"]]
         ]    
+    },
+    {
+        "doctype": "Print Format",
+        "filters": [
+            ["name","in",["Famer Bill"]]
+        ]    
     }
 ]
