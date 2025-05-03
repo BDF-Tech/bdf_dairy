@@ -361,7 +361,7 @@ def get_data(filters):
             snf = row["snf"]
 
             dcs_totals[dcs_id][date][shift]["qty"] += volume
-            dcs_totals[dcs_id][date][shift]["qty_kg"] += volume * 1.003
+            dcs_totals[dcs_id][date][shift]["qty_kg"] += volume * 1.03
             dcs_totals[dcs_id][date][shift]["fat"] += fat
             dcs_totals[dcs_id][date][shift]["snf"] += snf
             dcs_totals[dcs_id][date][shift]["kg_fat"] += row["fat_kg"]
@@ -467,10 +467,10 @@ def get_columns():
         {"label": _("Farmer Group"), "fieldname": "member_group", "fieldtype": "Link", "options": "Supplier Group", "width": 120},  # New column for Supplier Group
         {"label": _("Shift"), "fieldname": "shift", "fieldtype": "Data", "width": 120},
         {"label": _("Qty (LITER)"), "fieldname": "qty", "fieldtype": "Float", "width": 120},
-        {"label": _("Qty (KG)"), "fieldname": "qty_kg", "fieldtype": "Float", "width": 120},
+        {"label": _("Qty (KG)"), "fieldname": "qty_kg", "fieldtype": "Float", "width": 120, "precision": 2},
         {"label": _("FAT"), "fieldname": "fat", "fieldtype": "Float", "width": 120},
         {"label": _("SNF"), "fieldname": "snf", "fieldtype": "Float", "width": 120},
-        {"label": _("KG FAT"), "fieldname": "kg_fat", "fieldtype": "Float", "width": 120},
-        {"label": _("KG SNF"), "fieldname": "kg_snf", "fieldtype": "Float", "width": 120},
+        {"label": _("KG FAT"), "fieldname": "kg_fat", "fieldtype": "Float", "width": 120, "precision": 2},
+        {"label": _("KG SNF"), "fieldname": "kg_snf", "fieldtype": "Float", "width": 120, "precision": 2},
     ]
 
