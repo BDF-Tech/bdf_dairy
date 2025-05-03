@@ -427,7 +427,7 @@ def get_data(filters):
             snf = row["snf"]
 
             daily_totals["qty"] += volume
-            daily_totals["qty_kg"] += volume * 1.003
+            daily_totals["qty_kg"] += volume * 1.03
             daily_totals["fat"] += fat
             daily_totals["snf"] += snf
             daily_totals["kg_fat"] += row["fat_kg"]
@@ -443,7 +443,7 @@ def get_data(filters):
                 "member_group": member_group,  # Add member_group here
                 "shift": row["shift"],
                 "qty": volume,
-                "qty_kg": volume * 1.003,
+                "qty_kg": volume * 1.03,
                 "fat": fat,
                 "snf": snf,
                 "kg_fat": row["fat_kg"],
