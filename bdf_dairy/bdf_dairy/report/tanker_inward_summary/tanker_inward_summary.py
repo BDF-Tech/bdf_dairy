@@ -35,27 +35,24 @@ def execute(filters=None):
     return columns, data
 
 def get_columns():
-    # Define report columns with labels, fieldnames, fieldtypes, and widths
     return [
         {"label": "ID", "fieldname": "id", "fieldtype": "Link", "options": "Tanker Inward", "width": 120},
         {"label": "Date", "fieldname": "date", "fieldtype": "Date", "width": 120},
         {"label": "DCS", "fieldname": "dcs", "fieldtype": "Link", "options": "Warehouse", "width": 120},
-        {"label": "ACK LITER", "fieldname": "ack_liter", "fieldtype": "Float", "width": 120},
-        {"label": "ACK KG", "fieldname": "ack_kg", "fieldtype": "Float", "width": 120},
-        {"label": "ACK FAT", "fieldname": "ack_fat", "fieldtype": "Float", "width": 120},
-        {"label": "ACK SNF", "fieldname": "ack_snf", "fieldtype": "Float", "width": 120},
-        {"label": "ACK KG FAT", "fieldname": "ack_kg_fat", "fieldtype": "Float", "width": 120},
-        {"label": "ACK KG SNF", "fieldname": "ack_kg_snf", "fieldtype": "Float", "width": 120},
-        {"label": "DIFF LITER", "fieldname": "diff_liter", "fieldtype": "Data", "width": 120},
-        {"label": "DIFF KG", "fieldname": "diff_kg", "fieldtype": "Data", "width": 120},
-        {"label": "DIFF FAT", "fieldname": "diff_fat", "fieldtype": "Data", "width": 120},
-        {"label": "DIFF SNF", "fieldname": "diff_snf", "fieldtype": "Data", "width": 120},
-        {"label": "DIFF KG FAT", "fieldname": "diff_kg_fat", "fieldtype": "Data", "width": 120},
-        {"label": "DIFF KG SNF", "fieldname": "diff_kg_snf", "fieldtype": "Data", "width": 120},
+        {"label": "ACK LITER", "fieldname": "ack_liter", "fieldtype": "Float", "width": 120, 'precision': 2},
+        {"label": "ACK KG", "fieldname": "ack_kg", "fieldtype": "Float", "width": 120,'precision': 2},
+        {"label": "ACK FAT", "fieldname": "ack_fat", "fieldtype": "Float", "width": 120,'precision': 2},
+        {"label": "ACK SNF", "fieldname": "ack_snf", "fieldtype": "Float", "width": 120,'precision': 2},
+        {"label": "ACK KG FAT", "fieldname": "ack_kg_fat", "fieldtype": "Float", "width": 120,'precision': 2},
+        {"label": "ACK KG SNF", "fieldname": "ack_kg_snf", "fieldtype": "Float", "width": 120,'precision': 2},
+        {"label": "DIFF LITER", "fieldname": "diff_liter", "fieldtype": "Data", "width": 120,'precision': 2},
+        {"label": "DIFF KG", "fieldname": "diff_kg", "fieldtype": "Data", "width": 120,'precision': 2},
+        {"label": "DIFF FAT", "fieldname": "diff_fat", "fieldtype": "Data", "width": 120,'precision': 2},
+        {"label": "DIFF SNF", "fieldname": "diff_snf", "fieldtype": "Data", "width": 120,'precision': 2},
+        {"label": "DIFF KG FAT", "fieldname": "diff_kg_fat", "fieldtype": "Data", "width": 120,'precision': 2},
+        {"label": "DIFF KG SNF", "fieldname": "diff_kg_snf", "fieldtype": "Data", "width": 120,'precision': 2},
     ]
-
 def get_ack_data(filters):
-    # Construct SQL query to retrieve acknowledgment data within specified date range
     query = """
         SELECT
             ti.name AS id,
@@ -85,19 +82,92 @@ def get_ack_data(filters):
     """
     parameters = [filters.get('from_date'), filters.get('to_date')]
 
-    # Filter by DCS if specified in filters
     if filters.get('dcs'):
         query += " AND ti.dcs IN %s"
         parameters.append(tuple(filters.get('dcs')))
 
-    # Group by DCS and Tanker Inward ID for distinct results
     query += " GROUP BY ti.dcs, ti.name"
 
-    # Execute query and return results as dictionary list
-    return frappe.db.sql(query, tuple(parameters), as_dict=True)
+    data = frappe.db.sql(query, tuple(parameters), as_dict=True)
+
+    positive_total = {
+        "id": "Positive Total",
+        "diff_liter": 0,
+        "diff_kg": 0,
+        "diff_fat": 0,
+        "diff_snf": 0,
+        "diff_kg_fat": 0,
+        "diff_kg_snf": 0,
+    }
+
+    negative_total = {
+        "id": "Negative Total",
+        "diff_liter": 0,
+        "diff_kg": 0,
+        "diff_fat": 0,
+        "diff_snf": 0,
+        "diff_kg_fat": 0,
+        "diff_kg_snf": 0,
+    }
+
+    for row in data:
+        for key in ["diff_liter", "diff_kg", "diff_fat", "diff_snf", "diff_kg_fat", "diff_kg_snf"]:
+            value = row.get(key) or 0
+            if value >= 0:
+                positive_total[key] += value
+            else:
+                negative_total[key] += value
+
+    data.append(positive_total)
+    data.append(negative_total)
+
+    return data
 
 def format_diff(value):
     # Format the difference value with color coding based on positivity or negativity
     color = "green" if value >= 0 else "red"
-    return f'<span style="color:{color}">{value}</span>'
+    return f'<span style="color:{color}">{round(value, 2)}</span>'
+
+# def get_ack_data(filters):
+#     # Construct SQL query to retrieve acknowledgment data within specified date range
+#     query = """
+#         SELECT
+#             ti.name AS id,
+#             ti.tanker_inward_date AS date,
+#             ti.dcs,
+#             SUM(mrt.qty_in_liter) AS ack_liter,
+#             SUM(mrt.qty_in_kg) AS ack_kg,
+#             AVG(mrt.fat) AS ack_fat,
+#             AVG(mrt.snf) AS ack_snf,
+#             SUM(mrt.kg_fat) AS ack_kg_fat,
+#             SUM(mrt.kg_snf) AS ack_kg_snf,
+#             SUM(d.qty_in_liter) AS diff_liter,
+#             SUM(d.qty_in_kg) AS diff_kg,
+#             AVG(d.fat) AS diff_fat,
+#             AVG(d.snf) AS diff_snf,
+#             SUM(d.kg_fat) AS diff_kg_fat,
+#             SUM(d.kg_snf) AS diff_kg_snf
+#         FROM 
+#             `tabTanker Inward` AS ti
+#         LEFT JOIN 
+#             `tabMilk Received From Tanker` AS mrt ON mrt.parent = ti.name
+#         LEFT JOIN 
+#             `tabDifference of DCS and Tanker Milk Received` AS d ON d.parent = ti.name
+#         WHERE 
+#             ti.tanker_inward_date BETWEEN %s AND %s
+#             AND ti.docstatus = 1
+#     """
+#     parameters = [filters.get('from_date'), filters.get('to_date')]
+
+#     # Filter by DCS if specified in filters
+#     if filters.get('dcs'):
+#         query += " AND ti.dcs IN %s"
+#         parameters.append(tuple(filters.get('dcs')))
+
+#     # Group by DCS and Tanker Inward ID for distinct results
+#     query += " GROUP BY ti.dcs, ti.name"
+
+#     # Execute query and return results as dictionary list
+#     return frappe.db.sql(query, tuple(parameters), as_dict=True)
+
 

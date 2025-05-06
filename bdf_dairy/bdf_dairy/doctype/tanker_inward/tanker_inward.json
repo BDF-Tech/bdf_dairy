@@ -171,7 +171,8 @@
   {
    "fieldname": "total_qty_in_liter",
    "fieldtype": "Float",
-   "label": "Total Qty in Liter"
+   "label": "Total Qty in Liter",
+   "precision": "2"
   },
   {
    "fieldname": "column_break_k1gjc",
@@ -180,7 +181,8 @@
   {
    "fieldname": "total_qty_in_kg",
    "fieldtype": "Float",
-   "label": "Total Qty in Kg"
+   "label": "Total Qty in Kg",
+   "precision": "2"
   },
   {
    "fieldname": "column_break_zab9a",
@@ -189,7 +191,8 @@
   {
    "fieldname": "fat",
    "fieldtype": "Float",
-   "label": "FAT"
+   "label": "FAT",
+   "precision": "2"
   },
   {
    "fieldname": "column_break_qynk2",
@@ -198,7 +201,8 @@
   {
    "fieldname": "snf",
    "fieldtype": "Float",
-   "label": "SNF"
+   "label": "SNF",
+   "precision": "2"
   },
   {
    "fieldname": "column_break_okvu8",
@@ -207,7 +211,8 @@
   {
    "fieldname": "kg_fat",
    "fieldtype": "Float",
-   "label": "KG FAT"
+   "label": "KG FAT",
+   "precision": "2"
   },
   {
    "fieldname": "column_break_jecfm",
@@ -216,7 +221,8 @@
   {
    "fieldname": "kg_snf",
    "fieldtype": "Float",
-   "label": "KG SNF"
+   "label": "KG SNF",
+   "precision": "2"
   },
   {
    "fieldname": "section_break_7yqb1",
@@ -256,6 +262,7 @@
    "search_index": 1
   }
  ],
+ "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [
@@ -264,7 +271,7 @@
    "link_fieldname": "custom_tanker_inward"
   }
  ],
- "modified": "2024-12-11 19:07:57.334774",
+ "modified": "2025-05-06 14:09:53.688106",
  "modified_by": "Administrator",
  "module": "BDF Dairy",
  "name": "Tanker Inward",

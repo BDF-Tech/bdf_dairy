@@ -76,14 +76,6 @@ class TankerInward(Document):
 		# stock_entry.insert()
 		stock_entry.save()
 		stock_entry.submit()
-			# frappe.db.commit()
-
-		# except frappe.ValidationError as e:
-		# 	frappe.db.rollback()
-		# 	frappe.throw(f"Validation Error: {e}")
-		# except Exception as e:
-		# 	frappe.db.rollback()
-		# 	frappe.throw(f"Error: {e}")
 
 	@frappe.whitelist()
 	def get_material_receipt(self):

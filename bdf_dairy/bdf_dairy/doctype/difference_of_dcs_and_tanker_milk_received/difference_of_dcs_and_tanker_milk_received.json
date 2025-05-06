@@ -35,13 +35,15 @@
    "fieldtype": "Float",
    "in_list_view": 1,
    "label": "Qty in Liter",
+   "precision": "2",
    "reqd": 1
   },
   {
    "fieldname": "qty_in_kg",
    "fieldtype": "Float",
    "in_list_view": 1,
-   "label": "Qty in Kg"
+   "label": "Qty in Kg",
+   "precision": "2"
   },
   {
    "fieldname": "column_break_vdvo3",
@@ -52,13 +54,15 @@
    "fieldtype": "Float",
    "in_list_view": 1,
    "label": "FAT",
+   "precision": "2",
    "reqd": 1
   },
   {
    "fieldname": "kg_fat",
    "fieldtype": "Float",
    "in_list_view": 1,
-   "label": "KG FAT"
+   "label": "KG FAT",
+   "precision": "2"
   },
   {
    "fieldname": "column_break_spmbc",
@@ -69,19 +73,22 @@
    "fieldtype": "Float",
    "in_list_view": 1,
    "label": "SNF",
+   "precision": "2",
    "reqd": 1
   },
   {
    "fieldname": "kg_snf",
    "fieldtype": "Float",
    "in_list_view": 1,
-   "label": "KG SNF"
+   "label": "KG SNF",
+   "precision": "2"
   }
  ],
+ "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2024-10-27 08:36:21.453532",
+ "modified": "2025-05-06 14:07:45.634312",
  "modified_by": "Administrator",
  "module": "BDF Dairy",
  "name": "Difference of DCS and Tanker Milk Received",
