@@ -466,11 +466,10 @@ def get_columns():
         {"label": _("Farmer Name"), "fieldname": "member_name", "fieldtype": "Data", "width": 120},
         {"label": _("Farmer Group"), "fieldname": "member_group", "fieldtype": "Link", "options": "Supplier Group", "width": 120},  # New column for Supplier Group
         {"label": _("Shift"), "fieldname": "shift", "fieldtype": "Data", "width": 120},
-        {"label": _("Qty (LITER)"), "fieldname": "qty", "fieldtype": "Float", "width": 120},
+        {"label": _("Qty (LITER)"), "fieldname": "qty", "fieldtype": "Float", "width": 120,'precision': 2},
         {"label": _("Qty (KG)"), "fieldname": "qty_kg", "fieldtype": "Float", "width": 120, "precision": 2},
-        {"label": _("FAT"), "fieldname": "fat", "fieldtype": "Float", "width": 120},
-        {"label": _("SNF"), "fieldname": "snf", "fieldtype": "Float", "width": 120},
+        {"label": _("FAT"), "fieldname": "fat", "fieldtype": "Float", "width": 120,'precision': 2},
+        {"label": _("SNF"), "fieldname": "snf", "fieldtype": "Float", "width": 120,'precision': 2},
         {"label": _("KG FAT"), "fieldname": "kg_fat", "fieldtype": "Float", "width": 120, "precision": 2},
         {"label": _("KG SNF"), "fieldname": "kg_snf", "fieldtype": "Float", "width": 120, "precision": 2},
     ]
-
