@@ -163,8 +163,8 @@ class TankerInward(Document):
 					SUM(volume * 1.03) as ack_kg,
 					AVG(fat) as ack_fat, 
 					AVG(snf) as ack_snf,
-					SUM(fat_kg) as ack_kg_fat, 
-					SUM(snf_kg) as ack_kg_snf
+					((SUM(volume * 1.03) * AVG(fat))/ 100) as ack_kg_fat,
+					((SUM(volume * 1.03) * AVG(snf))/ 100) as ack_kg_snf
 				FROM 
 					`tabMilk Entry`
 				WHERE 
