@@ -19,6 +19,7 @@
  ],
  "fields": [
   {
+   "columns": 2,
    "fieldname": "dcs",
    "fieldtype": "Link",
    "in_list_view": 1,
@@ -31,6 +32,7 @@
    "fieldtype": "Column Break"
   },
   {
+   "columns": 2,
    "fieldname": "qty_in_liter",
    "fieldtype": "Float",
    "in_list_view": 1,
@@ -39,6 +41,7 @@
    "reqd": 1
   },
   {
+   "columns": 2,
    "fieldname": "qty_in_kg",
    "fieldtype": "Float",
    "in_list_view": 1,
@@ -50,6 +53,7 @@
    "fieldtype": "Column Break"
   },
   {
+   "columns": 1,
    "fieldname": "fat",
    "fieldtype": "Float",
    "in_list_view": 1,
@@ -58,6 +62,7 @@
    "reqd": 1
   },
   {
+   "columns": 1,
    "fieldname": "kg_fat",
    "fieldtype": "Float",
    "in_list_view": 1,
@@ -69,6 +74,7 @@
    "fieldtype": "Column Break"
   },
   {
+   "columns": 1,
    "fieldname": "snf",
    "fieldtype": "Float",
    "in_list_view": 1,
@@ -77,6 +83,7 @@
    "reqd": 1
   },
   {
+   "columns": 1,
    "fieldname": "kg_snf",
    "fieldtype": "Float",
    "in_list_view": 1,
@@ -88,7 +95,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2025-05-06 14:07:45.634312",
+ "modified": "2025-05-08 17:31:01.804578",
  "modified_by": "Administrator",
  "module": "BDF Dairy",
  "name": "Difference of DCS and Tanker Milk Received",
