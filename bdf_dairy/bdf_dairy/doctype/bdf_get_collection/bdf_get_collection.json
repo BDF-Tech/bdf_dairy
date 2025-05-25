@@ -1,0 +1,125 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "BGC-.######",
+ "creation": "2025-05-22 18:28:02.969197",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "details_section",
+  "warehouse",
+  "date",
+  "column_break_uzjh",
+  "mpp_code",
+  "shift",
+  "api_details_section",
+  "token_api_url",
+  "user_name",
+  "column_break_slhu",
+  "getdata_api_url",
+  "password"
+ ],
+ "fields": [
+  {
+   "fieldname": "warehouse",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Warehouse",
+   "link_filters": "[[\"Warehouse\",\"disabled\",\"=\",0]]",
+   "options": "Warehouse",
+   "reqd": 1
+  },
+  {
+   "fieldname": "date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_uzjh",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "warehouse.custom_mpp_code",
+   "fieldname": "mpp_code",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "MPP Code",
+   "reqd": 1
+  },
+  {
+   "fieldname": "shift",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Shift",
+   "options": "\nM\nE",
+   "reqd": 1
+  },
+  {
+   "fieldname": "details_section",
+   "fieldtype": "Section Break",
+   "label": "Details"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "api_details_section",
+   "fieldtype": "Section Break",
+   "label": "API Details"
+  },
+  {
+   "default": "https://rmrdsyncapi.promptamcs.com/ReceiveData/GetToken",
+   "fieldname": "token_api_url",
+   "fieldtype": "Small Text",
+   "label": "Token API URL"
+  },
+  {
+   "default": "BDFAMCU",
+   "fieldname": "user_name",
+   "fieldtype": "Data",
+   "label": "User Name"
+  },
+  {
+   "fieldname": "column_break_slhu",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "https://rmrdsyncapi.promptamcs.com/ReceiveData/getmilkdata",
+   "fieldname": "getdata_api_url",
+   "fieldtype": "Small Text",
+   "label": "GetData API URL"
+  },
+  {
+   "default": "Bdf1977@25",
+   "fieldname": "password",
+   "fieldtype": "Data",
+   "label": "Password"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2025-05-22 19:06:07.502960",
+ "modified_by": "Administrator",
+ "module": "BDF Dairy",
+ "name": "BDF Get Collection",
+ "naming_rule": "Expression (old style)",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
