@@ -4,6 +4,7 @@
 import json
 import frappe
 import requests
+from frappe.utils import getdate
 from frappe.model.document import Document
 
 class BDFGetCollection(Document):
@@ -39,9 +40,10 @@ class BDFGetCollection(Document):
 			"Authorization": f"Bearer {token}",
 			"Content-Type": "application/json"
 		}
+		
 		milk_entry_payload = {
 			"MPP_Code": self.mpp_code,
-			"Transaction_Date": self.date,
+			"Transaction_Date": getdate(self.date).strftime("%d-%m-%Y"),
 			"Shift": self.shift,
 		}
 
@@ -56,28 +58,39 @@ class BDFGetCollection(Document):
 		except json.JSONDecodeError:
 			frappe.throw("Invalid JSON response while fetching milk data.")
 
-		milk_data = milk_data_response.get("Data")
-		if not milk_data or not isinstance(milk_data, dict):
-			frappe.throw("No valid milk data found in the response.")
+		raw_data  = milk_data_response.get("Data")
+		try:
+			milk_data = json.loads(raw_data) if isinstance(raw_data, str) else raw_data
+		except json.JSONDecodeError:
+			frappe.throw("Milk data in 'Data' field is not valid JSON.")
 
-		# Optional: Validate required fields
-		required_keys = ["Member_Code", "Milk_Type", "Shift", "Transaction_Date", "Qty_Ltr", "Fat", "Snf", "CLR"]
-		for key in required_keys:
-			if key not in milk_data:
-				frappe.throw(f"Missing key in milk data: {key}")
+		# Sanity check
+		if not milk_data or not isinstance(milk_data, list):
+			frappe.throw("No valid milk data found or data is not a list.")
 
-		# Create new Milk Entry
-		milk_doc = frappe.get_doc({
-			"doctype": "Milk Entry",
-			"dcs_id": milk_data,
-			"member": milk_data["Member_Code"],
-			"milk_type": "Cow" if milk_data["Milk_Type"] == "C" else "Buffalo" if milk_data["Milk_Type"] == "B" else "Mix",
-			"shift": "Morning" if milk_data["Shift"] == "M" else "Evening",
-			"date": milk_data["Transaction_Date"],
-			"volume": milk_data["Qty_Ltr"],
-			"fat": milk_data["Fat"],
-			"snf": milk_data["Snf"],
-			"clr": milk_data["CLR"]
-		})
-		milk_doc.insert(ignore_permissions=True)
-		milk_doc.save(ignore_permissions=True)
+		for entry in milk_data:
+			required_keys = ["Member_Code", "Milk_Type", "Shift", "Transaction_Date", "Qty_Ltr", "Fat", "Snf", "CLR"]
+			for key in required_keys:
+				if key not in entry:
+					frappe.throw(f"Missing key in milk data: {key}")
+			
+			supplier = frappe.db.exists("Supplier", {'custom_member_code': float(entry.get("Member_Code"))})
+			if not supplier:
+				frappe.throw(f"Member Code Mapping is Missing Or Supplier Is Missing For {entry.get('Member_Code')}")
+
+			milk_doc = frappe.get_doc({
+				"doctype": "Milk Entry",
+				"dcs_id": self.warehouse,
+				"member": supplier,
+				"milk_type": "Cow" if entry.get("Milk_Type") == "C" else "Buffalo" if entry.get("Milk_Type") == "B" else "Mix",
+				"shift": "Morning" if entry.get("Shift") == "M" else "Evening",
+				"date": getdate(entry.get("Transaction_Date")),
+				"volume": entry.get("Qty_Ltr"),
+				"fat": entry.get("Fat"),
+				"snf": entry.get("Snf"),
+				"clr": entry.get("CLR")
+			})
+
+			# Save to DB
+			milk_doc.insert(ignore_permissions=True)
+			milk_doc.save(ignore_permissions=True)
