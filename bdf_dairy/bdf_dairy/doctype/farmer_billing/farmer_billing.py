@@ -160,6 +160,8 @@ class FarmerBilling(Document):
 				})
 			purchase_inv.save()
 			purchase_inv.submit()
+			frappe.db.set_value("Purchase Receipt" entry.purchase_receipt, "status", "Completed")
+			frappe.db.set_value("Purchase Receipt" entry.purchase_receipt, "per_billed", "100")
 			frappe.msgprint(f"Purchase Invoice {purchase_inv.name} created for {farmer}")
 
 		for entry in milk_entry:
