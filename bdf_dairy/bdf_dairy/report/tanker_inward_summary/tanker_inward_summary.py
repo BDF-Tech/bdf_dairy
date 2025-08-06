@@ -109,7 +109,17 @@ def get_ack_data(filters):
         "diff_kg_fat": 0,
         "diff_kg_snf": 0,
     }
-
+    total = {
+        "id": "Total",
+        "diff_liter": 0,
+        "diff_kg": 0,
+        "diff_fat": 0,
+        "diff_snf": 0,
+        "diff_kg_fat": 0,
+        "diff_kg_snf": 0,
+    }
+    count = 0
+    avg_fields = ["diff_fat", "diff_snf", "diff_kg_fat", "diff_kg_snf"]
     for row in data:
         for key in ["diff_liter", "diff_kg", "diff_fat", "diff_snf", "diff_kg_fat", "diff_kg_snf"]:
             value = row.get(key) or 0
@@ -117,9 +127,16 @@ def get_ack_data(filters):
                 positive_total[key] += value
             else:
                 negative_total[key] += value
-
+            if key in avg_fields:
+                total[key] += value
+        count += 1
+    total["diff_fat"] = total["diff_fat"]/count
+    total["diff_snf"] = total["diff_snf"]/count
+    total["diff_kg_fat"] = total["diff_kg_fat"]/count
+    total["diff_kg_snf"] = total["diff_kg_snf"]/count
     data.append(positive_total)
     data.append(negative_total)
+    data.append(total)
 
     return data
 
