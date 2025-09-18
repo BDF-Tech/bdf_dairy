@@ -1,0 +1,214 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "MSE.####",
+ "creation": "2025-08-16 12:01:43.858318",
+ "default_view": "List",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "dmc",
+  "column_break_kpms",
+  "shift",
+  "column_break_bpkq",
+  "date",
+  "column_break_iiga",
+  "company",
+  "section_break_pnah",
+  "standard_finished_item",
+  "column_break_bwib",
+  "finished_item_uom",
+  "column_break_fhgw",
+  "target_warehouse",
+  "section_break_pfjd",
+  "milk_standardization_details",
+  "section_break_xjkm",
+  "total_qty",
+  "column_break_wber",
+  "fat",
+  "column_break_sfck",
+  "snf",
+  "column_break_jvzy",
+  "kg_fat",
+  "column_break_ksbe",
+  "kg_snf",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company"
+  },
+  {
+   "fieldname": "column_break_kpms",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "dmc",
+   "fieldtype": "Link",
+   "label": "DMC",
+   "link_filters": "[[\"Warehouse\",\"disabled\",\"=\",0]]",
+   "options": "Warehouse"
+  },
+  {
+   "fieldname": "column_break_bpkq",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "shift",
+   "fieldtype": "Select",
+   "label": "Shift",
+   "options": "\nMorning\nEvening"
+  },
+  {
+   "default": "now",
+   "fieldname": "date",
+   "fieldtype": "Date",
+   "label": "Date"
+  },
+  {
+   "fieldname": "section_break_pfjd",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "milk_standardization_details",
+   "fieldtype": "Table",
+   "label": "Milk Standardization Details",
+   "options": "Milk Standardization Details"
+  },
+  {
+   "fieldname": "section_break_xjkm",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "total_qty",
+   "fieldtype": "Float",
+   "label": "Total Qty",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_wber",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "fat",
+   "fieldtype": "Float",
+   "label": "FAT",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_sfck",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "snf",
+   "fieldtype": "Float",
+   "label": "SNF",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_jvzy",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "kg_fat",
+   "fieldtype": "Float",
+   "label": "KG FAT",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_ksbe",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "kg_snf",
+   "fieldtype": "Float",
+   "label": "KG SNF",
+   "read_only": 1
+  },
+  {
+   "fieldname": "target_warehouse",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Target Warehouse",
+   "options": "Warehouse",
+   "reqd": 1
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Milk Standardization",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "standard_finished_item",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Standard Finished Item",
+   "options": "Item",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_iiga",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_pnah",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_bwib",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "standard_finished_item.stock_uom",
+   "fieldname": "finished_item_uom",
+   "fieldtype": "Link",
+   "label": "Finished Item UOM",
+   "options": "UOM"
+  },
+  {
+   "fieldname": "column_break_fhgw",
+   "fieldtype": "Column Break"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [
+  {
+   "link_doctype": "Stock Entry",
+   "link_fieldname": "custom_milk_standardization"
+  }
+ ],
+ "modified": "2025-09-13 11:38:06.228906",
+ "modified_by": "Administrator",
+ "module": "BDF Dairy",
+ "name": "Milk Standardization",
+ "naming_rule": "Expression (old style)",
+ "owner": "interim@bastardairyfarm.com",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

@@ -22,6 +22,7 @@
   "module": "BDF Dairy",
   "name": "Famer Bill",
   "page_number": "Hide",
+  "pdf_generator": null,
   "print_designer": 0,
   "print_designer_after_table": null,
   "print_designer_body": null,

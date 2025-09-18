@@ -12,7 +12,7 @@ class BDFGetCollection(Document):
 		login_header = {
 			"Accept": "*/*",
 			"User-Agent": "BDF",
-			"Content-Type": "application/json"
+			"Content-Type": "application/json" 
 		}
 		login_payload = {
 			"userName": self.user_name,

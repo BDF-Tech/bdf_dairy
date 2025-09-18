@@ -12,7 +12,7 @@ frappe.ui.form.on('Crate Return', {
 						return {
 							filters: {
 								'name': ['in', resp.message[0]] 
-							}
+							}  
 						}
 					});
 					frm.set_query('warehouse', function () {

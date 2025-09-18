@@ -6,7 +6,7 @@ frappe.ui.form.on("Farmer Billing", {
         frm.set_df_property('farmer_billing_summary', 'cannot_add_rows', true);
         frm.set_df_property('farmer_billing_details', 'cannot_add_rows', true);
     },
-    async do_billing(frm){
+    async do_billing(frm){ 
         await get_milk_entry_data(frm)
     },
     no_of_date: function(frm) {

@@ -241,13 +241,19 @@ fixtures = [
     {
         "doctype": "Custom Field",
         "filters": [
-            ["name","in",["Purchase Invoice-custom_farmer_billings"]]
+            ["name","in",["Purchase Invoice-custom_farmer_billings", "Stock Entry-custom_milk_standardization"]]
         ]    
     },
     {
         "doctype": "Print Format",
         "filters": [
             ["name","in",["Famer Bill"]]
+        ]    
+    },
+    {
+        "doctype": "Warehouse",
+        "filters": [
+            ["name","in",["Sales In Route - BDF"]]
         ]    
     }
 ]

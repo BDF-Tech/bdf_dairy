@@ -1,0 +1,125 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-08-30 10:21:37.048597",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "item",
+  "item_name",
+  "quantity",
+  "quantity_kg",
+  "column_break_auip",
+  "fat",
+  "snf",
+  "rate",
+  "column_break_nizr",
+  "kg_fat",
+  "kg_snf",
+  "amount"
+ ],
+ "fields": [
+  {
+   "columns": 1,
+   "fieldname": "item",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Item",
+   "options": "Item",
+   "reqd": 1
+  },
+  {
+   "columns": 2,
+   "fetch_from": "item.item_name",
+   "fieldname": "item_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Item Name",
+   "read_only": 1
+  },
+  {
+   "columns": 1,
+   "fieldname": "quantity",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Quantity (Lit)",
+   "non_negative": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_auip",
+   "fieldtype": "Column Break"
+  },
+  {
+   "columns": 1,
+   "fieldname": "fat",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "FAT"
+  },
+  {
+   "columns": 1,
+   "fieldname": "snf",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "SNF"
+  },
+  {
+   "columns": 1,
+   "fieldname": "rate",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Rate",
+   "non_negative": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_nizr",
+   "fieldtype": "Column Break"
+  },
+  {
+   "columns": 1,
+   "fieldname": "kg_fat",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "KG FAT",
+   "read_only": 1
+  },
+  {
+   "columns": 1,
+   "fieldname": "kg_snf",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "KG SNF",
+   "read_only": 1
+  },
+  {
+   "columns": 1,
+   "fieldname": "amount",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Amount",
+   "read_only": 1
+  },
+  {
+   "fieldname": "quantity_kg",
+   "fieldtype": "Float",
+   "label": "Quantity (Kg)",
+   "read_only": 1
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2025-08-30 11:03:19.289714",
+ "modified_by": "Administrator",
+ "module": "BDF Dairy",
+ "name": "Tanker Purchase Details",
+ "owner": "Administrator",
+ "permissions": [],
+ "row_format": "Dynamic",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

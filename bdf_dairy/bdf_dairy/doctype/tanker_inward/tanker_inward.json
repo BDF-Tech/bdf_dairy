@@ -8,6 +8,7 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
+  "section_break_zyir",
   "from_date",
   "dcs",
   "column_break_sqaaa",
@@ -36,7 +37,35 @@
   "kg_fat",
   "column_break_jecfm",
   "kg_snf",
+  "section_break_ovyj",
+  "column_break_ishp",
+  "si_dcs",
+  "sales_item",
+  "column_break_dwmf",
+  "si_qty_in_liter",
+  "si_qty_in_kg",
+  "column_break_bixw",
+  "si_fat",
+  "si_snf",
+  "column_break_fkfm",
+  "si_kg_fat",
+  "si_kg_snf",
+  "milk_sales_return_depo_section",
+  "column_break_maab",
+  "sr_qty_in_liter",
+  "column_break_emyg",
+  "sr_qty_in_kg",
+  "column_break_uywr",
+  "sr_fat",
+  "column_break_tzfq",
+  "sr_snf",
+  "column_break_qykp",
+  "sr_kg_fat",
+  "column_break_qxar",
+  "sr_kg_snf",
   "section_break_7yqb1",
+  "get_sales_summary",
+  "milk_sales_summary",
   "milk_received_from_tanker",
   "tanker_inward_quality_testing",
   "difference_of_dcs_and_tanker_milk_received",
@@ -44,6 +73,8 @@
   "tanker_warehouse",
   "column_break_sd49w",
   "plant_warehouse",
+  "column_break_qjwg",
+  "excess_warehouse",
   "column_break_4tmbp",
   "loss_warehouse",
   "amended_from"
@@ -169,60 +200,72 @@
    "fieldtype": "Section Break"
   },
   {
+   "default": "0",
    "fieldname": "total_qty_in_liter",
    "fieldtype": "Float",
    "label": "Total Qty in Liter",
-   "precision": "2"
+   "precision": "2",
+   "read_only": 1
   },
   {
    "fieldname": "column_break_k1gjc",
    "fieldtype": "Column Break"
   },
   {
+   "default": "0",
    "fieldname": "total_qty_in_kg",
    "fieldtype": "Float",
    "label": "Total Qty in Kg",
-   "precision": "2"
+   "precision": "2",
+   "read_only": 1
   },
   {
    "fieldname": "column_break_zab9a",
    "fieldtype": "Column Break"
   },
   {
+   "default": "0",
    "fieldname": "fat",
    "fieldtype": "Float",
    "label": "FAT",
-   "precision": "2"
+   "precision": "2",
+   "read_only": 1
   },
   {
    "fieldname": "column_break_qynk2",
    "fieldtype": "Column Break"
   },
   {
+   "default": "0",
    "fieldname": "snf",
    "fieldtype": "Float",
    "label": "SNF",
-   "precision": "2"
+   "precision": "2",
+   "read_only": 1
   },
   {
    "fieldname": "column_break_okvu8",
    "fieldtype": "Column Break"
   },
   {
+   "default": "0",
    "fieldname": "kg_fat",
    "fieldtype": "Float",
    "label": "KG FAT",
-   "precision": "2"
+   "precision": "2",
+   "read_only": 1
   },
   {
    "fieldname": "column_break_jecfm",
    "fieldtype": "Column Break"
   },
   {
+   "default": "0",
    "fieldname": "kg_snf",
    "fieldtype": "Float",
    "label": "KG SNF",
-   "precision": "2"
+   "precision": "2",
+   "read_only": 1
   },
   {
    "fieldname": "section_break_7yqb1",
@@ -260,6 +303,173 @@
    "print_hide": 1,
    "read_only": 1,
    "search_index": 1
+  },
+  {
+   "fieldname": "section_break_zyir",
+   "fieldtype": "Section Break"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "section_break_ovyj",
+   "fieldtype": "Section Break",
+   "label": "Milk Sales In Depo"
+  },
+  {
+   "fieldname": "si_dcs",
+   "fieldtype": "Link",
+   "label": "Sales Warehouse",
+   "options": "Warehouse"
+  },
+  {
+   "fieldname": "column_break_dwmf",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "si_qty_in_liter",
+   "fieldtype": "Float",
+   "label": "Qty (Lit)",
+   "precision": "2"
+  },
+  {
+   "fieldname": "column_break_bixw",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "si_fat",
+   "fieldtype": "Float",
+   "label": "FAT",
+   "precision": "2"
+  },
+  {
+   "fieldname": "si_snf",
+   "fieldtype": "Float",
+   "label": "SNF",
+   "precision": "2"
+  },
+  {
+   "fieldname": "column_break_fkfm",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "si_kg_fat",
+   "fieldtype": "Float",
+   "label": "KG FAT ",
+   "precision": "2",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "si_kg_snf",
+   "fieldtype": "Float",
+   "label": "KG SNF",
+   "read_only": 1
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "milk_sales_return_depo_section",
+   "fieldtype": "Section Break",
+   "label": "Milk Sales Return Depo"
+  },
+  {
+   "fieldname": "column_break_emyg",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "sr_qty_in_liter",
+   "fieldtype": "Float",
+   "label": "Qty (Lit)",
+   "precision": "2"
+  },
+  {
+   "fieldname": "sr_qty_in_kg",
+   "fieldtype": "Float",
+   "label": "Qty (KG)",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_uywr",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "sr_fat",
+   "fieldtype": "Float",
+   "label": "FAT",
+   "precision": "2"
+  },
+  {
+   "fieldname": "sr_snf",
+   "fieldtype": "Float",
+   "label": "SNF",
+   "precision": "2"
+  },
+  {
+   "fieldname": "column_break_qykp",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "sr_kg_fat",
+   "fieldtype": "Float",
+   "label": "KG FAT",
+   "precision": "2",
+   "read_only": 1
+  },
+  {
+   "fieldname": "sr_kg_snf",
+   "fieldtype": "Float",
+   "label": "KG SNF",
+   "read_only": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "si_qty_in_kg",
+   "fieldtype": "Float",
+   "label": "Qty (Kg)",
+   "precision": "2",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_ishp",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_maab",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "excess_warehouse",
+   "fieldtype": "Link",
+   "label": "Excess Warehouse",
+   "options": "Warehouse"
+  },
+  {
+   "fieldname": "column_break_tzfq",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_qxar",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_qjwg",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "milk_sales_summary",
+   "fieldtype": "Long Text",
+   "label": "Milk Sales Summary",
+   "read_only": 1
+  },
+  {
+   "fieldname": "get_sales_summary",
+   "fieldtype": "Button",
+   "label": "Get Sales Summary"
+  },
+  {
+   "fieldname": "sales_item",
+   "fieldtype": "Link",
+   "label": "Sales Item",
+   "options": "Item"
   }
  ],
  "grid_page_length": 50,
@@ -271,7 +481,7 @@
    "link_fieldname": "custom_tanker_inward"
   }
  ],
- "modified": "2025-05-06 14:09:53.688106",
+ "modified": "2025-09-18 14:17:51.861042",
  "modified_by": "Administrator",
  "module": "BDF Dairy",
  "name": "Tanker Inward",
@@ -291,6 +501,7 @@
    "write": 1
   }
  ],
+ "row_format": "Dynamic",
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": []

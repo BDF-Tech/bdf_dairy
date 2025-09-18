@@ -1,0 +1,99 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2025-09-12 16:40:00.993764",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "dcs",
+  "shift",
+  "column_break_nzzz",
+  "qty_in_liter",
+  "qty_in_kg",
+  "column_break_ithd",
+  "fat",
+  "snf",
+  "column_break_wfbv",
+  "kg_fat",
+  "kg_snf"
+ ],
+ "fields": [
+  {
+   "fieldname": "dcs",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "DCS",
+   "options": "Warehouse",
+   "reqd": 1
+  },
+  {
+   "fieldname": "shift",
+   "fieldtype": "Select",
+   "label": "Shift",
+   "options": "\nMorning\nEvening"
+  },
+  {
+   "fieldname": "column_break_nzzz",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "qty_in_liter",
+   "fieldtype": "Float",
+   "label": "Qty in Liter",
+   "precision": "2"
+  },
+  {
+   "fieldname": "qty_in_kg",
+   "fieldtype": "Float",
+   "label": "Qty in Kg",
+   "precision": "2"
+  },
+  {
+   "fieldname": "column_break_ithd",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "fat",
+   "fieldtype": "Float",
+   "label": "FAT",
+   "precision": "2"
+  },
+  {
+   "fieldname": "snf",
+   "fieldtype": "Float",
+   "label": "SNF",
+   "precision": "2"
+  },
+  {
+   "fieldname": "column_break_wfbv",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "kg_fat",
+   "fieldtype": "Float",
+   "label": "KG FAT",
+   "precision": "2"
+  },
+  {
+   "fieldname": "kg_snf",
+   "fieldtype": "Float",
+   "label": "KG SNF",
+   "precision": "2"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2025-09-12 16:48:38.187427",
+ "modified_by": "Administrator",
+ "module": "BDF Dairy",
+ "name": "Milk Sales Return Depo",
+ "owner": "Administrator",
+ "permissions": [],
+ "row_format": "Dynamic",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

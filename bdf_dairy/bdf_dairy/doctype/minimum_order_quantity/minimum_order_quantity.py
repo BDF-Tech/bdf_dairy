@@ -11,7 +11,7 @@ class MinimumOrderQuantity(Document):
 				SELECT
 					customer, parent
 				FROM
-					`tabMOQ Customer`
+					`tabMOQ Customer`  
 				WHERE
 					customer = %s
 				LIMIT 1
@@ -30,7 +30,7 @@ class MinimumOrderQuantity(Document):
 			
 			unique_combinations.add(combination)
 
-	@frappe.whitelist()
+	@frappe.whitelist() 
 	def get_all_customer(self):
 		self.customers.clear()
 		for cust in frappe.get_all("Customer", {'customer_group': self.customer_group, 'disabled': 0}):

@@ -11,7 +11,7 @@ frappe.ui.form.on('Minimum Order Quantity', {
         if (frm.doc.customer_group) {
             frm.call({
                 method: "get_all_customer",
-                doc: frm.doc
+                doc: frm.doc  
             })
         }
     }
