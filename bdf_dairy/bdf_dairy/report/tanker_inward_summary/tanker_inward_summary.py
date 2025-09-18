@@ -30,7 +30,6 @@ def execute(filters=None):
             if kg_fat_amount > 0:
                 pos_tot_kg_fat_amt += kg_fat_amount
             else:
-                # frappe.msgprint(str(kg_fat_amount))
                 neg_tot_kg_fat_amt += kg_fat_amount
             
             if kg_snf_amount > 0:

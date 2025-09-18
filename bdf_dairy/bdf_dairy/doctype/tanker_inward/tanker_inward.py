@@ -10,6 +10,9 @@ class TankerInward(Document):
 		for diff in self.get('difference_of_dcs_and_tanker_milk_received', filters={'qty_in_liter': ['<', 0]}):
 			diff_qty += diff.qty_in_liter
 
+		if self.si_qty_in_liter < 0 and not self.sales_item:
+			frappe.throw("Sales Item is Mandatory")
+
 		if diff_qty > 0 and not self.excess_warehouse:
 			frappe.throw("Difference is Posotive. So Excess Warehouse Is Mandatory")
 		if diff_qty < 0 and not self.loss_warehouse:
