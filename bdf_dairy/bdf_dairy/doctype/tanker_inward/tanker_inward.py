@@ -24,8 +24,11 @@ class TankerInward(Document):
 			self.material_transfer_from_tanker_to_excess(abs(diff_qty))
 		if diff_qty < 0:
 			self.material_transfer_from_tanker_to_loss(abs(diff_qty))
-		self.material_transfer_from_tanker_to_sales()
-		self.material_transfer_from_sales_to_tanker()
+			
+		if self.si_qty_in_liter > 0:
+			self.material_transfer_from_tanker_to_sales()
+		if self.sr_qty_in_liter > 0:
+			self.material_transfer_from_sales_to_tanker()
 		self.material_transfer_from_tanker_to_plant(diff_qty)
 
 	def material_receipt_to_tanker(self, qty):
