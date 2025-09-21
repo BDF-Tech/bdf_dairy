@@ -216,7 +216,7 @@
  "modified": "2025-09-18 13:25:58.925426",
  "modified_by": "Administrator",
  "module": "BDF Dairy",
- "name": "Tanker Purchase",
+ "name": "Vendor Purchase",
  "naming_rule": "Expression (old style)",
  "owner": "Administrator",
  "permissions": [

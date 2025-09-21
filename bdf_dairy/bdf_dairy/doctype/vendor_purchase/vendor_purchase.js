@@ -1,4 +1,4 @@
-frappe.ui.form.on('Tanker Purchase', {
+frappe.ui.form.on('Vendor Purchase', {
     fetch_milk_entry_data(frm){
         frm.call({
         method: "fetch_milk_entry_data",
@@ -12,7 +12,7 @@ frappe.ui.form.on('Tanker Purchase', {
     }
 });
 
-frappe.ui.form.on('Tanker Purchase Milk Entry Details', {
+frappe.ui.form.on('Vendor Purchase Milk Entry Details', {
     quantity(frm, cdt, cdn) {
         update_fat_snf(cdt, cdn);
         calculate_amount(cdt, cdn); 
@@ -28,7 +28,7 @@ frappe.ui.form.on('Tanker Purchase Milk Entry Details', {
     }
 });
 
-frappe.ui.form.on('Tanker Purchase Details', {
+frappe.ui.form.on('Vendor Purchase Details', {
     quantity(frm, cdt, cdn) {
         update_fat_snf(cdt, cdn);
         calculate_amount(cdt, cdn);

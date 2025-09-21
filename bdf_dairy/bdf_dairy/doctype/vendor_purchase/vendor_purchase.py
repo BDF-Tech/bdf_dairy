@@ -5,7 +5,7 @@ import frappe
 from frappe.utils import flt
 from frappe.model.document import Document
 
-class TankerPurchase(Document):
+class VendorPurchase(Document):
 	def get_item(self):
 		item = None
 		if self.milk_type == "Cow":
@@ -29,7 +29,7 @@ class TankerPurchase(Document):
 		total_snf = 0
 		count = 0
 
-		for row in self.tanker_purchase_details:
+		for row in self.vendor_purchase_details:
 			total_quantity += flt(row.quantity)
 			total_amount += flt(row.amount)
 			total_kg_fat += flt(row.kg_fat)
@@ -48,9 +48,9 @@ class TankerPurchase(Document):
 		self.avg_fat = (total_fat / count) if count else 0
 		self.avg_snf = (total_snf / count) if count else 0
 
-		self.tanker_purchase_and_milk_entry_difference.clear()
+		self.vendor_purchase_and_milk_entry_difference.clear()
 		for p in self.milk_entry_details:
-			self.append('tanker_purchase_and_milk_entry_difference', {
+			self.append('vendor_purchase_and_milk_entry_difference', {
 				'item': p.item,
 				'item_name': p.item_name,
 				'quantity': self.total_quantity - p.quantity,

@@ -39,16 +39,16 @@
   "kg_snf",
   "section_break_ovyj",
   "column_break_ishp",
-  "si_dcs",
-  "sales_item",
-  "column_break_dwmf",
   "si_qty_in_liter",
+  "column_break_dwmf",
   "si_qty_in_kg",
   "column_break_bixw",
   "si_fat",
-  "si_snf",
   "column_break_fkfm",
+  "si_snf",
+  "column_break_hepd",
   "si_kg_fat",
+  "column_break_pmug",
   "si_kg_snf",
   "milk_sales_return_depo_section",
   "column_break_maab",
@@ -71,12 +71,13 @@
   "difference_of_dcs_and_tanker_milk_received",
   "warhouse_section",
   "tanker_warehouse",
-  "column_break_sd49w",
   "plant_warehouse",
   "column_break_qjwg",
   "excess_warehouse",
-  "column_break_4tmbp",
   "loss_warehouse",
+  "column_break_sd49w",
+  "si_dcs",
+  "sales_item",
   "amended_from"
  ],
  "fields": [
@@ -284,10 +285,6 @@
    "options": "Tanker Inward Quality Testing"
   },
   {
-   "fieldname": "column_break_4tmbp",
-   "fieldtype": "Column Break"
-  },
-  {
    "default": "Tanker Loss - BDF",
    "fieldname": "loss_warehouse",
    "fieldtype": "Link",
@@ -470,6 +467,14 @@
    "fieldtype": "Link",
    "label": "Sales Item",
    "options": "Item"
+  },
+  {
+   "fieldname": "column_break_hepd",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_pmug",
+   "fieldtype": "Column Break"
   }
  ],
  "grid_page_length": 50,
@@ -481,7 +486,7 @@
    "link_fieldname": "custom_tanker_inward"
   }
  ],
- "modified": "2025-09-18 14:17:51.861042",
+ "modified": "2025-09-21 12:03:44.574288",
  "modified_by": "Administrator",
  "module": "BDF Dairy",
  "name": "Tanker Inward",
