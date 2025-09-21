@@ -205,7 +205,7 @@
    "fieldname": "total_qty_in_liter",
    "fieldtype": "Float",
    "label": "Total Qty in Liter",
-   "precision": "2",
+   "precision": "3",
    "read_only": 1
   },
   {
@@ -217,7 +217,7 @@
    "fieldname": "total_qty_in_kg",
    "fieldtype": "Float",
    "label": "Total Qty in Kg",
-   "precision": "2",
+   "precision": "3",
    "read_only": 1
   },
   {
@@ -229,7 +229,7 @@
    "fieldname": "fat",
    "fieldtype": "Float",
    "label": "FAT",
-   "precision": "2",
+   "precision": "3",
    "read_only": 1
   },
   {
@@ -241,7 +241,7 @@
    "fieldname": "snf",
    "fieldtype": "Float",
    "label": "SNF",
-   "precision": "2",
+   "precision": "3",
    "read_only": 1
   },
   {
@@ -253,7 +253,7 @@
    "fieldname": "kg_fat",
    "fieldtype": "Float",
    "label": "KG FAT",
-   "precision": "2",
+   "precision": "3",
    "read_only": 1
   },
   {
@@ -265,7 +265,7 @@
    "fieldname": "kg_snf",
    "fieldtype": "Float",
    "label": "KG SNF",
-   "precision": "2",
+   "precision": "3",
    "read_only": 1
   },
   {
@@ -486,7 +486,7 @@
    "link_fieldname": "custom_tanker_inward"
   }
  ],
- "modified": "2025-09-21 12:03:44.574288",
+ "modified": "2025-09-21 16:30:57.816769",
  "modified_by": "Administrator",
  "module": "BDF Dairy",
  "name": "Tanker Inward",

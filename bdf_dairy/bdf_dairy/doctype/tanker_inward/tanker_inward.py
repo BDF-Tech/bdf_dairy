@@ -290,8 +290,8 @@ class TankerInward(Document):
 			total_qty_in_kg += values['total_kg']
 			fat += values['total_fat'] / count
 			snf += values['total_snf'] / count
-			kg_fat += values['total_kg_fat']
-			kg_snf += values['total_kg_snf']
+			# kg_fat += values['total_kg_fat']
+			# kg_snf += values['total_kg_snf']
 			self.append('milk_received_from_dcs', {
 				'date': values['date'],
 				'shift': values['shift'],
@@ -305,7 +305,9 @@ class TankerInward(Document):
 			})
 		div = len(self.milk_received_from_dcs)
 		if div > 0:
-			self.total_qty_in_liter, self.total_qty_in_kg, self.fat, self.snf, self.kg_fat, self.kg_snf = total_qty_in_liter, total_qty_in_kg, fat/div, snf/div, kg_fat, kg_snf
+			fat = fat/div
+			snf =  snf/div
+			self.total_qty_in_liter, self.total_qty_in_kg, self.fat, self.snf, self.kg_fat, self.kg_snf = total_qty_in_liter, total_qty_in_kg, fat, snf, (total_qty_in_kg*fat)/100, (total_qty_in_kg*snf)/100
 
 	@frappe.whitelist()
 	def get_weight(self):
