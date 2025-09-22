@@ -19,19 +19,18 @@ class TankerInward(Document):
 			frappe.throw("Difference is Negative. So Loss Warehouse Is Mandatory")
 
 		self.material_transfer_from_dcs_to_tanker()  
-		if diff_qty > 0:
-			self.material_transfer_from_tanker_to_plant(round(diff_qty, 3))
-			self.material_receipt_to_excess(round(diff_qty, 3))
-			# self.material_receipt_to_tanker(round(diff_qty, 3))
-			# self.material_transfer_from_tanker_to_excess(diff_qty)
-		if diff_qty < 0:
-			self.material_transfer_from_tanker_to_plant(0)
-			self.material_transfer_from_tanker_to_loss(round(abs(diff_qty), 3))
-			
+		
 		if self.si_qty_in_liter > 0:
 			self.material_transfer_from_tanker_to_sales()
 		if self.sr_qty_in_liter > 0:
 			self.material_transfer_from_sales_to_tanker()
+
+		if diff_qty > 0:
+			self.material_transfer_from_tanker_to_plant(round(diff_qty, 3))
+			self.material_receipt_to_excess(round(diff_qty, 3))
+		if diff_qty < 0:
+			self.material_transfer_from_tanker_to_plant(0)
+			self.material_transfer_from_tanker_to_loss(round(abs(diff_qty), 3))
 
 	def material_receipt_to_tanker(self, qty):
 		self.create_stock_entry(
