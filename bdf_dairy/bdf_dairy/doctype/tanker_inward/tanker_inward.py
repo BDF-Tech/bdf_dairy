@@ -19,9 +19,11 @@ class TankerInward(Document):
 			frappe.throw("Difference is Negative. So Loss Warehouse Is Mandatory")
 
 		self.material_transfer_from_dcs_to_tanker()  
+		self.material_transfer_from_tanker_to_plant()
 		if diff_qty > 0:
-			self.material_receipt_to_tanker(diff_qty)
-			self.material_transfer_from_tanker_to_excess(abs(diff_qty))
+			self.material_receipt_to_excess(round(diff_qty, 3))
+			# self.material_receipt_to_tanker(round(diff_qty, 3))
+			# self.material_transfer_from_tanker_to_excess(diff_qty)
 		if diff_qty < 0:
 			self.material_transfer_from_tanker_to_loss(abs(diff_qty))
 			
@@ -29,7 +31,6 @@ class TankerInward(Document):
 			self.material_transfer_from_tanker_to_sales()
 		if self.sr_qty_in_liter > 0:
 			self.material_transfer_from_sales_to_tanker()
-		self.material_transfer_from_tanker_to_plant(diff_qty)
 
 	def material_receipt_to_tanker(self, qty):
 		self.create_stock_entry(
@@ -38,6 +39,17 @@ class TankerInward(Document):
 				"item_code": self.get_item(),
 				"qty": qty,
 				"t_warehouse": self.tanker_warehouse
+			}],
+			user_remark = self.vehicle_number
+		)
+	
+	def material_receipt_to_excess(self, qty):
+		self.create_stock_entry(
+			stock_entry_type="Material Receipt",
+			items=[{
+				"item_code": self.get_item(),
+				"qty": qty,
+				"t_warehouse": self.excess_warehouse
 			}],
 			user_remark = self.vehicle_number
 		)
@@ -55,23 +67,9 @@ class TankerInward(Document):
 		self.create_stock_entry(stock_entry_type="Material Transfer", items=items)
 
 	@frappe.whitelist()
-	def material_transfer_from_tanker_to_plant(self, diff_qty):
+	def material_transfer_from_tanker_to_plant(self):
 		items = []
-		if diff_qty < 0:  
-			diff_qty = 0
-		for itm in self.get('milk_received_from_tanker'):
-			items.append({
-				"item_code": self.get_item(),
-				"qty": itm.qty_in_liter - diff_qty,
-				"s_warehouse": self.tanker_warehouse,
-				"t_warehouse": self.plant_warehouse
-			})
-		self.create_stock_entry(stock_entry_type="Material Transfer", items=items)
-
-	@frappe.whitelist()
-	def material_transfer_from_tanker_to_plant(self,diff_qty):
-		items = []
-		for itm in self.get('milk_received_from_tanker'):
+		for itm in self.get('milk_received_from_dcs'):
 			items.append({
 				"item_code": self.get_item(),
 				"qty": itm.qty_in_liter,
