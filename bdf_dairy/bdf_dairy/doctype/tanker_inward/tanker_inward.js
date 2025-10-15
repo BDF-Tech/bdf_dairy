@@ -189,27 +189,13 @@ frappe.ui.form.on('Milk Received From Tanker', {
 });
 
 async function updateKgValues(frm, row, cdt, cdn, type, percentage) {
-    try {
-        const response = await frm.call({
-            method: 'get_weight',
-            doc: frm.doc
-        });
-
-        if (response && response.message) {
-            const weight = response.message;
-            const kg_value = ((row.qty_in_liter * weight) * percentage)/100;
-
-            if (type === 'fat') {
-                await frappe.model.set_value(cdt, cdn, 'kg_fat', kg_value);
-            } else if (type === 'snf') {
-                await frappe.model.set_value(cdt, cdn, 'kg_snf', kg_value);
-            }
-
-            frm.refresh_field("milk_received_from_tanker");
-        }
-    } catch (error) {
-        console.error("Error updating kg values:", error);
+    const kg_value = ((row.qty_in_liter * 1.03) * percentage)/100;
+    if (type === 'fat') {
+        await frappe.model.set_value(cdt, cdn, 'kg_fat', kg_value);
+    } else if (type === 'snf') {
+        await frappe.model.set_value(cdt, cdn, 'kg_snf', kg_value);
     }
+    frm.refresh_field("milk_received_from_tanker");
 }
 
 

@@ -8,30 +8,31 @@
  "engine": "InnoDB",
  "field_order": [
   "dmc",
-  "column_break_kpms",
-  "shift",
+  "finished_item",
+  "column_break_oujw",
+  "finished_item_name",
+  "uom",
   "column_break_bpkq",
+  "shift",
   "date",
-  "column_break_iiga",
+  "column_break_ddni",
   "company",
-  "section_break_pnah",
-  "standard_finished_item",
-  "column_break_bwib",
-  "finished_item_uom",
-  "column_break_fhgw",
   "target_warehouse",
-  "section_break_pfjd",
-  "milk_standardization_details",
-  "section_break_xjkm",
-  "total_qty",
-  "column_break_wber",
+  "target_section",
+  "target_column",
+  "milk_ltr",
+  "milk_kg",
+  "column_break_pnqt",
   "fat",
-  "column_break_sfck",
   "snf",
-  "column_break_jvzy",
-  "kg_fat",
-  "column_break_ksbe",
-  "kg_snf",
+  "column_break_jhea",
+  "raw_fat",
+  "raw_snf",
+  "smp_column",
+  "smp_fat",
+  "smp_snf",
+  "section_break_vkyk",
+  "items",
   "amended_from"
  ],
  "fields": [
@@ -40,10 +41,6 @@
    "fieldtype": "Link",
    "label": "Company",
    "options": "Company"
-  },
-  {
-   "fieldname": "column_break_kpms",
-   "fieldtype": "Column Break"
   },
   {
    "fieldname": "dmc",
@@ -63,78 +60,89 @@
    "options": "\nMorning\nEvening"
   },
   {
-   "default": "now",
+   "default": "Now",
    "fieldname": "date",
    "fieldtype": "Date",
    "label": "Date"
   },
   {
-   "fieldname": "section_break_pfjd",
-   "fieldtype": "Section Break"
-  },
-  {
-   "fieldname": "milk_standardization_details",
-   "fieldtype": "Table",
-   "label": "Milk Standardization Details",
-   "options": "Milk Standardization Details"
-  },
-  {
-   "fieldname": "section_break_xjkm",
-   "fieldtype": "Section Break"
-  },
-  {
-   "fieldname": "total_qty",
-   "fieldtype": "Float",
-   "label": "Total Qty",
-   "read_only": 1
-  },
-  {
-   "fieldname": "column_break_wber",
-   "fieldtype": "Column Break"
-  },
-  {
+   "fetch_from": "finished_item.standard_fat",
    "fieldname": "fat",
    "fieldtype": "Float",
    "label": "FAT",
-   "read_only": 1
+   "precision": "3"
   },
   {
-   "fieldname": "column_break_sfck",
-   "fieldtype": "Column Break"
-  },
-  {
+   "fetch_from": "finished_item.standard_snf",
    "fieldname": "snf",
    "fieldtype": "Float",
    "label": "SNF",
-   "read_only": 1
-  },
-  {
-   "fieldname": "column_break_jvzy",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "kg_fat",
-   "fieldtype": "Float",
-   "label": "KG FAT",
-   "read_only": 1
-  },
-  {
-   "fieldname": "column_break_ksbe",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "kg_snf",
-   "fieldtype": "Float",
-   "label": "KG SNF",
-   "read_only": 1
+   "precision": "3"
   },
   {
    "fieldname": "target_warehouse",
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Target Warehouse",
-   "options": "Warehouse",
-   "reqd": 1
+   "options": "Warehouse"
+  },
+  {
+   "fieldname": "target_section",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "milk_ltr",
+   "fieldtype": "Float",
+   "label": "Milk (Ltr)",
+   "precision": "3"
+  },
+  {
+   "fieldname": "column_break_jhea",
+   "fieldtype": "Column Break",
+   "label": "Raw"
+  },
+  {
+   "default": "0",
+   "fieldname": "milk_kg",
+   "fieldtype": "Float",
+   "label": "Milk (Kg)",
+   "precision": "3",
+   "read_only": 1
+  },
+  {
+   "fieldname": "target_column",
+   "fieldtype": "Column Break",
+   "label": "Target"
+  },
+  {
+   "fieldname": "raw_fat",
+   "fieldtype": "Float",
+   "label": "Raw FAT"
+  },
+  {
+   "fieldname": "raw_snf",
+   "fieldtype": "Float",
+   "label": "Raw SNF"
+  },
+  {
+   "fieldname": "smp_fat",
+   "fieldtype": "Float",
+   "label": "SMP FAT"
+  },
+  {
+   "fieldname": "smp_snf",
+   "fieldtype": "Float",
+   "label": "SMP SNF"
+  },
+  {
+   "fieldname": "section_break_vkyk",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "items",
+   "fieldtype": "Table",
+   "label": "Items",
+   "options": "Milk Standardization Calculation"
   },
   {
    "fieldname": "amended_from",
@@ -147,35 +155,42 @@
    "search_index": 1
   },
   {
-   "fieldname": "standard_finished_item",
+   "fieldname": "finished_item",
    "fieldtype": "Link",
-   "in_list_view": 1,
-   "label": "Standard Finished Item",
+   "label": "Finished Item",
    "options": "Item",
    "reqd": 1
   },
   {
-   "fieldname": "column_break_iiga",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "section_break_pnah",
-   "fieldtype": "Section Break"
-  },
-  {
-   "fieldname": "column_break_bwib",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fetch_from": "standard_finished_item.stock_uom",
-   "fieldname": "finished_item_uom",
+   "fetch_from": "finished_item.stock_uom",
+   "fieldname": "uom",
    "fieldtype": "Link",
-   "label": "Finished Item UOM",
+   "label": "UOM",
    "options": "UOM"
   },
   {
-   "fieldname": "column_break_fhgw",
+   "fetch_from": "finished_item.item_name",
+   "fieldname": "finished_item_name",
+   "fieldtype": "Data",
+   "label": "Finished Item Name"
+  },
+  {
+   "fieldname": "column_break_oujw",
    "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_ddni",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "smp_column",
+   "fieldtype": "Column Break",
+   "label": "SMP"
+  },
+  {
+   "fieldname": "column_break_pnqt",
+   "fieldtype": "Column Break",
+   "label": "Target"
   }
  ],
  "grid_page_length": 50,
@@ -187,7 +202,7 @@
    "link_fieldname": "custom_milk_standardization"
   }
  ],
- "modified": "2025-09-13 11:38:06.228906",
+ "modified": "2025-10-04 10:12:31.349587",
  "modified_by": "Administrator",
  "module": "BDF Dairy",
  "name": "Milk Standardization",
