@@ -154,14 +154,15 @@ class FarmerBilling(Document):
 					'rate': entry.rate,
 					'warehouse': self.dcs,
 					'purchase_receipt': entry.purchase_receipt,
+					'pr_detail': frappe.get_value("Purchase Receipt Item", {'parent':entry.purchase_receipt, "item_code": entry.item_code}, 'name'),
 					'fat': entry.fat_,
 					'snf': entry.snf_,
 					'milk_entry': entry.milk_entry,
 				})
+				# frappe.db.set_value("Purchase Receipt", entry.purchase_receipt, "status", "Completed")
+				# frappe.db.set_value("Purchase Receipt", entry.purchase_receipt, "per_billed", "100")
 			purchase_inv.save()
 			purchase_inv.submit()
-			frappe.db.set_value("Purchase Receipt", entry.purchase_receipt, "status", "Completed")
-			frappe.db.set_value("Purchase Receipt", entry.purchase_receipt, "per_billed", "100")
 			frappe.msgprint(f"Purchase Invoice {purchase_inv.name} created for {farmer}")
 
 		for entry in milk_entry:
