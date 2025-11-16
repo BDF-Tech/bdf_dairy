@@ -154,7 +154,7 @@ class FarmerBilling(Document):
 					'rate': entry.rate,
 					'warehouse': self.dcs,
 					'purchase_receipt': entry.purchase_receipt,
-					'pr_detail': frappe.get_value("Purchase Receipt Item", {'parent':entry.purchase_receipt, "item_code": entry.item_code}, 'name'),
+					'pr_detail': frappe.get_value("Purchase Receipt Item", {'parent':entry.purchase_receipt, "item_code": item_code}, 'name'),
 					'fat': entry.fat_,
 					'snf': entry.snf_,
 					'milk_entry': entry.milk_entry,
