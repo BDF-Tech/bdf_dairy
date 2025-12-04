@@ -25,11 +25,10 @@ class TankerInward(Document):
 		if self.sr_qty_in_liter > 0:
 			self.material_transfer_from_sales_to_tanker()
 
+		self.material_transfer_from_tanker_to_plant(round(diff_qty, 3))
 		if diff_qty > 0:
-			self.material_transfer_from_tanker_to_plant(round(diff_qty, 3))
 			self.material_receipt_to_excess(round(diff_qty, 3))
 		if diff_qty < 0:
-			self.material_transfer_from_tanker_to_plant(0)
 			self.material_transfer_from_tanker_to_loss(round(abs(diff_qty), 3))
 
 	def material_receipt_to_tanker(self, qty):
@@ -67,12 +66,12 @@ class TankerInward(Document):
 		self.create_stock_entry(stock_entry_type="Material Transfer", items=items)
 
 	@frappe.whitelist()
-	def material_transfer_from_tanker_to_plant(self, qty):
+	def material_transfer_from_tanker_to_plant(self, qty=0):
 		items = []
 		for itm in self.get('milk_received_from_tanker'):
 			items.append({
 				"item_code": self.get_item(),
-				"qty": itm.qty_in_liter - qty,
+				"qty": itm.qty_in_liter - (qty if qty else 0),
 				"s_warehouse": self.tanker_warehouse,
 				"t_warehouse": self.plant_warehouse
 			})
