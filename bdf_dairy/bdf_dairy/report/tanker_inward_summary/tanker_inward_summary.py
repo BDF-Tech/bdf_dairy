@@ -89,7 +89,7 @@ def get_columns():
         {"label": "DIFF KG FAT", "fieldname": "diff_kg_fat", "fieldtype": "Data", "width": 120,'precision': 2},
         {"label": "DIFF KG SNF", "fieldname": "diff_kg_snf", "fieldtype": "Data", "width": 120,'precision': 2},
         {"label": "KG FAT AMOUNT", "fieldname": "kg_fat_amount", "fieldtype": "Data", "width": 120,'precision': 2},
-        {"label": "KG FAT SNF", "fieldname": "kg_snf_amount", "fieldtype":"Data", "width":120, 'precision':2}
+        {"label": "KG SNF AMOUNT", "fieldname": "kg_snf_amount", "fieldtype":"Data", "width":120, 'precision':2}
     ]
 
 def get_ack_data(filters):

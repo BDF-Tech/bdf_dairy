@@ -33,11 +33,28 @@ frappe.ui.form.on('Tanker Inward', {
                 });
     
                 frm.add_custom_button('Stock Entry To Plant', () => {
+                    let diff_qty = 0;
+                    (frm.doc.difference_of_dcs_and_tanker_milk_received || []).forEach(row => {
+                        if (row.qty_in_liter) {
+                            diff_qty += row.qty_in_liter;
+                        }
+                    });
+                    let qty = 0;
+                    if (diff_qty > 0) {
+                        qty = Math.round(diff_qty * 1000) / 1000; 
+                    } else if (diff_qty < 0) {
+                        qty = 0;
+                    }
+                    
                     frm.call({
                         method: 'material_transfer_from_tanker_to_plant',
-                        doc: frm.doc
+                        doc: frm.doc,
+                        args: { qty: qty },
+                        freeze: true,
+                        freeze_message: __("Processing Stock Entry...")
                     });
                 });
+
             }
         } catch (error) {
             console.error("Error in refresh:", error);
