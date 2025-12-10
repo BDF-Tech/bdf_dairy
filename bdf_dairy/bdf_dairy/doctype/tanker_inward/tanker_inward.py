@@ -71,7 +71,7 @@ class TankerInward(Document):
 		for itm in self.get('milk_received_from_tanker'):
 			items.append({
 				"item_code": self.get_item(),
-				"qty": itm.qty_in_liter - (qty if qty else 0),
+				"qty": itm.qty_in_liter,
 				"s_warehouse": self.tanker_warehouse,
 				"t_warehouse": self.plant_warehouse
 			})
