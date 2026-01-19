@@ -1,0 +1,60 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2026-01-03 12:01:26.648207",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "rank",
+  "column_break_qqwh",
+  "silo",
+  "column_break_ksoo",
+  "drawn_volume"
+ ],
+ "fields": [
+  {
+   "fieldname": "rank",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Rank",
+   "options": "1\n2\n3"
+  },
+  {
+   "fieldname": "column_break_qqwh",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "silo",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Silo",
+   "options": "Silo 1\nSilo 2\nSilo 3"
+  },
+  {
+   "fieldname": "column_break_ksoo",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "drawn_volume",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Drawn Volume (L)"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2026-01-03 12:03:11.127822",
+ "modified_by": "Administrator",
+ "module": "BDF Dairy",
+ "name": "Milk Standardisation Silo Rank",
+ "owner": "Administrator",
+ "permissions": [],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

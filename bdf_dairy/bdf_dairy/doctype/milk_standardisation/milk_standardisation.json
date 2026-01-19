@@ -1,0 +1,278 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:MST-{#####}",
+ "creation": "2026-01-02 23:58:43.996728",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_7lxa",
+  "company",
+  "column_break_oykl",
+  "posting_datetime",
+  "column_break_yzdo",
+  "amended_from",
+  "section_break_clmt",
+  "milk_standardisation_silo_details",
+  "section_break_etsl",
+  "target_volume",
+  "column_break_ktke",
+  "target_fat",
+  "column_break_sdmz",
+  "target_snf",
+  "column_break_doja",
+  "smp_snf",
+  "column_break_afcn",
+  "cream_fat",
+  "section_break_deqh",
+  "milk_standardisation_silo_rank",
+  "section_break_hbpr",
+  "milk_used_l",
+  "milk_fat_mass",
+  "milk_snf_mass",
+  "column_break_bqqq",
+  "cream_removed_l",
+  "smp_needed_kg",
+  "ro_water_needed_l",
+  "column_break_gxxp",
+  "final_volume_l",
+  "final_fat",
+  "final_snf",
+  "column_break_spdh",
+  "volume_match",
+  "fat_match",
+  "snf_match"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_7lxa",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Milk Standardisation",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "section_break_etsl",
+   "fieldtype": "Section Break",
+   "label": "Targer Detail"
+  },
+  {
+   "fieldname": "milk_standardisation_silo_details",
+   "fieldtype": "Table",
+   "label": "Milk Standardisation Silo Details",
+   "options": "Milk Standardisation Silo Details"
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company"
+  },
+  {
+   "fieldname": "column_break_oykl",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Now",
+   "fieldname": "posting_datetime",
+   "fieldtype": "Datetime",
+   "label": "Posting Date & Time"
+  },
+  {
+   "fieldname": "column_break_yzdo",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_clmt",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "target_volume",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Target Volume",
+   "non_negative": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_ktke",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "target_fat",
+   "fieldtype": "Percent",
+   "in_list_view": 1,
+   "label": "Target FAT",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_sdmz",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "target_snf",
+   "fieldtype": "Percent",
+   "in_list_view": 1,
+   "label": "Target SNF",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_doja",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "smp_snf",
+   "fieldtype": "Percent",
+   "in_list_view": 1,
+   "label": "SMP SNF",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_afcn",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "cream_fat",
+   "fieldtype": "Percent",
+   "label": "Cream FAT",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_deqh",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "milk_standardisation_silo_rank",
+   "fieldtype": "Table",
+   "label": "Milk Standardisation Silo Rank",
+   "options": "Milk Standardisation Silo Rank",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_break_hbpr",
+   "fieldtype": "Section Break",
+   "read_only": 1
+  },
+  {
+   "fieldname": "milk_used_l",
+   "fieldtype": "Float",
+   "label": "Milk Used (L)",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_bqqq",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "milk_fat_mass",
+   "fieldtype": "Float",
+   "label": "Milk FAT Mass",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_gxxp",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "milk_snf_mass",
+   "fieldtype": "Float",
+   "label": "Milk SNF Mass",
+   "read_only": 1
+  },
+  {
+   "fieldname": "cream_removed_l",
+   "fieldtype": "Float",
+   "label": "Cream Removed (L)",
+   "read_only": 1
+  },
+  {
+   "fieldname": "smp_needed_kg",
+   "fieldtype": "Float",
+   "label": "SMP Needed (Kg)",
+   "read_only": 1
+  },
+  {
+   "fieldname": "ro_water_needed_l",
+   "fieldtype": "Float",
+   "label": "RO Water Needed (L)",
+   "read_only": 1
+  },
+  {
+   "fieldname": "final_volume_l",
+   "fieldtype": "Float",
+   "label": "Final Volume (L)",
+   "read_only": 1
+  },
+  {
+   "fieldname": "volume_match",
+   "fieldtype": "Float",
+   "label": "Volume Match (Final - Target)",
+   "read_only": 1
+  },
+  {
+   "fieldname": "final_fat",
+   "fieldtype": "Percent",
+   "label": "Final FAT %",
+   "read_only": 1
+  },
+  {
+   "fieldname": "fat_match",
+   "fieldtype": "Float",
+   "label": "FAT Match (Final - Target)",
+   "read_only": 1
+  },
+  {
+   "fieldname": "final_snf",
+   "fieldtype": "Percent",
+   "label": "Final SNF %",
+   "read_only": 1
+  },
+  {
+   "fieldname": "snf_match",
+   "fieldtype": "Float",
+   "label": "SNF Match (Final - Target)",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_spdh",
+   "fieldtype": "Column Break"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2026-01-03 13:19:43.836715",
+ "modified_by": "Administrator",
+ "module": "BDF Dairy",
+ "name": "Milk Standardisation",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

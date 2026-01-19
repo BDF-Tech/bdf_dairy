@@ -1,0 +1,75 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2026-01-03 00:00:40.474958",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "silo",
+  "available_volume",
+  "column_break_kwfb",
+  "fat",
+  "snf",
+  "priority"
+ ],
+ "fields": [
+  {
+   "fieldname": "silo",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Silo",
+   "options": "\nSilo 1\nSilo 2\nSilo 3",
+   "reqd": 1
+  },
+  {
+   "fieldname": "available_volume",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Available Volume",
+   "non_negative": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_kwfb",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "fat",
+   "fieldtype": "Percent",
+   "in_list_view": 1,
+   "label": "FAT %",
+   "reqd": 1
+  },
+  {
+   "fieldname": "snf",
+   "fieldtype": "Percent",
+   "in_list_view": 1,
+   "label": "SNF %",
+   "reqd": 1
+  },
+  {
+   "fieldname": "priority",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Priority",
+   "options": "1\n2\n3",
+   "reqd": 1
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2026-01-03 13:20:08.479849",
+ "modified_by": "Administrator",
+ "module": "BDF Dairy",
+ "name": "Milk Standardisation Silo Details",
+ "owner": "Administrator",
+ "permissions": [],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
