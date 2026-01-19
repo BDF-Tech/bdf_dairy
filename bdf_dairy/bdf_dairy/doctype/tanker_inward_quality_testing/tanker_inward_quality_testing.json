@@ -17,26 +17,30 @@
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Test",
-   "options": "Test Type"
+   "options": "Test Type",
+   "reqd": 1
   },
   {
    "fieldname": "result_sign",
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Result Sign",
+   "reqd": 1,
    "options": "\nNegative\nPositive\nYes\nNo\nOk\nNot Ok\nAbsent\nPresent\nNormal\nAbnormal\nGood\nBad"
   },
   {
    "fieldname": "result",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "Result"
+   "label": "Result",
+   "reqd": 1
   },
   {
    "fieldname": "remark",
    "fieldtype": "Small Text",
    "in_list_view": 1,
-   "label": "Remark"
+   "label": "Remark",
+   "reqd": 1
   }
  ],
  "index_web_pages_for_search": 1,

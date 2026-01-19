@@ -91,7 +91,7 @@
   "rate_limit_count": 0,
   "rate_limit_seconds": 0,
   "reference_doctype": "Stock Entry",
-  "script": "if doc.purpose == \"Manufacture\":\n    stock_entry = frappe.new_doc(\"Stock Entry\")\n    stock_entry.stock_entry_type = \"Handling Loss\"\n    stock_entry_flag = False\n    for itm in doc.get('items', filters={'is_finished_item':1}):\n        finished_itm = itm.item_code\n        break\n    for itm in doc.items:\n        if itm.custom_handling_loss_qty > 0 and itm.s_warehouse:\n            stock_entry_flag = True\n            stock_entry.append('items', {\n                'item_code': itm.item_code, \n                's_warehouse': itm.s_warehouse,\n                'qty': itm.custom_handling_loss_qty,\n                'custom_finished_item': finished_itm\n            })\n    if stock_entry_flag:\n        stock_entry.insert()\n        stock_entry.submit()\n",
+  "script": "if doc.purpose == \"Manufacture\":\n    stock_entry = frappe.new_doc(\"Stock Entry\")\n    stock_entry.stock_entry_type = \"Handling Loss\"\n    stock_entry_flag = False\n    for itm in doc.get('items', filters={'is_finished_item':1}):\n        finished_itm = itm.item_code\n        break\n    for itm in doc.items:\n        if itm.custom_handling_loss_qty > 0 and itm.s_warehouse:\n            stock_entry_flag = True\n            stock_entry.append('items', {\n                'item_code': itm.item_code,\n                's_warehouse': itm.s_warehouse,\n                'qty': itm.custom_handling_loss_qty,\n                'custom_finished_item': finished_itm\n            })\n    if stock_entry_flag:\n        stock_entry.custom_manufacture_ = doc.name\n        stock_entry.insert()\n        stock_entry.submit()",
   "script_type": "DocType Event"
  },
  {
