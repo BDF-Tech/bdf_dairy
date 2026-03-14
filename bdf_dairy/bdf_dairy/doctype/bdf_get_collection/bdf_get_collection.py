@@ -80,6 +80,7 @@ class BDFGetCollection(Document):
 
 			milk_doc = frappe.get_doc({
 				"doctype": "Milk Entry",
+				"mpp_code": self.mpp_code,
 				"dcs_id": self.warehouse,
 				"member": supplier,
 				"milk_type": "Cow" if entry.get("Milk_Type") == "C" else "Buffalo" if entry.get("Milk_Type") == "B" else "Mix",
@@ -88,7 +89,11 @@ class BDFGetCollection(Document):
 				"volume": entry.get("Qty_Ltr"),
 				"fat": entry.get("Fat"),
 				"snf": entry.get("Snf"),
-				"clr": entry.get("CLR")
+				"clr": entry.get("CLR"),
+				"unit_price": entry.get("Rate"),
+                "unit_price_with_incentive": entry.get("Rate"),
+                "total": entry.get("Amount"),
+                "rate_chart_amount": entry.get("Amount")
 			})
 
 			# Save to DB
