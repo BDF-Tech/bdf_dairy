@@ -255,5 +255,11 @@ fixtures = [
         "filters": [
             ["name","in",["Sales In Route - BDF"]]
         ]    
+    },
+    {
+        "doctype": "Tanker Inward",
+        "filters": [
+            ["name","in",["ch"]]
+        ]
     }
 ]

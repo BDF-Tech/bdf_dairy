@@ -176,9 +176,20 @@ class TankerInward(Document):
 		diff_row.snf = snf
 		diff_row.kg_snf = kg_snf
 	
-		# ============================
-# 🔴 ADD OTHER TANKER VALUES
-# ============================
+		dcs_litre = 0
+		dcs_kg = 0
+		dcs_kg_fat = 0
+		dcs_kg_snf = 0
+
+		for row in self.milk_received_from_dcs:
+			dcs_litre += row.qty_in_liter or 0
+			dcs_kg += row.qty_in_kg or 0
+			dcs_kg_fat += row.kg_fat or 0
+			dcs_kg_snf += row.kg_snf or 0
+
+			# ============================
+			# 🔴 2. GET CP VALUES (OTHER)
+			# ============================
 
 		other_litre = self.total_qty_in_litre1 or 0
 		other_kg = self.total_qty_in_kg1 or 0
@@ -186,22 +197,17 @@ class TankerInward(Document):
 		other_kg_snf = self.kg_snf1 or 0
 
 		# ============================
-		# 🔴 CURRENT (DCS VALUES)
-		# ============================
-
-		dcs_litre = self.total_qty_in_liter or 0
-		dcs_kg = self.total_qty_in_kg or 0
-		dcs_kg_fat = self.kg_fat or 0
-		dcs_kg_snf = self.kg_snf or 0
-
-		# ============================
-		# 🔴 FINAL COMBINE
+		# 🔴 3. FINAL COMBINE
 		# ============================
 
 		final_litre = dcs_litre + other_litre
 		final_kg = dcs_kg + other_kg
 		final_kg_fat = dcs_kg_fat + other_kg_fat
 		final_kg_snf = dcs_kg_snf + other_kg_snf
+
+		# ============================
+		# 🔴 4. FINAL FAT / SNF
+		# ============================
 
 		if final_kg > 0:
 			final_fat = (final_kg_fat / final_kg) * 100
@@ -210,16 +216,16 @@ class TankerInward(Document):
 			final_fat = 0
 			final_snf = 0
 
-# ============================
-# 🔴 SET FINAL VALUES
-# ============================
+		# ============================
+		# 🔴 5. SET FINAL VALUES (NO DUPLICATION)
+		# ============================
 
 		self.total_qty_in_liter = final_litre
 		self.total_qty_in_kg = final_kg
 		self.kg_fat = final_kg_fat
 		self.kg_snf = final_kg_snf
 		self.fat = final_fat
-		self.snf = final_snf
+		self.snf = final_snf	
 	@frappe.whitelist()
 	def get_milk_entry_data(self):
 		date_range_query = """
