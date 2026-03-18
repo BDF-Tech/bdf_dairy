@@ -151,7 +151,10 @@ frappe.ui.form.on('Tanker Inward', {
 function get_milk_entry_data(frm) {
     frm.call({
         method: 'get_milk_entry_data',
-        doc: frm.doc
+        doc: frm.doc,
+        callback: function() {
+            calculate_final_totals(frm); // 👈 ADD THIS
+        }
     });
 }
 
@@ -234,3 +237,30 @@ function calculate_kg_snf(frm) {
   frm.set_value("sr_qty_in_kg", qty_in_kg);
 }
 
+function calculate_final_totals(frm) {
+
+    let dcs_litre = frm.doc.total_qty_in_liter || 0;
+    let dcs_kg = frm.doc.total_qty_in_kg || 0;
+    let dcs_kg_fat = frm.doc.kg_fat || 0;
+    let dcs_kg_snf = frm.doc.kg_snf || 0;
+
+    let other_litre = frm.doc.total_qty_in_litre1 || 0;
+    let other_kg = frm.doc.total_qty_in_kg1 || 0;
+    let other_kg_fat = frm.doc.kg_fat1 || 0;
+    let other_kg_snf = frm.doc.kg_snf1 || 0;
+
+    let final_litre = dcs_litre + other_litre;
+    let final_kg = dcs_kg + other_kg;
+    let final_kg_fat = dcs_kg_fat + other_kg_fat;
+    let final_kg_snf = dcs_kg_snf + other_kg_snf;
+
+    let final_fat = final_kg > 0 ? (final_kg_fat / final_kg) * 100 : 0;
+    let final_snf = final_kg > 0 ? (final_kg_snf / final_kg) * 100 : 0;
+
+    frm.set_value("total_qty_in_liter", final_litre);
+    frm.set_value("total_qty_in_kg", final_kg);
+    frm.set_value("kg_fat", final_kg_fat);
+    frm.set_value("kg_snf", final_kg_snf);
+    frm.set_value("fat", final_fat);
+    frm.set_value("snf", final_snf);
+}

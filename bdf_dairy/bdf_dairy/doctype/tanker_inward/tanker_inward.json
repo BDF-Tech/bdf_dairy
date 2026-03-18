@@ -25,6 +25,20 @@
   "tanker_inward_date",
   "section_break_r8jr5",
   "milk_received_from_dcs",
+  "milk_from_cp_tanker_section",
+  "milk_received_from_cp_tanker",
+  "section_break_gluu",
+  "total_qty_in_kg1",
+  "column_break_lcsh",
+  "total_qty_in_litre1",
+  "column_break_mjxm",
+  "fat1",
+  "column_break_hglh",
+  "snf1",
+  "column_break_wirx",
+  "kg_fat1",
+  "column_break_iyrj",
+  "kg_snf1",
   "section_break_sq2be",
   "total_qty_in_liter",
   "column_break_k1gjc",
@@ -198,7 +212,8 @@
   },
   {
    "fieldname": "section_break_sq2be",
-   "fieldtype": "Section Break"
+   "fieldtype": "Section Break",
+   "label": "Total DCS + CP"
   },
   {
    "default": "0",
@@ -475,6 +490,72 @@
   {
    "fieldname": "column_break_pmug",
    "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "milk_received_from_cp_tanker",
+   "fieldtype": "Table",
+   "label": "Milk Received From CP tanker",
+   "options": "Other Inward"
+  },
+  {
+   "fieldname": "milk_from_cp_tanker_section",
+   "fieldtype": "Section Break",
+   "label": "Milk from CP Tanker"
+  },
+  {
+   "fieldname": "section_break_gluu",
+   "fieldtype": "Section Break",
+   "label": "Total MIlk from CP Tanker"
+  },
+  {
+   "fieldname": "total_qty_in_kg1",
+   "fieldtype": "Float",
+   "label": "Total Qty in KG"
+  },
+  {
+   "fieldname": "column_break_lcsh",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "total_qty_in_litre1",
+   "fieldtype": "Float",
+   "label": "Total Qty in Litre"
+  },
+  {
+   "fieldname": "column_break_mjxm",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "fat1",
+   "fieldtype": "Float",
+   "label": "FAT"
+  },
+  {
+   "fieldname": "column_break_hglh",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "snf1",
+   "fieldtype": "Float",
+   "label": "SNF"
+  },
+  {
+   "fieldname": "column_break_wirx",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "kg_fat1",
+   "fieldtype": "Float",
+   "label": "KG FAT"
+  },
+  {
+   "fieldname": "column_break_iyrj",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "kg_snf1",
+   "fieldtype": "Float",
+   "label": "KG SNF"
   }
  ],
  "grid_page_length": 50,
@@ -486,7 +567,7 @@
    "link_fieldname": "custom_tanker_inward"
   }
  ],
- "modified": "2025-09-21 16:30:57.816769",
+ "modified": "2026-03-18 11:47:43.936661",
  "modified_by": "Administrator",
  "module": "BDF Dairy",
  "name": "Tanker Inward",

@@ -1,0 +1,76 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2026-03-16 12:40:15.363722",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "tanker_id",
+  "dcs",
+  "qty_in_litre",
+  "qty_in_kg",
+  "fat",
+  "snf",
+  "kg_fat",
+  "kg_snf"
+ ],
+ "fields": [
+  {
+   "fieldname": "tanker_id",
+   "fieldtype": "Link",
+   "label": "Tanker ID",
+   "options": "Tanker Inward"
+  },
+  {
+   "fieldname": "qty_in_litre",
+   "fieldtype": "Float",
+   "label": "Qty in litre"
+  },
+  {
+   "fieldname": "qty_in_kg",
+   "fieldtype": "Float",
+   "label": "Qty in KG"
+  },
+  {
+   "fieldname": "fat",
+   "fieldtype": "Float",
+   "label": "Fat"
+  },
+  {
+   "fieldname": "snf",
+   "fieldtype": "Float",
+   "label": "Snf"
+  },
+  {
+   "fieldname": "kg_fat",
+   "fieldtype": "Float",
+   "label": "KG Fat"
+  },
+  {
+   "fieldname": "kg_snf",
+   "fieldtype": "Float",
+   "label": "KG Snf"
+  },
+  {
+   "fieldname": "dcs",
+   "fieldtype": "Data",
+   "label": "DCS"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2026-03-16 12:44:26.046575",
+ "modified_by": "Administrator",
+ "module": "BDF Dairy",
+ "name": "Other Inward",
+ "owner": "Administrator",
+ "permissions": [],
+ "row_format": "Dynamic",
+ "rows_threshold_for_grid_search": 20,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
