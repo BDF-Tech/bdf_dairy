@@ -124,6 +124,11 @@ def get_ack_data(filters):
 
     parameters = [filters.get('from_date'), filters.get('to_date')]
 
+    # ✅ Apply checkbox filter dynamically
+    if filters.get("cp_collection") is not None:
+        query += " AND ti.cp_collection = %s"
+        parameters.append(filters.get("cp_collection"))
+
     if filters.get('dcs'):
         query += " AND ti.dcs IN %s"
         parameters.append(tuple(filters.get('dcs')))

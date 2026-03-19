@@ -23,6 +23,7 @@
   "column_break_cfsjz",
   "milk_type",
   "tanker_inward_date",
+  "cp_collection",
   "section_break_r8jr5",
   "milk_received_from_dcs",
   "milk_from_cp_tanker_section",
@@ -556,6 +557,12 @@
    "fieldname": "kg_snf1",
    "fieldtype": "Float",
    "label": "KG SNF"
+  },
+  {
+   "default": "0",
+   "fieldname": "cp_collection",
+   "fieldtype": "Check",
+   "label": "CP Collection"
   }
  ],
  "grid_page_length": 50,
@@ -567,7 +574,7 @@
    "link_fieldname": "custom_tanker_inward"
   }
  ],
- "modified": "2026-03-18 11:47:43.936661",
+ "modified": "2026-03-19 11:50:13.274750",
  "modified_by": "Administrator",
  "module": "BDF Dairy",
  "name": "Tanker Inward",

@@ -9,5 +9,6 @@ frappe.query_reports["Tanker Inward Summary"] = {
 		{"label": "DCS", "fieldname": "dcs", "fieldtype": "MultiSelectList", "options":"Warehouse",get_data: function(txt) {
 			return frappe.db.get_link_options("Warehouse", txt);
 		}},
+		{"label": "CP Colection", "fieldname": "cp_collection", "fieldtype": "Check", "default": 0},
 	]
 };
