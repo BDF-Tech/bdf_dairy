@@ -56,15 +56,28 @@ class TankerInward(Document):
 	@frappe.whitelist()
 	def material_transfer_from_dcs_to_tanker(self):
 		items = []
+    
+    # Loop 1: From DCS child table
 		for itm in self.get('milk_received_from_dcs'):
 			items.append({
-				"item_code": self.get_item(),
-				"qty": itm.qty_in_liter,
-				"s_warehouse": itm.dcs,
-				"t_warehouse": self.tanker_warehouse
-			})
-		self.create_stock_entry(stock_entry_type="Material Transfer", items=items)
-
+            "item_code": self.get_item(),
+            "qty": itm.qty_in_liter,
+            "s_warehouse": itm.dcs,
+            "t_warehouse": self.tanker_warehouse
+        })
+    
+    # Loop 2: From CP Tanker child table
+		for itm in self.get('milk_received_from_cp_tanker'):
+			items.append({
+            "item_code": self.get_item(),
+            "qty": itm.qty_in_litre, # Note: Ensure field name matches exactly in this table too
+            "s_warehouse": itm.dcs, # Use the correct field name for the source warehouse here
+            "t_warehouse": self.tanker_warehouse
+        })
+        
+    # This now contains all rows from both tables (e.g., 2 + 4 = 6 rows)
+		if items:
+			self.create_stock_entry(stock_entry_type="Material Transfer", items=items)
 	@frappe.whitelist()
 	def material_transfer_from_tanker_to_plant(self, qty=0):
 		items = []
