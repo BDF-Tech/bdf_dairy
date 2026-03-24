@@ -70,8 +70,8 @@ class TankerInward(Document):
 		for itm in self.get('milk_received_from_cp_tanker'):
 			items.append({
             "item_code": self.get_item(),
-            "qty": itm.qty_in_litre, # Note: Ensure field name matches exactly in this table too
-            "s_warehouse": itm.dcs, # Use the correct field name for the source warehouse here
+            "qty": itm.qty_in_litre,
+            "s_warehouse": self.dcs,
             "t_warehouse": self.tanker_warehouse
         })
         
