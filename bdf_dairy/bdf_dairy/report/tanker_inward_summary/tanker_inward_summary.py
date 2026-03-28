@@ -94,40 +94,66 @@ def get_columns():
 
 def get_ack_data(filters):
     query = """
+    SELECT
+        ti.name AS id,
+        ti.name AS tanker_inward,
+        ti.tanker_inward_date AS date,
+        ti.dcs,
+
+        COALESCE(mrt.ack_liter, 0) AS ack_liter,
+        COALESCE(mrt.ack_kg, 0) AS ack_kg,
+        COALESCE(mrt.ack_fat, 0) AS ack_fat,
+        COALESCE(mrt.ack_snf, 0) AS ack_snf,
+        COALESCE(mrt.ack_kg_fat, 0) AS ack_kg_fat,
+        COALESCE(mrt.ack_kg_snf, 0) AS ack_kg_snf,
+
+        COALESCE(d.diff_liter, 0) AS diff_liter,
+        COALESCE(d.diff_kg, 0) AS diff_kg,
+        COALESCE(d.diff_fat, 0) AS diff_fat,
+        COALESCE(d.diff_snf, 0) AS diff_snf,
+        COALESCE(d.diff_kg_fat, 0) AS diff_kg_fat,
+        COALESCE(d.diff_kg_snf, 0) AS diff_kg_snf
+
+    FROM `tabTanker Inward` ti
+
+    LEFT JOIN (
         SELECT
-            ti.name AS id,
-            ti.name AS tanker_inward,
-            ti.tanker_inward_date AS date,
-            ti.dcs,
-            SUM(mrt.qty_in_liter) AS ack_liter,
-            SUM(mrt.qty_in_kg) AS ack_kg,
-            AVG(mrt.fat) AS ack_fat,
-            AVG(mrt.snf) AS ack_snf,
-            SUM(mrt.kg_fat) AS ack_kg_fat,
-            SUM(mrt.kg_snf) AS ack_kg_snf,
-            SUM(d.qty_in_liter) AS diff_liter,
-            SUM(d.qty_in_kg) AS diff_kg,
-            AVG(d.fat) AS diff_fat,
-            AVG(d.snf) AS diff_snf,
-            SUM(d.kg_fat) AS diff_kg_fat,
-            SUM(d.kg_snf) AS diff_kg_snf
-        FROM 
-            `tabTanker Inward` AS ti
-        LEFT JOIN 
-            `tabMilk Received From Tanker` AS mrt ON mrt.parent = ti.name
-        LEFT JOIN 
-            `tabDifference of DCS and Tanker Milk Received` AS d ON d.parent = ti.name
-        WHERE 
-            ti.tanker_inward_date BETWEEN %s AND %s
-            AND ti.docstatus = 1
-    """
+            parent,
+            SUM(qty_in_liter) AS ack_liter,
+            SUM(qty_in_kg) AS ack_kg,
+            AVG(fat) AS ack_fat,
+            AVG(snf) AS ack_snf,
+            SUM(kg_fat) AS ack_kg_fat,
+            SUM(kg_snf) AS ack_kg_snf
+        FROM `tabMilk Received From Tanker`
+        GROUP BY parent
+    ) mrt ON mrt.parent = ti.name
+
+    LEFT JOIN (
+        SELECT
+            parent,
+            SUM(qty_in_liter) AS diff_liter,
+            SUM(qty_in_kg) AS diff_kg,
+            AVG(fat) AS diff_fat,
+            AVG(snf) AS diff_snf,
+            SUM(kg_fat) AS diff_kg_fat,
+            SUM(kg_snf) AS diff_kg_snf
+        FROM `tabDifference of DCS and Tanker Milk Received`
+        GROUP BY parent
+    ) d ON d.parent = ti.name
+
+    WHERE
+        ti.tanker_inward_date BETWEEN %s AND %s
+        AND ti.docstatus = 1
+"""
 
     parameters = [filters.get('from_date'), filters.get('to_date')]
 
     # ✅ Apply checkbox filter dynamically
-    if filters.get("cp_collection") is not None:
-        query += " AND ti.cp_collection = %s"
-        parameters.append(filters.get("cp_collection"))
+    if filters.get("cp_collection"):
+        query += " AND ti.cp_collection = 1"
+    else:
+        query += " AND (ti.cp_collection = 0 OR ti.cp_collection IS NULL)"
 
     if filters.get('dcs'):
         query += " AND ti.dcs IN %s"
