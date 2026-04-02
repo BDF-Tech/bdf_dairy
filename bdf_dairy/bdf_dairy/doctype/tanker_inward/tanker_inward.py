@@ -94,16 +94,32 @@ class TankerInward(Document):
             items=items
         )
 	@frappe.whitelist()
-	def material_transfer_from_tanker_to_plant(self, qty=0):
-		items = []
-		for itm in self.get('milk_received_from_tanker'):
-			items.append({
-				"item_code": self.get_item(),
-				"qty": itm.qty_in_liter,
-				"s_warehouse": self.tanker_warehouse,
-				"t_warehouse": self.plant_warehouse
-			})
-		self.create_stock_entry(stock_entry_type="Material Transfer", items=items)
+	def material_transfer_from_tanker_to_plant(self, diff_qty=0):
+		item_code = self.get_item()
+
+		total_tanker_qty = sum(
+        (itm.qty_in_liter or 0)
+        for itm in self.get('milk_received_from_tanker')
+    )
+
+    # 🔥 YOUR EXACT REQUIREMENT
+		plant_qty = total_tanker_qty
+
+		if diff_qty > 0:
+			plant_qty -= diff_qty  # subtract only when excess
+
+		if plant_qty <= 0:
+			frappe.throw("Invalid tanker to plant quantity")
+
+		self.create_stock_entry(
+        stock_entry_type="Material Transfer",
+        items=[{
+            "item_code": item_code,
+            "qty": plant_qty,
+            "s_warehouse": self.tanker_warehouse,
+            "t_warehouse": self.plant_warehouse
+        }]
+    )
 
 	@frappe.whitelist()
 	def material_transfer_from_tanker_to_sales(self):
