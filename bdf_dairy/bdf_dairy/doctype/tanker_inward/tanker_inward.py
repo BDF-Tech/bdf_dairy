@@ -3,7 +3,7 @@ from frappe.model.document import Document
 from frappe.utils import flt
 
 class TankerInward(Document):
-	def before_submit(self):
+	def on_submit(self):
 		diff_qty = 0
 		for diff in self.get('difference_of_dcs_and_tanker_milk_received', filters={'qty_in_liter': ['>', 0]}):
 			diff_qty += diff.qty_in_liter
