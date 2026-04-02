@@ -56,28 +56,43 @@ class TankerInward(Document):
 	@frappe.whitelist()
 	def material_transfer_from_dcs_to_tanker(self):
 		items = []
-    
-    # Loop 1: From DCS child table
+		item_code = self.get_item()
+
+    # -------------------------
+    # 1. DCS (keep as-is)
+    # -------------------------
 		for itm in self.get('milk_received_from_dcs'):
 			items.append({
-            "item_code": self.get_item(),
+            "item_code": item_code,
             "qty": itm.qty_in_liter,
             "s_warehouse": itm.dcs,
             "t_warehouse": self.tanker_warehouse
         })
-    
-    # Loop 2: From CP Tanker child table
-		for itm in self.get('milk_received_from_cp_tanker'):
+
+    # -------------------------
+    # 2. CP Tanker (AGGREGATED)
+    # -------------------------
+		total_cp_qty = sum(
+        (itm.qty_in_litre or 0)
+        for itm in self.get('milk_received_from_cp_tanker')
+    )
+
+		if total_cp_qty > 0:
 			items.append({
-            "item_code": self.get_item(),
-            "qty": itm.qty_in_litre,
+            "item_code": item_code,
+            "qty": total_cp_qty,
             "s_warehouse": self.dcs,
             "t_warehouse": self.tanker_warehouse
         })
-        
-    # This now contains all rows from both tables (e.g., 2 + 4 = 6 rows)
+
+    # -------------------------
+    # 3. Create Stock Entry
+    # -------------------------
 		if items:
-			self.create_stock_entry(stock_entry_type="Material Transfer", items=items)
+			self.create_stock_entry(
+            stock_entry_type="Material Transfer",
+            items=items
+        )
 	@frappe.whitelist()
 	def material_transfer_from_tanker_to_plant(self, qty=0):
 		items = []
