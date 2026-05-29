@@ -241,7 +241,7 @@ fixtures = [
     {
         "doctype": "Custom Field",
         "filters": [
-            ["name","in",["Purchase Invoice-custom_farmer_billings", "Stock Entry-custom_milk_standardization"]]
+            ["name","in",["Purchase Invoice-custom_farmer_billings"]]
         ]    
     },
     {

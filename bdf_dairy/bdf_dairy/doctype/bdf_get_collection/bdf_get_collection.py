@@ -69,11 +69,13 @@ class BDFGetCollection(Document):
 			frappe.throw("No valid milk data found or data is not a list.")
 
 		for entry in milk_data:
-			required_keys = ["Member_Code", "Milk_Type", "Shift", "Transaction_Date", "Qty_Ltr", "Fat", "Snf", "CLR"]
+			required_keys = ["Member_Code", "Milk_Type", "Shift", "Transaction_Date", "Qty_Ltr", "Qty_KG", "Fat", "Snf", "CLR"]
 			for key in required_keys:
 				if key not in entry:
 					frappe.throw(f"Missing key in milk data: {key}")
 			
+			
+
 			supplier = frappe.db.exists("Supplier", {'custom_member_code': float(entry.get("Member_Code"))})
 			if not supplier:
 				frappe.throw(f"Member Code Mapping is Missing Or Supplier Is Missing For {entry.get('Member_Code')}")
@@ -86,7 +88,7 @@ class BDFGetCollection(Document):
 				"milk_type": "Cow" if entry.get("Milk_Type") == "C" else "Buffalo" if entry.get("Milk_Type") == "B" else "Mix",
 				"shift": "Morning" if entry.get("Shift") == "M" else "Evening",
 				"date": getdate(entry.get("Transaction_Date")),
-				"volume": entry.get("Qty_Ltr"),
+				"volume": entry.get("Qty_KG"),
 				"fat": entry.get("Fat"),
 				"snf": entry.get("Snf"),
 				"clr": entry.get("CLR"),
