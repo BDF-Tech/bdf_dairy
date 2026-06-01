@@ -37,17 +37,21 @@ class TankerInward(Document):
 			items=[{
 				"item_code": self.get_item(),
 				"qty": qty,
+				"uom": "Kg",
+				"conversion_factor": 0.9709,
 				"t_warehouse": self.tanker_warehouse
 			}],
 			user_remark = self.vehicle_number
 		)
-	
+
 	def material_receipt_to_excess(self, qty):
 		self.create_stock_entry(
 			stock_entry_type="Material Receipt",
 			items=[{
 				"item_code": self.get_item(),
 				"qty": qty,
+				"uom": "Kg",
+				"conversion_factor": 0.9709,
 				"t_warehouse": self.excess_warehouse
 			}],
 			user_remark = self.vehicle_number
@@ -63,11 +67,13 @@ class TankerInward(Document):
     # -------------------------
 		for itm in self.get('milk_received_from_dcs'):
 			items.append({
-            "item_code": item_code,
-            "qty": itm.qty_in_liter,
-            "s_warehouse": itm.dcs,
-            "t_warehouse": self.tanker_warehouse
-        })
+				"item_code": item_code,
+				"qty": itm.qty_in_liter,
+				"uom": "Kg",
+				"conversion_factor": 0.9709,
+				"s_warehouse": itm.dcs,
+				"t_warehouse": self.tanker_warehouse
+			})
 
     # -------------------------
     # 2. CP Tanker (AGGREGATED)
@@ -79,11 +85,13 @@ class TankerInward(Document):
 
 		if total_cp_qty > 0:
 			items.append({
-            "item_code": item_code,
-            "qty": total_cp_qty,
-            "s_warehouse": self.dcs,
-            "t_warehouse": self.tanker_warehouse
-        })
+				"item_code": item_code,
+				"qty": total_cp_qty,
+				"uom": "Kg",
+				"conversion_factor": 0.9709,
+				"s_warehouse": self.dcs,
+				"t_warehouse": self.tanker_warehouse
+			})
 
     # -------------------------
     # 3. Create Stock Entry
@@ -112,14 +120,16 @@ class TankerInward(Document):
 			frappe.throw("Invalid tanker to plant quantity")
 
 		self.create_stock_entry(
-        stock_entry_type="Material Transfer",
-        items=[{
-            "item_code": item_code,
-            "qty": plant_qty,
-            "s_warehouse": self.tanker_warehouse,
-            "t_warehouse": self.plant_warehouse
-        }]
-    )
+			stock_entry_type="Material Transfer",
+			items=[{
+				"item_code": item_code,
+				"qty": plant_qty,
+				"uom": "Kg",
+				"conversion_factor": 0.9709,
+				"s_warehouse": self.tanker_warehouse,
+				"t_warehouse": self.plant_warehouse
+			}]
+		)
 
 	@frappe.whitelist()
 	def material_transfer_from_tanker_to_sales(self):
@@ -127,11 +137,15 @@ class TankerInward(Document):
 		items.append({
 			"item_code": self.get_item(),
 			"qty": self.si_qty_in_liter,
+			"uom": "Kg",
+			"conversion_factor": 0.9709,
 			"s_warehouse": self.tanker_warehouse,
 		})
 		items.append({
 			"item_code": self.sales_item,
 			"qty": self.si_qty_in_liter,
+			"uom": "Kg",
+			"conversion_factor": 0.9709,
 			"t_warehouse": self.si_dcs
 		})
 		self.create_stock_entry(stock_entry_type="Repack", items=items)
@@ -142,11 +156,15 @@ class TankerInward(Document):
 		items.append({
 			"item_code": self.sales_item,
 			"qty": self.sr_qty_in_liter,
+			"uom": "Kg",
+			"conversion_factor": 0.9709,
 			"s_warehouse": self.si_dcs,
 		})
 		items.append({
 			"item_code": self.get_item(),
 			"qty": self.sr_qty_in_liter,
+			"uom": "Kg",
+			"conversion_factor": 0.9709,
 			"t_warehouse": self.tanker_warehouse
 		})
 		self.create_stock_entry(stock_entry_type="Repack", items=items)
@@ -157,6 +175,8 @@ class TankerInward(Document):
 		items.append({
 			"item_code": self.get_item(),
 			"qty": qty,
+			"uom": "Kg",
+			"conversion_factor": 0.9709,
 			"s_warehouse": self.tanker_warehouse,
 			"t_warehouse": self.loss_warehouse
 		})
@@ -168,6 +188,8 @@ class TankerInward(Document):
 		items.append({
 			"item_code": self.get_item(),
 			"qty": qty,
+			"uom": "Kg",
+			"conversion_factor": 0.9709,
 			"s_warehouse": self.tanker_warehouse,
 			"t_warehouse": self.excess_warehouse
 		})
@@ -214,7 +236,7 @@ class TankerInward(Document):
 		diff_row = self.append("difference_of_dcs_and_tanker_milk_received", {})
 		diff_row.dcs = self.dcs
 		diff_row.qty_in_liter = qty_liter
-		diff_row.qty_in_kg = qty_liter * 1.03
+		diff_row.qty_in_kg = qty_liter
 		diff_row.fat = fat
 		diff_row.kg_fat = kg_fat
 		diff_row.snf = snf
@@ -333,9 +355,9 @@ class TankerInward(Document):
 					date as date,
 					shift as shift,
 					SUM(volume) as ack_liter,
-					SUM(volume * 1.03) as ack_kg,
-					((SUM(fat_kg) / SUM(volume * 1.03)) * 100) as ack_fat,
-					((SUM(snf_kg) / SUM(volume * 1.03)) * 100) as ack_snf,
+					SUM(volume) as ack_kg,
+					((SUM(fat_kg) / SUM(volume)) * 100) as ack_fat,
+					((SUM(snf_kg) / SUM(volume)) * 100) as ack_snf,
 					SUM(fat_kg) as ack_kg_fat,
 					SUM(snf_kg) as ack_kg_snf
 				FROM 
