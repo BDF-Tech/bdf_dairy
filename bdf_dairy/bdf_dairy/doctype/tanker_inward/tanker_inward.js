@@ -163,27 +163,25 @@ function get_milk_entry_data(frm) {
 frappe.ui.form.on('Milk Received From Tanker', {
     qty_in_liter: function(frm, cdt, cdn) {
         const row = frappe.get_doc(cdt, cdn);
-        row.qty_in_kg = parseFloat(row.qty_in_liter) * 1.03;
+        row.qty_in_kg = parseFloat(row.qty_in_liter);
 
-        if (row.fat && row.qty_in_liter && frm.doc.milk_type) {
+        if (row.fat && row.qty_in_liter) {
             updateKgValues(frm, row, cdt, cdn, 'fat', row.fat);
         }
-        
-        if (row.snf && row.qty_in_liter && frm.doc.milk_type) {
+        if (row.snf && row.qty_in_liter) {
             updateKgValues(frm, row, cdt, cdn, 'snf', row.snf);
         }
         frm.refresh_field("milk_received_from_tanker");
     },
-    
+
     qty_in_kg: function(frm, cdt, cdn) {
         const row = frappe.get_doc(cdt, cdn);
-        row.qty_in_liter = parseFloat(row.qty_in_kg) * 0.970874;
+        row.qty_in_liter = parseFloat(row.qty_in_kg);
 
-        if (row.fat && row.qty_in_liter && frm.doc.milk_type) {
+        if (row.fat && row.qty_in_kg) {
             updateKgValues(frm, row, cdt, cdn, 'fat', row.fat);
         }
-
-        if (row.snf && row.qty_in_liter && frm.doc.milk_type) {
+        if (row.snf && row.qty_in_kg) {
             updateKgValues(frm, row, cdt, cdn, 'snf', row.snf);
         }
         frm.refresh_field("milk_received_from_tanker");
@@ -191,25 +189,25 @@ frappe.ui.form.on('Milk Received From Tanker', {
 
     fat: function(frm, cdt, cdn) {
         const row = frappe.get_doc(cdt, cdn);
-        if (row.fat && row.qty_in_liter && frm.doc.milk_type) {
+        if (row.fat && row.qty_in_liter) {
             updateKgValues(frm, row, cdt, cdn, 'fat', row.fat);
         }
     },
 
     snf: function(frm, cdt, cdn) {
         const row = frappe.get_doc(cdt, cdn);
-        if (row.snf && row.qty_in_liter && frm.doc.milk_type) {
+        if (row.snf && row.qty_in_liter) {
             updateKgValues(frm, row, cdt, cdn, 'snf', row.snf);
         }
     },
+
     milk_received_from_tanker_add(frm, cdt, cdn) {
-        const row = frappe.get_doc(cdt, cdn);
         frappe.model.set_value(cdt, cdn, 'dcs', frm.doc.dcs);
     }
 });
 
 async function updateKgValues(frm, row, cdt, cdn, type, percentage) {
-    const kg_value = ((row.qty_in_liter * 1.03) * percentage)/100;
+    const kg_value = (row.qty_in_liter * percentage) / 100;
     if (type === 'fat') {
         await frappe.model.set_value(cdt, cdn, 'kg_fat', kg_value);
     } else if (type === 'snf') {
@@ -217,6 +215,36 @@ async function updateKgValues(frm, row, cdt, cdn, type, percentage) {
     }
     frm.refresh_field("milk_received_from_tanker");
 }
+
+frappe.ui.form.on('Other Inward', {
+    qty_in_litre: function(frm, cdt, cdn) {
+        const row = frappe.get_doc(cdt, cdn);
+        frappe.model.set_value(cdt, cdn, 'qty_in_kg', parseFloat(row.qty_in_litre) || 0);
+        if (row.fat) {
+            frappe.model.set_value(cdt, cdn, 'kg_fat', ((row.qty_in_litre || 0) * row.fat) / 100);
+        }
+        if (row.snf) {
+            frappe.model.set_value(cdt, cdn, 'kg_snf', ((row.qty_in_litre || 0) * row.snf) / 100);
+        }
+        frm.refresh_field("milk_received_from_cp_tanker");
+    },
+
+    fat: function(frm, cdt, cdn) {
+        const row = frappe.get_doc(cdt, cdn);
+        if (row.qty_in_litre) {
+            frappe.model.set_value(cdt, cdn, 'kg_fat', (row.qty_in_litre * (row.fat || 0)) / 100);
+        }
+        frm.refresh_field("milk_received_from_cp_tanker");
+    },
+
+    snf: function(frm, cdt, cdn) {
+        const row = frappe.get_doc(cdt, cdn);
+        if (row.qty_in_litre) {
+            frappe.model.set_value(cdt, cdn, 'kg_snf', (row.qty_in_litre * (row.snf || 0)) / 100);
+        }
+        frm.refresh_field("milk_received_from_cp_tanker");
+    }
+});
 
 
 function calculate_kg_fat(frm) {

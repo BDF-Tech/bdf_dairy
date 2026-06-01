@@ -28,7 +28,7 @@
    "fieldname": "qty_in_litre",
    "fieldtype": "Float",
    "in_list_view": 1,
-   "label": "Qty in litre"
+   "label": "Qty in KG"
   },
   {
    "columns": 1,

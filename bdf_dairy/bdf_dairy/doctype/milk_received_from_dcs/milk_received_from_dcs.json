@@ -41,7 +41,7 @@
    "fieldname": "qty_in_liter",
    "fieldtype": "Float",
    "in_list_view": 1,
-   "label": "Qty in Liter",
+   "label": "Qty in KG",
    "precision": "2",
    "reqd": 1
   },
