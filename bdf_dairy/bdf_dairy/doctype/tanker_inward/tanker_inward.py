@@ -145,7 +145,7 @@ class TankerInward(Document):
 			{
 				"item_code": self.sales_item,
 				"qty": liter_qty,
-				"uom": "Liter",
+				"uom": "Litre",
 				"conversion_factor": 1,
 				"t_warehouse": self.si_dcs
 			}
@@ -159,7 +159,7 @@ class TankerInward(Document):
 			{
 				"item_code": self.sales_item,
 				"qty": liter_qty,
-				"uom": "Liter",
+				"uom": "Litre",
 				"conversion_factor": 1,
 				"s_warehouse": self.si_dcs,
 			},
