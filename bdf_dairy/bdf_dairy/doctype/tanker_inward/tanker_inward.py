@@ -133,40 +133,44 @@ class TankerInward(Document):
 
 	@frappe.whitelist()
 	def material_transfer_from_tanker_to_sales(self):
-		items = []
-		items.append({
-			"item_code": self.get_item(),
-			"qty": self.si_qty_in_liter,
-			"uom": "Kg",
-			"conversion_factor": 0.9709,
-			"s_warehouse": self.tanker_warehouse,
-		})
-		items.append({
-			"item_code": self.sales_item,
-			"qty": self.si_qty_in_liter,
-			"uom": "Kg",
-			"conversion_factor": 0.9709,
-			"t_warehouse": self.si_dcs
-		})
+		liter_qty = round(self.si_qty_in_liter * 0.9709, 3)
+		items = [
+			{
+				"item_code": self.get_item(),
+				"qty": self.si_qty_in_liter,
+				"uom": "Kg",
+				"conversion_factor": 0.9709,
+				"s_warehouse": self.tanker_warehouse,
+			},
+			{
+				"item_code": self.sales_item,
+				"qty": liter_qty,
+				"uom": "Liter",
+				"conversion_factor": 1,
+				"t_warehouse": self.si_dcs
+			}
+		]
 		self.create_stock_entry(stock_entry_type="Repack", items=items)
 
 	@frappe.whitelist()
 	def material_transfer_from_sales_to_tanker(self):
-		items = []
-		items.append({
-			"item_code": self.sales_item,
-			"qty": self.sr_qty_in_liter,
-			"uom": "Kg",
-			"conversion_factor": 0.9709,
-			"s_warehouse": self.si_dcs,
-		})
-		items.append({
-			"item_code": self.get_item(),
-			"qty": self.sr_qty_in_liter,
-			"uom": "Kg",
-			"conversion_factor": 0.9709,
-			"t_warehouse": self.tanker_warehouse
-		})
+		liter_qty = round(self.sr_qty_in_liter * 0.9709, 3)
+		items = [
+			{
+				"item_code": self.sales_item,
+				"qty": liter_qty,
+				"uom": "Liter",
+				"conversion_factor": 1,
+				"s_warehouse": self.si_dcs,
+			},
+			{
+				"item_code": self.get_item(),
+				"qty": self.sr_qty_in_liter,
+				"uom": "Kg",
+				"conversion_factor": 0.9709,
+				"t_warehouse": self.tanker_warehouse
+			}
+		]
 		self.create_stock_entry(stock_entry_type="Repack", items=items)
 
 	@frappe.whitelist()

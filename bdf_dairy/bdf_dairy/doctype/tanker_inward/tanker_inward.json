@@ -340,7 +340,7 @@
   {
    "fieldname": "si_qty_in_liter",
    "fieldtype": "Float",
-   "label": "Qty (Lit)",
+   "label": "Qty (KG)",
    "precision": "2"
   },
   {
@@ -391,7 +391,7 @@
   {
    "fieldname": "sr_qty_in_liter",
    "fieldtype": "Float",
-   "label": "Qty (Lit)",
+   "label": "Qty (KG)",
    "precision": "2"
   },
   {

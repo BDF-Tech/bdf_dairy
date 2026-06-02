@@ -248,21 +248,21 @@ frappe.ui.form.on('Other Inward', {
 
 
 function calculate_kg_fat(frm) {
-  let kg_fat = (frm.doc.si_qty_in_kg * frm.doc.si_fat)/100;
-  let kg_snf = (frm.doc.si_qty_in_kg * frm.doc.si_snf)/100;
-  let qty_in_kg = frm.doc.si_qty_in_liter * 1.03
+  let qty_in_kg = frm.doc.si_qty_in_liter;
+  let kg_fat = (qty_in_kg * frm.doc.si_fat) / 100;
+  let kg_snf = (qty_in_kg * frm.doc.si_snf) / 100;
+  frm.set_value("si_qty_in_kg", qty_in_kg);
   frm.set_value("si_kg_fat", kg_fat);
   frm.set_value("si_kg_snf", kg_snf);
-  frm.set_value("si_qty_in_kg", qty_in_kg);
 }
 
 function calculate_kg_snf(frm) {
-  let kg_fat = (frm.doc.sr_qty_in_kg * frm.doc.sr_fat) / 100;
-  let kg_snf = (frm.doc.sr_qty_in_kg * frm.doc.sr_snf) / 100;
-  let qty_in_kg = frm.doc.sr_qty_in_liter * 1.03
+  let qty_in_kg = frm.doc.sr_qty_in_liter;
+  let kg_fat = (qty_in_kg * frm.doc.sr_fat) / 100;
+  let kg_snf = (qty_in_kg * frm.doc.sr_snf) / 100;
+  frm.set_value("sr_qty_in_kg", qty_in_kg);
   frm.set_value("sr_kg_fat", kg_fat);
   frm.set_value("sr_kg_snf", kg_snf);
-  frm.set_value("sr_qty_in_kg", qty_in_kg);
 }
 
 function calculate_final_totals(frm) {
