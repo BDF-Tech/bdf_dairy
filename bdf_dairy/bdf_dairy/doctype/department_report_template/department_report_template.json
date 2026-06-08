@@ -1,0 +1,152 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "field:template_name",
+ "creation": "2026-06-08 12:30:00.000000",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "template_name",
+  "column_break_top",
+  "enabled",
+  "description",
+  "section_break_subject",
+  "email_subject",
+  "section_break_help",
+  "placeholders_help",
+  "section_break_html",
+  "email_html",
+  "section_break_css",
+  "email_css",
+  "section_break_js",
+  "email_js"
+ ],
+ "fields": [
+  {
+   "fieldname": "template_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Template Name",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "column_break_top",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "1",
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Enabled"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Small Text",
+   "label": "Description",
+   "description": "Internal note — e.g. \"Standard daily template\""
+  },
+  {
+   "fieldname": "section_break_subject",
+   "fieldtype": "Section Break",
+   "label": "Email Subject"
+  },
+  {
+   "default": "{{ doc.report_type }} Report — {{ doc.department }} — {{ period }}",
+   "fieldname": "email_subject",
+   "fieldtype": "Data",
+   "label": "Subject",
+   "reqd": 1,
+   "description": "Supports Jinja — e.g. {{ doc.department }}"
+  },
+  {
+   "fieldname": "section_break_help",
+   "fieldtype": "Section Break",
+   "label": "Jinja Reference"
+  },
+  {
+   "fieldname": "placeholders_help",
+   "fieldtype": "HTML",
+   "options": "<div style='background:#f5f5f5;padding:12px;border-radius:4px;font-size:12px;line-height:1.6'><b>Jinja templating is supported</b> in Subject, HTML, CSS and JS fields.<br><br><b>Available context:</b><br><code>doc</code> — full Department Report document. Examples: <code>{{ doc.department }}</code>, <code>{{ doc.department_head }}</code>, <code>{{ doc.report_type }}</code>, <code>{{ doc.report_date }}</code>, <code>{{ doc.support_needed_from_md }}</code>, <code>{{ doc.overall_remarks }}</code>.<br><br><b>Child tables on doc:</b> <code>doc.completed_items</code>, <code>doc.ongoing_items</code>, <code>doc.pending_items</code>, <code>doc.blockers</code>, <code>doc.daily_timeline</code>, <code>doc.kpi_metrics</code> — iterate with <code>{% for item in doc.completed_items %}...{% endfor %}</code>.<br><br><b>Helpers:</b> <code>{{ period }}</code> (formatted period), <code>{{ report_link }}</code> (full URL).<br><br><b>Frappe utilities:</b> <code>{{ frappe.utils.formatdate(doc.report_date) }}</code>, <code>{{ frappe.utils.fmt_money(123.45) }}</code>.<br><br><b>Loop example:</b><pre style='background:#fff;padding:8px;border-radius:3px;font-size:11px;margin:6px 0;overflow-x:auto'>&lt;table&gt;\n  {% for item in doc.completed_items %}\n  &lt;tr&gt;\n    &lt;td&gt;{{ item.title }}&lt;/td&gt;\n    &lt;td&gt;{{ item.priority or '-' }}&lt;/td&gt;\n  &lt;/tr&gt;\n  {% endfor %}\n&lt;/table&gt;</pre><b>Conditional example:</b><pre style='background:#fff;padding:8px;border-radius:3px;font-size:11px;margin:6px 0;overflow-x:auto'>{% if doc.support_needed_from_md %}\n  &lt;p&gt;{{ doc.support_needed_from_md }}&lt;/p&gt;\n{% endif %}</pre></div>"
+  },
+  {
+   "fieldname": "section_break_html",
+   "fieldtype": "Section Break",
+   "label": "HTML Body"
+  },
+  {
+   "default": "<div style=\"font-family:Arial,sans-serif;max-width:780px;margin:auto\">\n  <h1 style=\"color:#1a73e8;margin-bottom:6px\">{{ doc.report_type }} Report — {{ doc.department }}</h1>\n  <p style=\"color:#555;margin-top:0\">Submitted by <b>{{ doc.department_head }}</b> &middot; {{ period }}</p>\n\n  <h2 style=\"color:#27ae60\">✅ Completed ({{ doc.completed_items|length }})</h2>\n  <table class=\"report-table\">\n    <tr><th>Task</th><th>Priority</th><th>Notes</th></tr>\n    {% for item in doc.completed_items %}\n    <tr><td>{{ item.title }}</td><td>{{ item.priority or '-' }}</td><td>{{ item.description or '-' }}</td></tr>\n    {% endfor %}\n  </table>\n\n  <h2 style=\"color:#f39c12\">🔄 Ongoing ({{ doc.ongoing_items|length }})</h2>\n  <table class=\"report-table\">\n    <tr><th>Task</th><th>Priority</th><th>Notes</th></tr>\n    {% for item in doc.ongoing_items %}\n    <tr><td>{{ item.title }}</td><td>{{ item.priority or '-' }}</td><td>{{ item.description or '-' }}</td></tr>\n    {% endfor %}\n  </table>\n\n  <h2 style=\"color:#e74c3c\">⏳ Pending ({{ doc.pending_items|length }})</h2>\n  <table class=\"report-table\">\n    <tr><th>Task</th><th>Priority</th><th>Notes</th></tr>\n    {% for item in doc.pending_items %}\n    <tr><td>{{ item.title }}</td><td>{{ item.priority or '-' }}</td><td>{{ item.description or '-' }}</td></tr>\n    {% endfor %}\n  </table>\n\n  {% if doc.blockers %}\n  <h2 style=\"color:#8e44ad\">🚧 Blockers ({{ doc.blockers|length }})</h2>\n  <table class=\"report-table\">\n    <tr><th>Blocker</th><th>Blocked By</th><th>Details</th></tr>\n    {% for b in doc.blockers %}\n    <tr><td>{{ b.blocker_title }}</td><td>{{ b.blocked_by or '-' }}</td><td>{{ b.details or '-' }}</td></tr>\n    {% endfor %}\n  </table>\n  {% endif %}\n\n  {% if doc.support_needed_from_md %}\n  <div class=\"callout-warn\">\n    <b>⚠ Support / Decision Needed from MD:</b><br>{{ doc.support_needed_from_md }}\n  </div>\n  {% endif %}\n\n  {% if doc.overall_remarks %}\n  <p><b>Remarks:</b> {{ doc.overall_remarks }}</p>\n  {% endif %}\n\n  <p style=\"text-align:center;margin-top:25px\">\n    <a href=\"{{ report_link }}\" class=\"cta\">Open Report in ERPNext</a>\n  </p>\n</div>",
+   "fieldname": "email_html",
+   "fieldtype": "Code",
+   "label": "HTML",
+   "options": "HTML",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_css",
+   "fieldtype": "Section Break",
+   "label": "CSS (optional)"
+  },
+  {
+   "default": ".report-table { width:100%; border-collapse:collapse; font-size:13px; margin:10px 0 25px 0; }\n.report-table th { background:#f1f3f4; padding:8px; text-align:left; border-bottom:2px solid #ccc; font-weight:600; }\n.report-table td { padding:8px; border-bottom:1px solid #eee; vertical-align:top; }\n.callout-warn { background:#fff8e1; border-left:4px solid #ffa000; padding:12px 15px; margin:20px 0; border-radius:4px; }\n.cta { display:inline-block; background:#1a73e8; color:white; padding:10px 25px; border-radius:6px; text-decoration:none; font-weight:600; }",
+   "fieldname": "email_css",
+   "fieldtype": "Code",
+   "label": "CSS",
+   "options": "CSS",
+   "description": "Wrapped in <style> tag and prepended to the email"
+  },
+  {
+   "fieldname": "section_break_js",
+   "fieldtype": "Section Break",
+   "label": "JavaScript (optional)",
+   "collapsible": 1
+  },
+  {
+   "fieldname": "email_js",
+   "fieldtype": "Code",
+   "label": "JavaScript",
+   "options": "Javascript",
+   "description": "Wrapped in <script> tag and appended to the email. Note: most email clients block JavaScript."
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-06-08 13:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "BDF Dairy",
+ "name": "Department Report Template",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "All",
+   "share": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "search_fields": "template_name,description",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "template_name"
+}

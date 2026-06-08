@@ -8,6 +8,7 @@
  "engine": "InnoDB",
  "field_order": [
   "employee",
+  "employee_name",
   "column_break_header",
   "department",
   "column_break_header2",
@@ -73,45 +74,45 @@
    "fieldtype": "Column Break"
   },
   {
+   "fetch_from": "employee.department",
+   "fetch_if_empty": 1,
    "fieldname": "department",
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Department",
    "options": "Department",
-   "fetch_from": "employee.department",
-   "fetch_if_empty": 1,
-   "reqd": 1,
-   "read_only": 1
+   "read_only": 1,
+   "reqd": 1
   },
   {
    "fieldname": "column_break_header2",
    "fieldtype": "Column Break"
   },
   {
+   "fetch_from": "employee.designation",
+   "fetch_if_empty": 1,
    "fieldname": "designation",
    "fieldtype": "Link",
    "label": "Designation",
    "options": "Designation",
-   "fetch_from": "employee.designation",
-   "fetch_if_empty": 1,
    "read_only": 1
   },
   {
+   "fetch_from": "employee.custom_department_head",
+   "fetch_if_empty": 1,
    "fieldname": "department_head",
    "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Department Head",
-   "fetch_from": "employee.custom_department_head",
-   "fetch_if_empty": 1,
    "read_only": 1
   },
   {
+   "fetch_from": "employee.reports_to",
+   "fetch_if_empty": 1,
    "fieldname": "reports_to",
    "fieldtype": "Link",
    "label": "Reports To",
    "options": "Employee",
-   "fetch_from": "employee.reports_to",
-   "fetch_if_empty": 1,
    "read_only": 1
   },
   {
@@ -319,10 +320,10 @@
    "label": "Support / Decision Needed from MD"
   },
   {
+   "description": "Mention anything you need MD's attention or decision on",
    "fieldname": "support_needed_from_md",
    "fieldtype": "Small Text",
-   "label": "Support / Decision Needed from MD",
-   "description": "Mention anything you need MD's attention or decision on"
+   "label": "Support / Decision Needed from MD"
   },
   {
    "fieldname": "section_break_remarks",
@@ -370,13 +371,20 @@
    "print_hide": 1,
    "read_only": 1,
    "search_index": 1
+  },
+  {
+   "fetch_from": "employee.employee_name",
+   "fieldname": "employee_name",
+   "fieldtype": "Data",
+   "label": "Employee Name",
+   "read_only": 1
   }
  ],
  "grid_page_length": 20,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2026-06-06 09:47:44.264886",
+ "modified": "2026-06-08 11:44:32.354870",
  "modified_by": "Administrator",
  "module": "BDF Dairy",
  "name": "Department Report",

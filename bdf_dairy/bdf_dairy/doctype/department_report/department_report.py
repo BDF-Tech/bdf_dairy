@@ -16,9 +16,84 @@ class DepartmentReport(Document):
         self._validate_mandatory_tables()
 
     def on_submit(self):
-        grade = frappe.db.get_value("Employee", self.employee, "grade")
-        if grade == "Department Head":
-            self._send_email_to_md()
+        grade = frappe.db.get_value("Employee", self.employee, "grade") if self.employee else None
+
+        if grade != "Department Head":
+            frappe.msgprint(
+                f"Report submitted.<br>Email <b>not sent</b> — Employee grade is <b>{grade or 'not set'}</b>, "
+                f"not <b>Department Head</b>.",
+                title="Email Not Sent",
+                indicator="orange",
+            )
+            return
+
+        settings = frappe.get_single("Department Report Settings")
+        recipients = [
+            (r.email_address or "").strip()
+            for r in (settings.recipients or [])
+            if r.enabled and (r.email_address or "").strip()
+        ]
+
+        if not recipients:
+            frappe.msgprint(
+                "Report submitted.<br>Email <b>not sent</b> — no enabled recipients configured in "
+                "<b>Department Report Settings</b>.",
+                title="Email Not Sent",
+                indicator="red",
+            )
+            return
+
+        if not settings.active_template:
+            frappe.msgprint(
+                "Report submitted.<br>Email <b>not sent</b> — no Active Email Template set in "
+                "<b>Department Report Settings</b>.",
+                title="Email Not Sent",
+                indicator="red",
+            )
+            return
+
+        template = frappe.db.get_value(
+            "Department Report Template",
+            settings.active_template,
+            ["email_subject", "email_html", "email_css", "email_js", "enabled"],
+            as_dict=True,
+        )
+
+        if not template:
+            frappe.msgprint(
+                f"Report submitted.<br>Email <b>not sent</b> — template "
+                f"<b>{settings.active_template}</b> not found.",
+                title="Email Not Sent",
+                indicator="red",
+            )
+            return
+
+        if not template.enabled:
+            frappe.msgprint(
+                f"Report submitted.<br>Email <b>not sent</b> — template "
+                f"<b>{settings.active_template}</b> is disabled.",
+                title="Email Not Sent",
+                indicator="red",
+            )
+            return
+
+        try:
+            self._send_email_to_md(template, recipients)
+            frappe.msgprint(
+                f"Report submitted and email <b>queued for delivery</b> to:<br>"
+                f"<b>{', '.join(recipients)}</b><br><br>"
+                f"Template: <b>{settings.active_template}</b>",
+                title="Email Sent to MD",
+                indicator="green",
+            )
+        except Exception as e:
+            frappe.log_error(frappe.get_traceback(), "Department Report — Email send failed")
+            frappe.msgprint(
+                f"Report submitted but email <b>failed</b>: {frappe.utils.escape_html(str(e))}<br>"
+                f"See Error Log for details.",
+                title="Email Failed",
+                indicator="red",
+            )
 
     # ------------------------------------------------------------------ #
     # Validations
@@ -61,25 +136,30 @@ class DepartmentReport(Document):
                 frappe.throw(f"A Monthly Report for <b>{self.department}</b> - <b>{self.report_month} {self.report_year}</b> already exists: {exists}")
 
     # ------------------------------------------------------------------ #
-    # Email to MD
+    # Email to MD — Jinja rendering
     # ------------------------------------------------------------------ #
 
-    def _send_email_to_md(self):
-        settings = frappe.get_single("Department Report Settings")
-        md_email = (settings.md_email or "").strip()
+    def _send_email_to_md(self, template, recipients):
+        context = {
+            "doc": self,
+            "period": self._period_str(),
+            "report_link": f"{frappe.utils.get_url()}/app/department-report/{self.name}",
+        }
 
-        if not md_email:
-            frappe.log_error(
-                f"Department Report {self.name}: MD Email is not set in Department Report Settings",
-                "Department Report — Missing MD Email",
-            )
-            return
+        subject = frappe.render_template(template.email_subject or "", context)
+        html = frappe.render_template(template.email_html or "", context)
+        css = frappe.render_template(template.email_css or "", context) if template.email_css else ""
+        js = frappe.render_template(template.email_js or "", context) if template.email_js else ""
 
-        context = self._template_context()
-        subject = self._render(settings.email_subject or "", context)
-        body = self._render(settings.email_body or "", context)
+        parts = []
+        if css.strip():
+            parts.append(f"<style>{css}</style>")
+        parts.append(html)
+        if js.strip():
+            parts.append(f"<script>{js}</script>")
+        body = "\n".join(parts)
 
-        frappe.sendmail(recipients=[md_email], subject=subject, message=body)
+        frappe.sendmail(recipients=recipients, subject=subject, message=body)
 
         frappe.db.set_value(
             "Department Report",
@@ -87,31 +167,9 @@ class DepartmentReport(Document):
             {"submitted_to_md": 1, "md_notified_at": now()},
         )
 
-    def _template_context(self):
-        site_url = frappe.utils.get_url()
-        return {
-            "report_type": self.report_type or "",
-            "department": self.department or "",
-            "department_head": self.department_head or "",
-            "period": self._period_str(),
-            "report_link": f"{site_url}/app/department-report/{self.name}",
-            "completed_count": len(self.completed_items or []),
-            "ongoing_count": len(self.ongoing_items or []),
-            "pending_count": len(self.pending_items or []),
-            "blockers_count": len(self.blockers or []),
-            "support_needed": self.support_needed_from_md or "-",
-            "overall_remarks": self.overall_remarks or "-",
-        }
-
     def _period_str(self):
         if self.report_type == "Daily":
             return str(self.report_date or "")
         if self.report_type == "Weekly":
             return f"{self.week_start_date} to {self.week_end_date}"
         return f"{self.report_month} {self.report_year}"
-
-    def _render(self, template, context):
-        result = template
-        for key, value in context.items():
-            result = result.replace("{" + key + "}", str(value))
-        return result

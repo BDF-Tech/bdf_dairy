@@ -5,21 +5,24 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "md_email",
+  "section_break_recipients",
+  "recipients",
   "section_break_template",
-  "email_subject",
-  "section_break_body",
-  "placeholders_help",
-  "email_body"
+  "active_template"
  ],
  "fields": [
   {
-   "fieldname": "md_email",
-   "fieldtype": "Data",
-   "label": "MD Email",
-   "options": "Email",
+   "fieldname": "section_break_recipients",
+   "fieldtype": "Section Break",
+   "label": "MD Email Recipients"
+  },
+  {
+   "fieldname": "recipients",
+   "fieldtype": "Table",
+   "label": "Recipients",
+   "options": "Department Report Recipient",
    "reqd": 1,
-   "description": "Email address that will receive every Department Head's submitted report"
+   "description": "All enabled email addresses below will receive every submitted Department Head report"
   },
   {
    "fieldname": "section_break_template",
@@ -27,34 +30,19 @@
    "label": "Email Template"
   },
   {
-   "default": "{report_type} Report — {department} — {period}",
-   "fieldname": "email_subject",
-   "fieldtype": "Data",
-   "label": "Email Subject",
-   "reqd": 1
-  },
-  {
-   "fieldname": "section_break_body",
-   "fieldtype": "Section Break"
-  },
-  {
-   "fieldname": "placeholders_help",
-   "fieldtype": "HTML",
-   "options": "<div style='background:#f5f5f5;padding:10px;border-radius:4px;font-size:12px'><b>Available placeholders</b> (use in Subject and Body):<br><code>{report_type}</code> &nbsp; <code>{department}</code> &nbsp; <code>{department_head}</code> &nbsp; <code>{period}</code> &nbsp; <code>{report_link}</code> &nbsp; <code>{completed_count}</code> &nbsp; <code>{ongoing_count}</code> &nbsp; <code>{pending_count}</code> &nbsp; <code>{blockers_count}</code> &nbsp; <code>{support_needed}</code> &nbsp; <code>{overall_remarks}</code></div>"
-  },
-  {
-   "default": "<h2 style='color:#1a73e8'>{report_type} Report from {department}</h2>\n<p><b>Submitted by:</b> {department_head}<br>\n<b>Period:</b> {period}</p>\n\n<table style='width:100%;border-collapse:collapse;font-size:13px;margin:15px 0'>\n  <tr><td style='padding:8px;background:#e8f5e9'>✅ Completed</td><td style='padding:8px;background:#e8f5e9;text-align:right'><b>{completed_count}</b></td></tr>\n  <tr><td style='padding:8px;background:#fff8e1'>🔄 Ongoing</td><td style='padding:8px;background:#fff8e1;text-align:right'><b>{ongoing_count}</b></td></tr>\n  <tr><td style='padding:8px;background:#ffebee'>⏳ Pending</td><td style='padding:8px;background:#ffebee;text-align:right'><b>{pending_count}</b></td></tr>\n  <tr><td style='padding:8px;background:#f3e5f5'>🚧 Blockers</td><td style='padding:8px;background:#f3e5f5;text-align:right'><b>{blockers_count}</b></td></tr>\n</table>\n\n<p><b>Support needed from MD:</b><br>{support_needed}</p>\n\n<p><b>Remarks:</b><br>{overall_remarks}</p>\n\n<p style='margin-top:25px'><a href='{report_link}' style='background:#1a73e8;color:white;padding:10px 25px;border-radius:4px;text-decoration:none'>View Full Report</a></p>",
-   "fieldname": "email_body",
-   "fieldtype": "Text Editor",
-   "label": "Email Body",
-   "reqd": 1
+   "fieldname": "active_template",
+   "fieldtype": "Link",
+   "label": "Active Email Template",
+   "options": "Department Report Template",
+   "reqd": 1,
+   "description": "Choose which template to use for MD emails. Create templates at /app/department-report-template."
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 0,
  "issingle": 1,
  "links": [],
- "modified": "2026-06-08 10:00:00.000000",
+ "modified": "2026-06-08 12:30:00.000000",
  "modified_by": "Administrator",
  "module": "BDF Dairy",
  "name": "Department Report Settings",
