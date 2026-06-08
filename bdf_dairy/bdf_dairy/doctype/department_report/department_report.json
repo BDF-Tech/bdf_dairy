@@ -1,0 +1,439 @@
+{
+ "actions": [],
+ "autoname": "DR-.department.-.report_type.-.report_date.",
+ "creation": "2026-06-06 10:00:00",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "employee",
+  "column_break_header",
+  "department",
+  "column_break_header2",
+  "designation",
+  "department_head",
+  "reports_to",
+  "column_break_header3",
+  "submitted_by_user",
+  "report_type",
+  "section_break_date",
+  "report_date",
+  "column_break_date2",
+  "week_start_date",
+  "week_end_date",
+  "column_break_date3",
+  "report_month",
+  "report_year",
+  "section_break_completed",
+  "completed_items",
+  "section_break_ongoing",
+  "ongoing_items",
+  "section_break_pending",
+  "pending_items",
+  "section_break_timeline",
+  "daily_timeline",
+  "section_break_weekly",
+  "issues_faced",
+  "column_break_weekly2",
+  "next_week_plan",
+  "section_break_monthly",
+  "key_achievements",
+  "section_break_kpi",
+  "kpi_metrics",
+  "section_break_next_month",
+  "next_month_plan",
+  "section_break_blockers",
+  "blockers",
+  "section_break_tomorrow",
+  "tomorrows_plan",
+  "section_break_support",
+  "support_needed_from_md",
+  "section_break_remarks",
+  "overall_remarks",
+  "section_break_md",
+  "submitted_to_md",
+  "md_notified_at",
+  "column_break_md2",
+  "md_remarks",
+  "amended_from"
+ ],
+ "fields": [
+  {
+   "fieldname": "employee",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Employee",
+   "options": "Employee",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "column_break_header",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "department",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Department",
+   "options": "Department",
+   "fetch_from": "employee.department",
+   "fetch_if_empty": 1,
+   "reqd": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_header2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "designation",
+   "fieldtype": "Link",
+   "label": "Designation",
+   "options": "Designation",
+   "fetch_from": "employee.designation",
+   "fetch_if_empty": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "department_head",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Department Head",
+   "fetch_from": "employee.custom_department_head",
+   "fetch_if_empty": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "reports_to",
+   "fieldtype": "Link",
+   "label": "Reports To",
+   "options": "Employee",
+   "fetch_from": "employee.reports_to",
+   "fetch_if_empty": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_header3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "submitted_by_user",
+   "fieldtype": "Link",
+   "label": "Submitted By",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "default": "Daily",
+   "fieldname": "report_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Report Type",
+   "options": "Daily\nWeekly\nMonthly",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_date",
+   "fieldtype": "Section Break",
+   "label": "Report Period"
+  },
+  {
+   "default": "Today",
+   "depends_on": "eval:doc.report_type=='Daily'",
+   "fieldname": "report_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Report Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_date2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "depends_on": "eval:doc.report_type=='Weekly'",
+   "fieldname": "week_start_date",
+   "fieldtype": "Date",
+   "label": "Week Start (Monday)",
+   "mandatory_depends_on": "eval:doc.report_type=='Weekly'"
+  },
+  {
+   "depends_on": "eval:doc.report_type=='Weekly'",
+   "fieldname": "week_end_date",
+   "fieldtype": "Date",
+   "label": "Week End (Sunday)",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_date3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "depends_on": "eval:doc.report_type=='Monthly'",
+   "fieldname": "report_month",
+   "fieldtype": "Select",
+   "label": "Month",
+   "mandatory_depends_on": "eval:doc.report_type=='Monthly'",
+   "options": "\nJanuary\nFebruary\nMarch\nApril\nMay\nJune\nJuly\nAugust\nSeptember\nOctober\nNovember\nDecember"
+  },
+  {
+   "depends_on": "eval:doc.report_type=='Monthly'",
+   "fieldname": "report_year",
+   "fieldtype": "Int",
+   "label": "Year",
+   "mandatory_depends_on": "eval:doc.report_type=='Monthly'"
+  },
+  {
+   "fieldname": "section_break_completed",
+   "fieldtype": "Section Break",
+   "label": "Completed Work"
+  },
+  {
+   "fieldname": "completed_items",
+   "fieldtype": "Table",
+   "label": "Completed Work Items",
+   "options": "Department Report Work Item"
+  },
+  {
+   "fieldname": "section_break_ongoing",
+   "fieldtype": "Section Break",
+   "label": "Ongoing Work"
+  },
+  {
+   "fieldname": "ongoing_items",
+   "fieldtype": "Table",
+   "label": "Ongoing Work Items",
+   "options": "Department Report Work Item"
+  },
+  {
+   "fieldname": "section_break_pending",
+   "fieldtype": "Section Break",
+   "label": "Pending / Blocked Work"
+  },
+  {
+   "fieldname": "pending_items",
+   "fieldtype": "Table",
+   "label": "Pending / Blocked Work Items",
+   "options": "Department Report Work Item"
+  },
+  {
+   "depends_on": "eval:doc.report_type=='Daily'",
+   "fieldname": "section_break_timeline",
+   "fieldtype": "Section Break",
+   "label": "Daily Timeline"
+  },
+  {
+   "depends_on": "eval:doc.report_type=='Daily'",
+   "fieldname": "daily_timeline",
+   "fieldtype": "Table",
+   "label": "Hour-by-Hour Timeline",
+   "options": "Department Report Timeline"
+  },
+  {
+   "depends_on": "eval:doc.report_type=='Weekly'",
+   "fieldname": "section_break_weekly",
+   "fieldtype": "Section Break",
+   "label": "Weekly Summary"
+  },
+  {
+   "depends_on": "eval:doc.report_type=='Weekly'",
+   "fieldname": "issues_faced",
+   "fieldtype": "Text Editor",
+   "label": "Issues / Challenges Faced This Week"
+  },
+  {
+   "fieldname": "column_break_weekly2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "depends_on": "eval:doc.report_type=='Weekly'",
+   "fieldname": "next_week_plan",
+   "fieldtype": "Text Editor",
+   "label": "Plan for Next Week"
+  },
+  {
+   "depends_on": "eval:doc.report_type=='Monthly'",
+   "fieldname": "section_break_monthly",
+   "fieldtype": "Section Break",
+   "label": "Monthly Highlights"
+  },
+  {
+   "depends_on": "eval:doc.report_type=='Monthly'",
+   "fieldname": "key_achievements",
+   "fieldtype": "Text Editor",
+   "label": "Key Achievements This Month"
+  },
+  {
+   "depends_on": "eval:doc.report_type=='Monthly'",
+   "fieldname": "section_break_kpi",
+   "fieldtype": "Section Break",
+   "label": "KPI / Metrics"
+  },
+  {
+   "depends_on": "eval:doc.report_type=='Monthly'",
+   "fieldname": "kpi_metrics",
+   "fieldtype": "Table",
+   "label": "KPI Metrics",
+   "options": "Department Report KPI"
+  },
+  {
+   "depends_on": "eval:doc.report_type=='Monthly'",
+   "fieldname": "section_break_next_month",
+   "fieldtype": "Section Break",
+   "label": "Plan for Next Month"
+  },
+  {
+   "depends_on": "eval:doc.report_type=='Monthly'",
+   "fieldname": "next_month_plan",
+   "fieldtype": "Text Editor",
+   "label": "Plan for Next Month"
+  },
+  {
+   "fieldname": "section_break_blockers",
+   "fieldtype": "Section Break",
+   "label": "Blockers"
+  },
+  {
+   "fieldname": "blockers",
+   "fieldtype": "Table",
+   "label": "Blockers",
+   "options": "Department Report Blocker"
+  },
+  {
+   "depends_on": "eval:doc.report_type=='Daily'",
+   "fieldname": "section_break_tomorrow",
+   "fieldtype": "Section Break",
+   "label": "Tomorrow's Plan"
+  },
+  {
+   "depends_on": "eval:doc.report_type=='Daily'",
+   "fieldname": "tomorrows_plan",
+   "fieldtype": "Text Editor",
+   "label": "Tomorrow's Plan"
+  },
+  {
+   "fieldname": "section_break_support",
+   "fieldtype": "Section Break",
+   "label": "Support / Decision Needed from MD"
+  },
+  {
+   "fieldname": "support_needed_from_md",
+   "fieldtype": "Small Text",
+   "label": "Support / Decision Needed from MD",
+   "description": "Mention anything you need MD's attention or decision on"
+  },
+  {
+   "fieldname": "section_break_remarks",
+   "fieldtype": "Section Break",
+   "label": "Overall Remarks"
+  },
+  {
+   "fieldname": "overall_remarks",
+   "fieldtype": "Small Text",
+   "label": "Remarks / Notes"
+  },
+  {
+   "fieldname": "section_break_md",
+   "fieldtype": "Section Break",
+   "label": "MD Report Status"
+  },
+  {
+   "default": "0",
+   "fieldname": "submitted_to_md",
+   "fieldtype": "Check",
+   "label": "Submitted to MD",
+   "read_only": 1
+  },
+  {
+   "fieldname": "md_notified_at",
+   "fieldtype": "Datetime",
+   "label": "MD Notified At",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_md2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "md_remarks",
+   "fieldtype": "Small Text",
+   "label": "MD Remarks"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Department Report",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  }
+ ],
+ "grid_page_length": 20,
+ "index_web_pages_for_search": 1,
+ "is_submittable": 1,
+ "links": [],
+ "modified": "2026-06-06 09:47:44.264886",
+ "modified_by": "Administrator",
+ "module": "BDF Dairy",
+ "name": "Department Report",
+ "naming_rule": "Expression (old style)",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Department Head",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "amend": 1,
+   "cancel": 1,
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "submit": 1,
+   "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "All",
+   "share": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "search_fields": "department,report_type,report_date",
+ "sort_field": "report_date",
+ "sort_order": "DESC",
+ "states": [
+  {
+   "color": "Yellow",
+   "title": "Draft"
+  },
+  {
+   "color": "Blue",
+   "title": "Submitted"
+  }
+ ],
+ "title_field": "department"
+}

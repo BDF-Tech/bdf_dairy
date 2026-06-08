@@ -1,0 +1,23 @@
+{
+ "based_on": "report_date",
+ "chart_name": "Daily Reports Trend",
+ "chart_type": "Count",
+ "color": "#1a73e8",
+ "creation": "2026-06-06 10:00:00.000000",
+ "document_type": "Department Report",
+ "doctype": "Dashboard Chart",
+ "filters_json": "[{\"fieldname\": \"report_type\", \"operator\": \"=\", \"value\": \"Daily\"}, {\"fieldname\": \"docstatus\", \"operator\": \"=\", \"value\": 1}]",
+ "group_by_type": "Count",
+ "is_public": 1,
+ "is_standard": 1,
+ "module": "BDF Dairy",
+ "name": "Daily Reports Trend",
+ "owner": "Administrator",
+ "modified": "2026-06-06 10:00:00.000000",
+ "modified_by": "Administrator",
+ "time_interval": "Daily",
+ "timeseries": 1,
+ "timespan": "Last Month",
+ "type": "Line",
+ "use_report_chart": 0
+}

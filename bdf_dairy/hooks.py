@@ -127,23 +127,14 @@ app_license = "MIT"
 # Scheduled Tasks
 # ---------------
 
-# scheduler_events = {
-# 	"all": [
-# 		"bdf_dairy.tasks.all"
-# 	],
-# 	"daily": [
-# 		"bdf_dairy.tasks.daily"
-# 	],
-# 	"hourly": [
-# 		"bdf_dairy.tasks.hourly"
-# 	],
-# 	"weekly": [
-# 		"bdf_dairy.tasks.weekly"
-# 	],
-# 	"monthly": [
-# 		"bdf_dairy.tasks.monthly"
-# 	],
-# }
+scheduler_events = {
+    "cron": {
+        # Runs every day at 17:30 — remind dept heads who haven't submitted
+        "30 17 * * *": [
+            "bdf_dairy.bdf_dairy.tasks.send_daily_report_reminder"
+        ],
+    }
+}
 
 # Testing
 # -------
