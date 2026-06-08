@@ -19,14 +19,13 @@ frappe.ui.form.on('Department Report', {
         frappe.db.get_value(
             'Employee',
             frm.doc.employee,
-            ['department', 'designation', 'custom_department_head', 'reports_to', 'custom_report_notification_channel'],
+            ['department', 'designation', 'custom_department_head', 'reports_to'],
             function (d) {
                 if (d) {
                     frm.set_value('department', d.department);
                     frm.set_value('designation', d.designation);
                     frm.set_value('department_head', d.custom_department_head || '');
                     frm.set_value('reports_to', d.reports_to || '');
-                    frm.set_value('notification_channel', d.custom_report_notification_channel || 'Email and Raven');
                 }
             }
         );
