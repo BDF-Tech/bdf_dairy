@@ -8,7 +8,9 @@
   "section_break_recipients",
   "recipients",
   "section_break_template",
-  "active_template"
+  "active_template",
+  "section_break_tracked",
+  "tracked_grades"
  ],
  "fields": [
   {
@@ -36,6 +38,18 @@
    "options": "Department Report Template",
    "reqd": 1,
    "description": "Choose which template to use for MD emails. Create templates at /app/department-report-template."
+  },
+  {
+   "fieldname": "section_break_tracked",
+   "fieldtype": "Section Break",
+   "label": "Tracked Grades (for Department Report Sheet)"
+  },
+  {
+   "fieldname": "tracked_grades",
+   "fieldtype": "Table",
+   "label": "Tracked Grades",
+   "options": "Department Report Tracked Grade",
+   "description": "Add employee grades whose daily report submission should be tracked in the Department Report Sheet"
   }
  ],
  "grid_page_length": 50,

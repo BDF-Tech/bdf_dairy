@@ -144,17 +144,21 @@ class FarmerBilling(Document):
 			for entry in entries:
 				item_code = frappe.db.get_single_value("Dairy Settings", milk_type.get(entry.milk_type))
 				stock_uom = frappe.get_value("Item", item_code, 'stock_uom')
+				pr_item = frappe.db.get_value("Purchase Receipt Item",
+					{'parent': entry.purchase_receipt, 'item_code': item_code},
+					['name', 'uom', 'conversion_factor'], as_dict=True)
 				milk_entry.append(entry.milk_entry)
 				purchase_inv.append('items', {
 					'item_code': item_code,
 					'received_qty': entry.qty,
 					'qty': entry.qty,
-					'uom': stock_uom,
+					'uom': pr_item.uom,
 					'stock_uom': stock_uom,
+					'conversion_factor': pr_item.conversion_factor,
 					'rate': entry.rate,
 					'warehouse': self.dcs,
 					'purchase_receipt': entry.purchase_receipt,
-					'pr_detail': frappe.get_value("Purchase Receipt Item", {'parent':entry.purchase_receipt, "item_code": item_code}, 'name'),
+					'pr_detail': pr_item.name,
 					'fat': entry.fat_,
 					'snf': entry.snf_,
 					'milk_entry': entry.milk_entry,
