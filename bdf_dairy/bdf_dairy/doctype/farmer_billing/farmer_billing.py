@@ -3,6 +3,7 @@
 
 import frappe
 from frappe.model.document import Document
+from frappe.utils.synchronization import filelock
 
 
 MILK_TYPE_TO_SETTING = {
@@ -213,10 +214,47 @@ class FarmerBilling(Document):
 
     def create_purchase_invoice(self):
         """
+        Entry — Layer 1 defense: file lock prevents concurrent runs across tabs/users/workers.
+        Only one process can run per Farmer Billing at any moment.
+        """
+        lock_name = f"farmer_billing_creation_{self.name}"
+        try:
+            with filelock(lock_name, timeout=2):
+                self._do_create_purchase_invoice()
+        except TimeoutError:
+            frappe.throw(
+                "Invoice creation is already running for this Farmer Billing. "
+                "Please wait for the current run to finish before retrying.",
+                title="Already Running"
+            )
+
+    def _do_create_purchase_invoice(self):
+        """
         Creates one Purchase Invoice per farmer. Each PI is its own DB transaction
         (commit per farmer) — releases row locks quickly, no lock-wait timeouts.
         Idempotent: re-running skips farmers who already have a PI for this billing.
         """
+        total_farmers = len(self.farmer_billing_summary)
+
+        # ---- LAYER 2A — Entry ceiling: exit immediately if already at/above expected ----
+        current_count = frappe.db.count("Purchase Invoice", {
+            "custom_farmer_billings": self.name,
+            "docstatus": ["in", [0, 1]]
+        })
+        if current_count >= total_farmers:
+            frappe.db.set_value("Farmer Billing", self.name, {
+                "creation_status": "Completed",
+                "creation_progress": f"{total_farmers} of {total_farmers} invoices created",
+                "last_error": ""
+            }, update_modified=False)
+            frappe.db.commit()
+            frappe.msgprint(
+                f"All {total_farmers} invoices already exist for this billing. Nothing to create.",
+                title="Already Complete",
+                indicator="green"
+            )
+            return
+
         # Caches — populated lazily, reused across iterations
         item_code_cache = {}      # milk_type → item_code
         stock_uom_cache = {}      # item_code → stock_uom
@@ -225,7 +263,6 @@ class FarmerBilling(Document):
         receipts_to_complete = set()
         milk_entries_to_bill = set()
 
-        total_farmers = len(self.farmer_billing_summary)
         created_count = 0
         failed_farmers = []
 
@@ -238,9 +275,17 @@ class FarmerBilling(Document):
         frappe.db.commit()
 
         for idx, farmer_summary in enumerate(self.farmer_billing_summary, start=1):
+            # ---- LAYER 2B — Loop ceiling: stop if we've hit the expected count ----
+            current_count = frappe.db.count("Purchase Invoice", {
+                "custom_farmer_billings": self.name,
+                "docstatus": ["in", [0, 1]]
+            })
+            if current_count >= total_farmers:
+                break
+
             farmer = farmer_summary.farmer
 
-            # ---- Idempotency: skip if PI already exists for this billing + farmer ----
+            # ---- LAYER 3 — Idempotency: skip if PI already exists for this billing + farmer ----
             existing_pi = frappe.db.exists("Purchase Invoice", {
                 "custom_farmer_billings": self.name,
                 "supplier": farmer,

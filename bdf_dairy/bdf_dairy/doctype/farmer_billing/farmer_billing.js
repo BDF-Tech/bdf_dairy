@@ -60,7 +60,7 @@ function setup_creation_ui(frm) {
             pending > 0 ? 'blue' : 'green'
         );
 
-        if (pending === 0) return;
+        if (pending <= 0) return;
 
         frm.add_custom_button(
             __('Retry Now') + ` (${pending})`,
@@ -78,7 +78,7 @@ function setup_creation_ui(frm) {
 
         if (!frm._auto_retry_in_flight) {
             frm._auto_retry_in_flight = true;
-            setTimeout(() => trigger_retry(frm), 3000);
+            setTimeout(() => trigger_retry(frm), 30000);
         }
     });
 }
