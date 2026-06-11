@@ -4,6 +4,7 @@
 import frappe
 from frappe.model.document import Document
 from frappe.utils.synchronization import filelock
+from frappe.utils.file_lock import LockTimeoutError
 
 
 MILK_TYPE_TO_SETTING = {
@@ -221,7 +222,7 @@ class FarmerBilling(Document):
         try:
             with filelock(lock_name, timeout=2):
                 self._do_create_purchase_invoice()
-        except TimeoutError:
+        except LockTimeoutError:
             frappe.throw(
                 "Invoice creation is already running for this Farmer Billing. "
                 "Please wait for the current run to finish before retrying.",
