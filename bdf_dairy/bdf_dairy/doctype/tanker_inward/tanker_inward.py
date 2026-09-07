@@ -240,7 +240,7 @@ class TankerInward(Document):
 		diff_row = self.append("difference_of_dcs_and_tanker_milk_received", {})
 		diff_row.dcs = self.dcs
 		diff_row.qty_in_liter = qty_liter
-		diff_row.qty_in_kg = qty_liter
+		diff_row.qty_in_kg = qty_liter * 1.03
 		diff_row.fat = fat
 		diff_row.kg_fat = kg_fat
 		diff_row.snf = snf
@@ -359,11 +359,11 @@ class TankerInward(Document):
 					date as date,
 					shift as shift,
 					SUM(volume) as ack_liter,
-					SUM(volume) as ack_kg,
+					SUM(volume) * 1.03 as ack_kg,
 					((SUM(fat_kg) / SUM(volume)) * 100) as ack_fat,
 					((SUM(snf_kg) / SUM(volume)) * 100) as ack_snf,
-					SUM(fat_kg) as ack_kg_fat,
-					SUM(snf_kg) as ack_kg_snf
+					SUM(fat_kg) * 1.03 as ack_kg_fat,
+					SUM(snf_kg) * 1.03 as ack_kg_snf
 				FROM 
 					`tabMilk Entry`
 				WHERE 
