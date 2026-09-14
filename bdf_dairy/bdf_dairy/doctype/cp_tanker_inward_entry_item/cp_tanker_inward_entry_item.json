@@ -1,0 +1,207 @@
+{
+ "actions": [],
+ "creation": "2026-09-14 18:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "cp_warehouse",
+  "collected_kg",
+  "collected_fat",
+  "collected_snf",
+  "collected_kg_fat",
+  "collected_kg_snf",
+  "column_break_received",
+  "received_kg",
+  "received_fat",
+  "received_snf",
+  "received_kg_fat",
+  "received_kg_snf",
+  "difference_kg",
+  "section_quality_test",
+  "test",
+  "result_sign",
+  "result",
+  "column_break_quality",
+  "remark",
+  "section_tanker_inward",
+  "tanker_inward",
+  "column_break_status",
+  "status"
+ ],
+ "fields": [
+  {
+   "columns": 2,
+   "fieldname": "cp_warehouse",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "CP",
+   "options": "Warehouse",
+   "read_only": 1
+  },
+  {
+   "columns": 1,
+   "fieldname": "collected_kg",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Collected KG",
+   "precision": "2",
+   "read_only": 1
+  },
+  {
+   "fieldname": "collected_fat",
+   "fieldtype": "Float",
+   "label": "Collected FAT",
+   "precision": "2",
+   "read_only": 1
+  },
+  {
+   "fieldname": "collected_snf",
+   "fieldtype": "Float",
+   "label": "Collected SNF",
+   "precision": "2",
+   "read_only": 1
+  },
+  {
+   "fieldname": "collected_kg_fat",
+   "fieldtype": "Float",
+   "label": "Collected KG FAT",
+   "precision": "3",
+   "read_only": 1
+  },
+  {
+   "fieldname": "collected_kg_snf",
+   "fieldtype": "Float",
+   "label": "Collected KG SNF",
+   "precision": "3",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_received",
+   "fieldtype": "Column Break"
+  },
+  {
+   "columns": 1,
+   "fieldname": "received_kg",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Received KG",
+   "non_negative": 1,
+   "precision": "2"
+  },
+  {
+   "columns": 1,
+   "fieldname": "received_fat",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Received FAT",
+   "non_negative": 1,
+   "precision": "2"
+  },
+  {
+   "columns": 1,
+   "fieldname": "received_snf",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Received SNF",
+   "non_negative": 1,
+   "precision": "2"
+  },
+  {
+   "fieldname": "received_kg_fat",
+   "fieldtype": "Float",
+   "label": "Received KG FAT",
+   "precision": "3",
+   "read_only": 1
+  },
+  {
+   "fieldname": "received_kg_snf",
+   "fieldtype": "Float",
+   "label": "Received KG SNF",
+   "precision": "3",
+   "read_only": 1
+  },
+  {
+   "columns": 1,
+   "fieldname": "difference_kg",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Difference KG",
+   "precision": "2",
+   "read_only": 1
+  },
+  {
+   "fieldname": "section_quality_test",
+   "fieldtype": "Section Break",
+   "label": "Quality Test"
+  },
+  {
+   "columns": 1,
+   "fieldname": "test",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Test",
+   "options": "Test Type"
+  },
+  {
+   "columns": 1,
+   "fieldname": "result_sign",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Result Sign",
+   "options": "\nNegative\nPositive\nYes\nNo\nOk\nNot Ok\nAbsent\nPresent\nNormal\nAbnormal\nGood\nBad"
+  },
+  {
+   "columns": 1,
+   "fieldname": "result",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Result"
+  },
+  {
+   "fieldname": "column_break_quality",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "remark",
+   "fieldtype": "Data",
+   "label": "Remark"
+  },
+  {
+   "fieldname": "section_tanker_inward",
+   "fieldtype": "Section Break",
+   "label": "Tanker Inward"
+  },
+  {
+   "fieldname": "tanker_inward",
+   "fieldtype": "Link",
+   "label": "Tanker Inward",
+   "no_copy": 1,
+   "options": "Tanker Inward",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_status",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Small Text",
+   "label": "Status",
+   "no_copy": 1,
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2026-09-14 18:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "BDF Dairy",
+ "name": "CP Tanker Inward Entry Item",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

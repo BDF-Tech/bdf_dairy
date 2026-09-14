@@ -1,0 +1,198 @@
+{
+ "actions": [],
+ "autoname": "CPE-.YYYY.-.#####",
+ "creation": "2026-09-14 18:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "date",
+  "shift",
+  "column_break_bmc",
+  "bmc_warehouse",
+  "milk_type",
+  "column_break_actions",
+  "get_cps",
+  "create_tanker_inwards",
+  "section_cps",
+  "items",
+  "section_summary",
+  "total_cps",
+  "created_count",
+  "column_break_summary",
+  "total_collected_kg",
+  "total_received_kg",
+  "total_difference_kg"
+ ],
+ "fields": [
+  {
+   "default": "Today",
+   "fieldname": "date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Date",
+   "reqd": 1,
+   "set_only_once": 1
+  },
+  {
+   "fieldname": "shift",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Shift",
+   "options": "Morning\nEvening",
+   "reqd": 1,
+   "set_only_once": 1
+  },
+  {
+   "fieldname": "column_break_bmc",
+   "fieldtype": "Column Break"
+  },
+  {
+   "description": "CP milk goes to this BMC. Created Tanker Inwards use it as Plant and Excess warehouse.",
+   "fieldname": "bmc_warehouse",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "BMC Warehouse",
+   "options": "Warehouse",
+   "reqd": 1,
+   "set_only_once": 1
+  },
+  {
+   "default": "Cow",
+   "fieldname": "milk_type",
+   "fieldtype": "Select",
+   "label": "Milk Type",
+   "options": "Cow\nBuffalo\nMix",
+   "reqd": 1,
+   "set_only_once": 1
+  },
+  {
+   "fieldname": "column_break_actions",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "get_cps",
+   "fieldtype": "Button",
+   "label": "Get CPs"
+  },
+  {
+   "depends_on": "eval:(doc.items || []).length",
+   "fieldname": "create_tanker_inwards",
+   "fieldtype": "Button",
+   "label": "Create Tanker Inwards"
+  },
+  {
+   "fieldname": "section_cps",
+   "fieldtype": "Section Break",
+   "label": "CPs"
+  },
+  {
+   "fieldname": "items",
+   "fieldtype": "Table",
+   "label": "CP Tanker Inwards",
+   "options": "CP Tanker Inward Entry Item"
+  },
+  {
+   "fieldname": "section_summary",
+   "fieldtype": "Section Break",
+   "label": "Summary"
+  },
+  {
+   "fieldname": "total_cps",
+   "fieldtype": "Int",
+   "label": "Total CPs",
+   "read_only": 1
+  },
+  {
+   "fieldname": "created_count",
+   "fieldtype": "Int",
+   "label": "Tanker Inwards Created",
+   "no_copy": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_summary",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "total_collected_kg",
+   "fieldtype": "Float",
+   "label": "Total Collected KG",
+   "precision": "2",
+   "read_only": 1
+  },
+  {
+   "fieldname": "total_received_kg",
+   "fieldtype": "Float",
+   "label": "Total Received KG",
+   "precision": "2",
+   "read_only": 1
+  },
+  {
+   "fieldname": "total_difference_kg",
+   "fieldtype": "Float",
+   "label": "Total Difference KG",
+   "precision": "2",
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-09-14 18:30:00.000000",
+ "modified_by": "Administrator",
+ "module": "BDF Dairy",
+ "name": "CP Tanker Inward Entry",
+ "naming_rule": "Expression (old style)",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "BDF Milk Data Entry",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "BDF Milk Entry",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "BDF Auditor",
+   "share": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1
+}
