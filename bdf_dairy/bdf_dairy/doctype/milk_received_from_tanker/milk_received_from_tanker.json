@@ -9,8 +9,8 @@
  "field_order": [
   "dcs",
   "column_break_buwju",
-  "qty_in_liter",
   "qty_in_kg",
+  "qty_in_liter",
   "column_break_vdvo3",
   "fat",
   "snf",
@@ -37,8 +37,9 @@
    "fieldname": "qty_in_liter",
    "fieldtype": "Float",
    "in_list_view": 1,
-   "label": "Qty in KG",
+   "label": "Qty in Litre",
    "precision": "2",
+   "read_only": 1,
    "reqd": 1
   },
   {
@@ -46,7 +47,7 @@
    "fieldname": "qty_in_kg",
    "fieldtype": "Float",
    "in_list_view": 1,
-   "label": "Qty in Kg",
+   "label": "Qty in KG",
    "precision": "2"
   },
   {
@@ -96,7 +97,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2026-06-01 20:17:42.515490",
+ "modified": "2026-09-14 13:00:00.000000",
  "modified_by": "Administrator",
  "module": "BDF Dairy",
  "name": "Milk Received From Tanker",

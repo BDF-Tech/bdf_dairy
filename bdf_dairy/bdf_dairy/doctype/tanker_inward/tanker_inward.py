@@ -2,15 +2,19 @@ import frappe
 from frappe.model.document import Document
 from frappe.utils import flt
 
+# All quantities are calculated in KG. Litre fields are display only: litre = kg / KG_PER_LITRE
+KG_PER_LITRE = 1.03
+
+
+def kg_to_litre(kg):
+	return flt(kg) / KG_PER_LITRE
+
+
 class TankerInward(Document):
 	def before_submit(self):
-		diff_qty = 0
-		for diff in self.get('difference_of_dcs_and_tanker_milk_received', filters={'qty_in_liter': ['>', 0]}):
-			diff_qty += diff.qty_in_liter
-		for diff in self.get('difference_of_dcs_and_tanker_milk_received', filters={'qty_in_liter': ['<', 0]}):
-			diff_qty += diff.qty_in_liter
+		diff_qty = sum(flt(diff.qty_in_kg) for diff in self.difference_of_dcs_and_tanker_milk_received)
 
-		if self.si_qty_in_liter < 0 and not self.sales_item:
+		if flt(self.si_qty_in_kg) > 0 and not self.sales_item:
 			frappe.throw("Sales Item is Mandatory")
 
 		if diff_qty > 0 and not self.excess_warehouse:
@@ -18,11 +22,11 @@ class TankerInward(Document):
 		if diff_qty < 0 and not self.loss_warehouse:
 			frappe.throw("Difference is Negative. So Loss Warehouse Is Mandatory")
 
-		self.material_transfer_from_dcs_to_tanker()  
-		
-		if self.si_qty_in_liter > 0:
+		self.material_transfer_from_dcs_to_tanker()
+
+		if flt(self.si_qty_in_kg) > 0:
 			self.material_transfer_from_tanker_to_sales()
-		if self.sr_qty_in_liter > 0:
+		if flt(self.sr_qty_in_kg) > 0:
 			self.material_transfer_from_sales_to_tanker()
 
 		self.material_transfer_from_tanker_to_plant(round(diff_qty, 3))
@@ -68,7 +72,7 @@ class TankerInward(Document):
 		for itm in self.get('milk_received_from_dcs'):
 			items.append({
 				"item_code": item_code,
-				"qty": itm.qty_in_liter,
+				"qty": itm.qty_in_kg,
 				"uom": "Kg",
 				"conversion_factor": 0.9709,
 				"s_warehouse": itm.dcs,
@@ -79,7 +83,7 @@ class TankerInward(Document):
     # 2. CP Tanker (AGGREGATED)
     # -------------------------
 		total_cp_qty = sum(
-        (itm.qty_in_litre or 0)
+        (itm.qty_in_kg or 0)
         for itm in self.get('milk_received_from_cp_tanker')
     )
 
@@ -106,7 +110,7 @@ class TankerInward(Document):
 		item_code = self.get_item()
 
 		total_tanker_qty = sum(
-        (itm.qty_in_liter or 0)
+        (itm.qty_in_kg or 0)
         for itm in self.get('milk_received_from_tanker')
     )
 
@@ -133,11 +137,11 @@ class TankerInward(Document):
 
 	@frappe.whitelist()
 	def material_transfer_from_tanker_to_sales(self):
-		liter_qty = round(self.si_qty_in_liter * 0.9709, 3)
+		liter_qty = round(self.si_qty_in_kg * 0.9709, 3)
 		items = [
 			{
 				"item_code": self.get_item(),
-				"qty": self.si_qty_in_liter,
+				"qty": self.si_qty_in_kg,
 				"uom": "Kg",
 				"conversion_factor": 0.9709,
 				"s_warehouse": self.tanker_warehouse,
@@ -154,7 +158,7 @@ class TankerInward(Document):
 
 	@frappe.whitelist()
 	def material_transfer_from_sales_to_tanker(self):
-		liter_qty = round(self.sr_qty_in_liter * 0.9709, 3)
+		liter_qty = round(self.sr_qty_in_kg * 0.9709, 3)
 		items = [
 			{
 				"item_code": self.sales_item,
@@ -165,7 +169,7 @@ class TankerInward(Document):
 			},
 			{
 				"item_code": self.get_item(),
-				"qty": self.sr_qty_in_liter,
+				"qty": self.sr_qty_in_kg,
 				"uom": "Kg",
 				"conversion_factor": 0.9709,
 				"t_warehouse": self.tanker_warehouse
@@ -214,88 +218,115 @@ class TankerInward(Document):
 
 	@frappe.whitelist()
 	def get_material_receipt(self):
-		diff_qty = 0
-		for diff in self.get('difference_of_dcs_and_tanker_milk_received', filters={'qty_in_liter': ['>', 0]}):
-			diff_qty += diff.qty_in_liter
-		return diff_qty
+		return sum(flt(diff.qty_in_kg) for diff in self.difference_of_dcs_and_tanker_milk_received if flt(diff.qty_in_kg) > 0)
+
+	def validate(self):
+		self.clear_cp_tanker_rows_for_cp_collection()
+		self.validate_cp_tanker_inwards()
+
+	def clear_cp_tanker_rows_for_cp_collection(self):
+		# A CP collection inward itself never receives milk from other CP tankers
+		if self.dcs and frappe.get_cached_value("Warehouse", self.dcs, "custom_cp_warehouse"):
+			self.cp_collection = 1
+			self.milk_received_from_cp_tanker = []
+
+	def validate_cp_tanker_inwards(self):
+		tanker_ids = {row.tanker_id for row in self.milk_received_from_cp_tanker if row.tanker_id}
+		if not tanker_ids:
+			return
+
+		if self.name in tanker_ids:
+			frappe.throw(f"Tanker Inward {self.name} can not be added as its own CP Tanker Inward.")
+
+		already_used = frappe.get_all(
+			"Other Inward",
+			filters={
+				"parenttype": "Tanker Inward",
+				"parentfield": "milk_received_from_cp_tanker",
+				"tanker_id": ["in", list(tanker_ids)],
+				"parent": ["!=", self.name],
+				"docstatus": 1,
+			},
+			fields=["tanker_id", "parent"],
+		)
+		if already_used:
+			used = ", ".join(sorted({f"{d.tanker_id} (in {d.parent})" for d in already_used}))
+			frappe.throw(f"CP Tanker Inward already used in another submitted Tanker Inward: {used}")
 
 	def before_save(self):
-		if self.si_qty_in_liter < self.sr_qty_in_liter:
+		if flt(self.si_qty_in_kg) < flt(self.sr_qty_in_kg):
 			frappe.throw(f"Return Qty Can Not Greater Than Sales Qty.")
 
-		qty_liter = (self.total_qty_in_liter or 0) - (self.si_qty_in_liter or 0) + (self.sr_qty_in_liter or 0)
-		fat = (self.fat or 0) - (self.si_fat or 0) + (self.sr_fat or 0)
-		snf = (self.snf or 0) - (self.si_snf or 0) + (self.sr_snf or 0)
-		kg_fat = (self.kg_fat or 0) - (self.si_kg_fat or 0) + (self.sr_kg_fat or 0)
-		kg_snf = (self.kg_snf or 0) - (self.si_kg_snf or 0) + (self.sr_kg_snf or 0)
+		self.set_litre_from_kg()
+		self.calculate_cp_totals()
+		self.calculate_dcs_and_cp_totals()
+		self.set_difference_row()
 
-		for m in self.milk_received_from_tanker:
-			qty_liter = (m.qty_in_liter or 0) - qty_liter
-			fat = (m.fat or 0) - fat
-			snf = (m.snf or 0) - snf
-			kg_fat = (m.kg_fat or 0) - kg_fat
-			kg_snf = (m.kg_snf or 0) - kg_snf
+	def set_litre_from_kg(self):
+		for table, litre_field in (
+			("milk_received_from_dcs", "qty_in_liter"),
+			("milk_received_from_tanker", "qty_in_liter"),
+			("milk_received_from_cp_tanker", "qty_in_litre"),
+		):
+			for row in self.get(table):
+				row.set(litre_field, kg_to_litre(row.qty_in_kg))
+
+		self.si_qty_in_liter = kg_to_litre(self.si_qty_in_kg)
+		self.sr_qty_in_liter = kg_to_litre(self.sr_qty_in_kg)
+
+	def calculate_cp_totals(self):
+		rows = self.milk_received_from_cp_tanker
+		self.total_qty_in_kg1 = sum(flt(row.qty_in_kg) for row in rows)
+		self.total_qty_in_litre1 = kg_to_litre(self.total_qty_in_kg1)
+		self.kg_fat1 = sum(flt(row.kg_fat) for row in rows)
+		self.kg_snf1 = sum(flt(row.kg_snf) for row in rows)
+		self.fat1 = (self.kg_fat1 / self.total_qty_in_kg1) * 100 if self.total_qty_in_kg1 else 0
+		self.snf1 = (self.kg_snf1 / self.total_qty_in_kg1) * 100 if self.total_qty_in_kg1 else 0
+
+	def set_difference_row(self):
+		# Tanker received minus (DCS + CP collection - depot sales + sales return), all in KG
+		expected_kg = flt(self.total_qty_in_kg) - flt(self.si_qty_in_kg) + flt(self.sr_qty_in_kg)
+		expected_fat = flt(self.fat) - flt(self.si_fat) + flt(self.sr_fat)
+		expected_snf = flt(self.snf) - flt(self.si_snf) + flt(self.sr_snf)
+		expected_kg_fat = flt(self.kg_fat) - flt(self.si_kg_fat) + flt(self.sr_kg_fat)
+		expected_kg_snf = flt(self.kg_snf) - flt(self.si_kg_snf) + flt(self.sr_kg_snf)
+
+		tanker_rows = self.milk_received_from_tanker
+		tanker_kg = sum(flt(m.qty_in_kg) for m in tanker_rows)
+		if tanker_kg:
+			tanker_fat = sum(flt(m.fat) * flt(m.qty_in_kg) for m in tanker_rows) / tanker_kg
+			tanker_snf = sum(flt(m.snf) * flt(m.qty_in_kg) for m in tanker_rows) / tanker_kg
+		else:
+			tanker_fat = tanker_snf = 0
+
+		qty_kg = tanker_kg - expected_kg
 
 		self.difference_of_dcs_and_tanker_milk_received.clear()
 		diff_row = self.append("difference_of_dcs_and_tanker_milk_received", {})
 		diff_row.dcs = self.dcs
-		diff_row.qty_in_liter = qty_liter
-		diff_row.qty_in_kg = qty_liter * 1.03
-		diff_row.fat = fat
-		diff_row.kg_fat = kg_fat
-		diff_row.snf = snf
-		diff_row.kg_snf = kg_snf
-	
-		dcs_litre = 0
-		dcs_kg = 0
-		dcs_kg_fat = 0
-		dcs_kg_snf = 0
+		diff_row.qty_in_kg = qty_kg
+		diff_row.qty_in_liter = kg_to_litre(qty_kg)
+		diff_row.fat = tanker_fat - expected_fat
+		diff_row.snf = tanker_snf - expected_snf
+		diff_row.kg_fat = sum(flt(m.kg_fat) for m in tanker_rows) - expected_kg_fat
+		diff_row.kg_snf = sum(flt(m.kg_snf) for m in tanker_rows) - expected_kg_snf
 
-		for row in self.milk_received_from_dcs:
-			dcs_litre += row.qty_in_liter or 0
-			dcs_kg += row.qty_in_kg or 0
-			dcs_kg_fat += row.kg_fat or 0
-			dcs_kg_snf += row.kg_snf or 0
+	def calculate_dcs_and_cp_totals(self):
+		dcs_kg = sum(flt(row.qty_in_kg) for row in self.milk_received_from_dcs)
+		dcs_kg_fat = sum(flt(row.kg_fat) for row in self.milk_received_from_dcs)
+		dcs_kg_snf = sum(flt(row.kg_snf) for row in self.milk_received_from_dcs)
 
-			# ============================
-			# 🔴 2. GET CP VALUES (OTHER)
-			# ============================
+		final_kg = dcs_kg + flt(self.total_qty_in_kg1)
+		final_kg_fat = dcs_kg_fat + flt(self.kg_fat1)
+		final_kg_snf = dcs_kg_snf + flt(self.kg_snf1)
 
-		other_litre = self.total_qty_in_litre1 or 0
-		other_kg = self.total_qty_in_kg1 or 0
-		other_kg_fat = self.kg_fat1 or 0
-		other_kg_snf = self.kg_snf1 or 0
-
-		# ============================
-		# 🔴 3. FINAL COMBINE
-		# ============================
-
-		final_litre = dcs_litre + other_litre
-		final_kg = dcs_kg + other_kg
-		final_kg_fat = dcs_kg_fat + other_kg_fat
-		final_kg_snf = dcs_kg_snf + other_kg_snf
-
-		# ============================
-		# 🔴 4. FINAL FAT / SNF
-		# ============================
-
-		if final_kg > 0:
-			final_fat = (final_kg_fat / final_kg) * 100
-			final_snf = (final_kg_snf / final_kg) * 100
-		else:
-			final_fat = 0
-			final_snf = 0
-
-		# ============================
-		# 🔴 5. SET FINAL VALUES (NO DUPLICATION)
-		# ============================
-
-		self.total_qty_in_liter = final_litre
 		self.total_qty_in_kg = final_kg
+		self.total_qty_in_liter = kg_to_litre(final_kg)
 		self.kg_fat = final_kg_fat
 		self.kg_snf = final_kg_snf
-		self.fat = final_fat
-		self.snf = final_snf	
+		self.fat = (final_kg_fat / final_kg) * 100 if final_kg else 0
+		self.snf = (final_kg_snf / final_kg) * 100 if final_kg else 0
+
 	@frappe.whitelist()
 	def get_milk_entry_data(self):
 		date_range_query = """
@@ -358,12 +389,12 @@ class TankerInward(Document):
 					dcs_id as dcs,
 					date as date,
 					shift as shift,
-					SUM(volume) as ack_liter,
-					SUM(volume) * 1.03 as ack_kg,
+					SUM(volume) / 1.03 as ack_liter,
+					SUM(volume) as ack_kg,
 					((SUM(fat_kg) / SUM(volume)) * 100) as ack_fat,
 					((SUM(snf_kg) / SUM(volume)) * 100) as ack_snf,
-					SUM(fat_kg) * 1.03 as ack_kg_fat,
-					SUM(snf_kg) * 1.03 as ack_kg_snf
+					SUM(fat_kg) as ack_kg_fat,
+					SUM(snf_kg) as ack_kg_snf
 				FROM 
 					`tabMilk Entry`
 				WHERE 
@@ -422,11 +453,7 @@ class TankerInward(Document):
 				'kg_fat': values['total_kg_fat'],
 				'kg_snf': values['total_kg_snf'],
 			})
-		div = len(self.milk_received_from_dcs)
-		if div > 0:
-			fat = fat/div
-			snf =  snf/div
-			self.total_qty_in_liter, self.total_qty_in_kg, self.fat, self.snf, self.kg_fat, self.kg_snf = total_qty_in_liter, total_qty_in_kg, fat, snf, (total_qty_in_kg*fat)/100, (total_qty_in_kg*snf)/100
+		self.calculate_dcs_and_cp_totals()
 
 	@frappe.whitelist()
 	def get_weight(self):
@@ -456,7 +483,7 @@ class TankerInward(Document):
 
 	@frappe.whitelist()
 	def get_sales_summary(self):
-		if self.si_qty_in_liter and self.sr_qty_in_liter:
+		if self.si_qty_in_kg and self.sr_qty_in_kg:
 			total_qty_in_liter = round(self.total_qty_in_liter, 3)
 			total_qty_in_kg = round(self.total_qty_in_kg, 3)
 			fat = round(self.fat, 3)
@@ -587,3 +614,66 @@ class TankerInward(Document):
 	# 	diff_row.snf = 5
 	# 	# diff_row.qty_in_liter = flt(total)
 	# 	# frappe.throw(str(total))
+
+@frappe.whitelist()
+def get_cp_tanker_inwards(from_date, to_date, bmc_warehouse, milk_type, current_name=None, cp_warehouses=None):
+	"""Submitted CP Tanker Inwards that delivered milk to `bmc_warehouse` in the date range
+	and are not yet used in another submitted Tanker Inward. One row per Milk Received From Tanker row."""
+	frappe.has_permission("Tanker Inward", "read", throw=True)
+
+	cp_filters = {"custom_cp_warehouse": 1}
+	cp_warehouses = frappe.parse_json(cp_warehouses) if cp_warehouses else []
+	if cp_warehouses:
+		cp_filters["name"] = ["in", cp_warehouses]
+	cp_warehouses = frappe.get_all("Warehouse", filters=cp_filters, pluck="name")
+	if not cp_warehouses:
+		return []
+
+	return frappe.db.sql(
+		"""
+		SELECT
+			ti.name AS tanker_id,
+			ti.dcs,
+			ti.from_date,
+			ti.to_date,
+			ti.from_shift,
+			ti.to_shift,
+			mrt.qty_in_liter AS qty_in_litre,
+			mrt.qty_in_kg,
+			mrt.fat,
+			mrt.snf,
+			mrt.kg_fat,
+			mrt.kg_snf
+		FROM `tabTanker Inward` ti
+		INNER JOIN `tabMilk Received From Tanker` mrt
+			ON mrt.parent = ti.name
+			AND mrt.parenttype = 'Tanker Inward'
+			AND mrt.parentfield = 'milk_received_from_tanker'
+		WHERE
+			ti.docstatus = 1
+			AND ti.dcs IN %(cp_warehouses)s
+			AND ti.plant_warehouse = %(bmc_warehouse)s
+			AND ti.milk_type = %(milk_type)s
+			AND ti.from_date <= %(to_date)s
+			AND ti.to_date >= %(from_date)s
+			AND ti.name != %(current_name)s
+			AND NOT EXISTS (
+				SELECT 1 FROM `tabOther Inward` oi
+				WHERE oi.tanker_id = ti.name
+					AND oi.parenttype = 'Tanker Inward'
+					AND oi.parentfield = 'milk_received_from_cp_tanker'
+					AND oi.docstatus = 1
+					AND oi.parent != %(current_name)s
+			)
+		ORDER BY ti.from_date, ti.dcs, ti.name, mrt.idx
+		""",
+		{
+			"cp_warehouses": cp_warehouses,
+			"bmc_warehouse": bmc_warehouse,
+			"milk_type": milk_type,
+			"from_date": from_date,
+			"to_date": to_date,
+			"current_name": current_name or "",
+		},
+		as_dict=True,
+	)
