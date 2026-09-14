@@ -286,10 +286,11 @@ class TankerInward(Document):
 	def set_difference_row(self):
 		# Tanker received minus (DCS + CP collection - depot sales + sales return), all in KG
 		expected_kg = flt(self.total_qty_in_kg) - flt(self.si_qty_in_kg) + flt(self.sr_qty_in_kg)
-		expected_fat = flt(self.fat) - flt(self.si_fat) + flt(self.sr_fat)
-		expected_snf = flt(self.snf) - flt(self.si_snf) + flt(self.sr_snf)
 		expected_kg_fat = flt(self.kg_fat) - flt(self.si_kg_fat) + flt(self.sr_kg_fat)
 		expected_kg_snf = flt(self.kg_snf) - flt(self.si_kg_snf) + flt(self.sr_kg_snf)
+		# FAT/SNF % of the expected milk comes from its KG FAT/SNF; percentages can not be added or subtracted
+		expected_fat = (expected_kg_fat / expected_kg) * 100 if expected_kg else 0
+		expected_snf = (expected_kg_snf / expected_kg) * 100 if expected_kg else 0
 
 		tanker_rows = self.milk_received_from_tanker
 		tanker_kg = sum(flt(m.qty_in_kg) for m in tanker_rows)
