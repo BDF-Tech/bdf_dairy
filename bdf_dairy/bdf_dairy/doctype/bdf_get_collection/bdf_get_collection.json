@@ -1,17 +1,25 @@
 {
  "actions": [],
  "allow_rename": 1,
- "autoname": "BGC-.######",
+ "autoname": "format:BGC-{date}-{shift}",
  "creation": "2025-05-22 18:28:02.969197",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
   "details_section",
-  "warehouse",
   "date",
-  "column_break_uzjh",
-  "mpp_code",
   "shift",
+  "column_break_uzjh",
+  "sync_status",
+  "last_synced_on",
+  "column_break_totals",
+  "total_api_rows",
+  "total_entries",
+  "total_not_created",
+  "warehouses_section",
+  "warehouses",
+  "warehouse",
+  "mpp_code",
   "api_details_section",
   "token_api_url",
   "user_name",
@@ -21,19 +29,27 @@
  ],
  "fields": [
   {
-   "fieldname": "warehouse",
-   "fieldtype": "Link",
-   "in_list_view": 1,
-   "label": "Warehouse",
-   "link_filters": "[[\"Warehouse\",\"disabled\",\"=\",0]]",
-   "options": "Warehouse",
-   "reqd": 1
+   "fieldname": "details_section",
+   "fieldtype": "Section Break",
+   "label": "Details"
   },
   {
+   "default": "Today",
    "fieldname": "date",
    "fieldtype": "Date",
    "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Date",
+   "reqd": 1
+  },
+  {
+   "description": "M = Morning, E = Evening",
+   "fieldname": "shift",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Shift",
+   "options": "\nM\nE",
    "reqd": 1
   },
   {
@@ -41,25 +57,74 @@
    "fieldtype": "Column Break"
   },
   {
+   "default": "Not Synced",
+   "fieldname": "sync_status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Sync Status",
+   "no_copy": 1,
+   "options": "Not Synced\nIn Progress\nSynced\nNeeds Attention\nFailed",
+   "read_only": 1
+  },
+  {
+   "fieldname": "last_synced_on",
+   "fieldtype": "Datetime",
+   "label": "Last Synced On",
+   "no_copy": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_totals",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "total_api_rows",
+   "fieldtype": "Int",
+   "label": "Total API Rows",
+   "no_copy": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "total_entries",
+   "fieldtype": "Int",
+   "label": "Total Milk Entries",
+   "no_copy": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "total_not_created",
+   "fieldtype": "Int",
+   "label": "Total Not Created",
+   "no_copy": 1,
+   "read_only": 1
+  },
+  {
+   "description": "Filled automatically with every active warehouse that has an MPP Code. Tick rows and use Retry Selected to sync only those.",
+   "fieldname": "warehouses_section",
+   "fieldtype": "Section Break",
+   "label": "Warehouses"
+  },
+  {
+   "fieldname": "warehouses",
+   "fieldtype": "Table",
+   "label": "Warehouses",
+   "options": "BDF Get Collection Warehouse"
+  },
+  {
+   "fieldname": "warehouse",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "Warehouse (legacy)",
+   "link_filters": "[[\"Warehouse\",\"disabled\",\"=\",0]]",
+   "options": "Warehouse"
+  },
+  {
    "fetch_from": "warehouse.custom_mpp_code",
    "fieldname": "mpp_code",
    "fieldtype": "Int",
-   "in_list_view": 1,
-   "label": "MPP Code",
-   "reqd": 1
-  },
-  {
-   "fieldname": "shift",
-   "fieldtype": "Select",
-   "in_list_view": 1,
-   "label": "Shift",
-   "options": "\nM\nE",
-   "reqd": 1
-  },
-  {
-   "fieldname": "details_section",
-   "fieldtype": "Section Break",
-   "label": "Details"
+   "hidden": 1,
+   "label": "MPP Code (legacy)"
   },
   {
    "collapsible": 1,
@@ -99,11 +164,11 @@
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-05-22 19:06:07.502960",
+ "modified": "2026-09-18 12:00:00.000000",
  "modified_by": "Administrator",
  "module": "BDF Dairy",
  "name": "BDF Get Collection",
- "naming_rule": "Expression (old style)",
+ "naming_rule": "Expression",
  "owner": "Administrator",
  "permissions": [
   {

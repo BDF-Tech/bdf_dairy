@@ -133,6 +133,13 @@ scheduler_events = {
         "30 17 * * *": [
             "bdf_dairy.bdf_dairy.tasks.send_daily_report_reminder"
         ],
+        # BDF Get Collection: fetch all BMC / CP collection once per shift
+        "0 12 * * *": [
+            "bdf_dairy.bdf_dairy.doctype.bdf_get_collection.bdf_get_collection.sync_morning_collection"
+        ],
+        "0 22 * * *": [
+            "bdf_dairy.bdf_dairy.doctype.bdf_get_collection.bdf_get_collection.sync_evening_collection"
+        ],
     }
 }
 

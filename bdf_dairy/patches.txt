@@ -1,0 +1,5 @@
+[pre_model_sync]
+
+[post_model_sync]
+bdf_dairy.patches.bdf_get_collection_date_shift_naming
+bdf_dairy.patches.add_milk_entry_date_shift_member_index

@@ -1,0 +1,122 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2026-07-29 00:00:00.000000",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "warehouse",
+  "mpp_code",
+  "status",
+  "api_rows",
+  "entries",
+  "added_last_sync",
+  "not_created",
+  "column_break_sync",
+  "last_synced_on",
+  "remarks"
+ ],
+ "fields": [
+  {
+   "columns": 2,
+   "fieldname": "warehouse",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Warehouse",
+   "link_filters": "[[\"Warehouse\",\"disabled\",\"=\",0]]",
+   "options": "Warehouse",
+   "reqd": 1
+  },
+  {
+   "columns": 1,
+   "fetch_from": "warehouse.custom_mpp_code",
+   "fieldname": "mpp_code",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "MPP Code",
+   "read_only": 1
+  },
+  {
+   "columns": 2,
+   "default": "Pending",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "label": "Status",
+   "no_copy": 1,
+   "options": "Pending\nSynced\nNo Data\nNeeds Attention\nSubmitted\nFailed",
+   "read_only": 1
+  },
+  {
+   "columns": 1,
+   "description": "Rows returned by the API on the last sync.",
+   "fieldname": "api_rows",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "API Rows",
+   "no_copy": 1,
+   "read_only": 1
+  },
+  {
+   "columns": 1,
+   "description": "Milk Entries (draft + submitted) in ERP for this warehouse, date and shift.",
+   "fieldname": "entries",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Milk Entries",
+   "no_copy": 1,
+   "read_only": 1
+  },
+  {
+   "columns": 1,
+   "fieldname": "added_last_sync",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Added",
+   "no_copy": 1,
+   "read_only": 1
+  },
+  {
+   "columns": 1,
+   "description": "API rows that could not be created. See Remarks.",
+   "fieldname": "not_created",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Not Created",
+   "no_copy": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_sync",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "last_synced_on",
+   "fieldtype": "Datetime",
+   "label": "Last Synced On",
+   "no_copy": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "remarks",
+   "fieldtype": "Small Text",
+   "label": "Remarks",
+   "no_copy": 1,
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "istable": 1,
+ "links": [],
+ "modified": "2026-09-18 12:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "BDF Dairy",
+ "name": "BDF Get Collection Warehouse",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
