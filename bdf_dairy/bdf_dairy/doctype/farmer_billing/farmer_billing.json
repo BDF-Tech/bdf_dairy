@@ -29,6 +29,13 @@
   "average_rate",
   "column_break_xxzy",
   "total_amount",
+  "total_adjustment",
+  "total_net_amount",
+  "column_break_incentive_total",
+  "total_incentive",
+  "team_lead_incentive_section",
+  "team_lead_incentive",
+  "incentive_paid_in",
   "details_section",
   "farmer_billing_details",
   "creation_status_section",
@@ -222,6 +229,51 @@
    "label": "Last Error",
    "read_only": 1,
    "no_copy": 1
+  },
+  {
+   "fieldname": "total_adjustment",
+   "fieldtype": "Currency",
+   "label": "Total Adjustment",
+   "read_only": 1
+  },
+  {
+   "fieldname": "total_net_amount",
+   "fieldtype": "Currency",
+   "label": "Total Net Payable",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_incentive_total",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "total_incentive",
+   "fieldtype": "Currency",
+   "label": "Total Incentive",
+   "read_only": 1
+  },
+  {
+   "collapsible": 1,
+   "collapsible_depends_on": "team_lead_incentive",
+   "fieldname": "team_lead_incentive_section",
+   "fieldtype": "Section Break",
+   "label": "Team Lead Incentive"
+  },
+  {
+   "fieldname": "team_lead_incentive",
+   "fieldtype": "Table",
+   "label": "Team Lead Incentive",
+   "options": "Farmer Billing Team Incentive",
+   "read_only": 1
+  },
+  {
+   "description": "The month-end Farmer Billing that paid this billing's team lead incentive.",
+   "fieldname": "incentive_paid_in",
+   "fieldtype": "Link",
+   "label": "Incentive Paid In",
+   "no_copy": 1,
+   "options": "Farmer Billing",
+   "read_only": 1
   }
  ],
  "grid_page_length": 50,
@@ -233,7 +285,7 @@
    "link_fieldname": "custom_farmer_billings"
   }
  ],
- "modified": "2025-04-19 11:37:06.039416",
+ "modified": "2026-09-22 10:00:00.000000",
  "modified_by": "Administrator",
  "module": "BDF Dairy",
  "name": "Farmer Billing",

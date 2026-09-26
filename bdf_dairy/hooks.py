@@ -239,7 +239,7 @@ fixtures = [
     {
         "doctype": "Custom Field",
         "filters": [
-            ["name","in",["Purchase Invoice-custom_farmer_billings"]]
+            ["name","in",["Purchase Invoice-custom_farmer_billings", "Supplier-custom_team_lead", "Dairy Settings-custom_bill_adjustment_account"]]
         ]    
     },
     {
