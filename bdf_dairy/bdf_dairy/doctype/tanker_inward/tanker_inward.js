@@ -99,6 +99,13 @@ frappe.ui.form.on('Tanker Inward', {
         }
     },
     setup(frm){
+        // Milk reaching the plant is unloaded into a silo, so list only those.
+        // A CP inward ends at its BMC, not at the plant, so it keeps the full list.
+        frm.set_query('plant_warehouse', function(){
+            const filters = { is_group: 0, disabled: 0 }
+            if (!frm.doc.cp_collection) filters.custom_is_milk_silo = 1
+            return { filters: filters }
+        })
         frm.set_query('dcs', 'milk_received_from_tanker', function(){
             return {
                 filters: {
