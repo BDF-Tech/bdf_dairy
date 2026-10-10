@@ -1,19 +1,25 @@
 [project]
 name = "bdf_dairy"
-version = "0.0.1"
-description = "BDF"
 authors = [
-  { name = "BDF", email = "info@bastardairyfarm.com" }
+    { name = "BDF", email = "info@bastardairyfarm.com"}
 ]
+description = "BDF"
 requires-python = ">=3.10"
 readme = "README.md"
+dynamic = ["version"]
 dependencies = [
-  "pandas==2.2.3",
-  "openpyxl==3.1.5"
+    "pandas==2.2.3",
+    "openpyxl==3.1.5"
+    # "frappe~=15.0.0" # Installed and managed by bench.
 ]
 
-[tool.frappe]
-app_name = "bdf_dairy"
+[build-system]
+requires = ["flit_core >=3.4,<4"]
+build-backend = "flit_core.buildapi"
 
 [tool.bench.frappe-dependencies]
 frappe = ">=16.0.0,<17.0.0"
+
+# These dependencies are only installed when developer mode is enabled
+[tool.bench.dev-dependencies]
+# package_name = "~=1.1.0"

@@ -127,23 +127,21 @@ app_license = "MIT"
 # Scheduled Tasks
 # ---------------
 
-# scheduler_events = {
-# 	"all": [
-# 		"bdf_dairy.tasks.all"
-# 	],
-# 	"daily": [
-# 		"bdf_dairy.tasks.daily"
-# 	],
-# 	"hourly": [
-# 		"bdf_dairy.tasks.hourly"
-# 	],
-# 	"weekly": [
-# 		"bdf_dairy.tasks.weekly"
-# 	],
-# 	"monthly": [
-# 		"bdf_dairy.tasks.monthly"
-# 	],
-# }
+scheduler_events = {
+    "cron": {
+        # Runs every day at 17:30 — remind dept heads who haven't submitted
+        "30 17 * * *": [
+            "bdf_dairy.bdf_dairy.tasks.send_daily_report_reminder"
+        ],
+        # BDF Get Collection: fetch all BMC / CP collection once per shift
+        "0 12 * * *": [
+            "bdf_dairy.bdf_dairy.doctype.bdf_get_collection.bdf_get_collection.sync_morning_collection"
+        ],
+        "0 22 * * *": [
+            "bdf_dairy.bdf_dairy.doctype.bdf_get_collection.bdf_get_collection.sync_evening_collection"
+        ],
+    }
+}
 
 # Testing
 # -------
@@ -241,7 +239,7 @@ fixtures = [
     {
         "doctype": "Custom Field",
         "filters": [
-            ["name","in",["Purchase Invoice-custom_farmer_billings", "Stock Entry-custom_milk_standardization"]]
+            ["name","in",["Purchase Invoice-custom_farmer_billings", "Supplier-custom_team_lead", "Dairy Settings-custom_bill_adjustment_account"]]
         ]    
     },
     {
@@ -255,5 +253,11 @@ fixtures = [
         "filters": [
             ["name","in",["Sales In Route - BDF"]]
         ]    
+    },
+    {
+        "doctype": "Tanker Inward",
+        "filters": [
+            ["name","in",["ch"]]
+        ]
     }
 ]

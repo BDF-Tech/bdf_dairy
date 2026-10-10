@@ -1,0 +1,82 @@
+{
+ "actions": [],
+ "creation": "2026-06-08 10:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "section_break_recipients",
+  "recipients",
+  "section_break_template",
+  "active_template",
+  "section_break_tracked",
+  "tracked_grades"
+ ],
+ "fields": [
+  {
+   "fieldname": "section_break_recipients",
+   "fieldtype": "Section Break",
+   "label": "MD Email Recipients"
+  },
+  {
+   "fieldname": "recipients",
+   "fieldtype": "Table",
+   "label": "Recipients",
+   "options": "Department Report Recipient",
+   "reqd": 1,
+   "description": "All enabled email addresses below will receive every submitted Department Head report"
+  },
+  {
+   "fieldname": "section_break_template",
+   "fieldtype": "Section Break",
+   "label": "Email Template"
+  },
+  {
+   "fieldname": "active_template",
+   "fieldtype": "Link",
+   "label": "Active Email Template",
+   "options": "Department Report Template",
+   "reqd": 1,
+   "description": "Choose which template to use for MD emails. Create templates at /app/department-report-template."
+  },
+  {
+   "fieldname": "section_break_tracked",
+   "fieldtype": "Section Break",
+   "label": "Tracked Grades (for Department Report Sheet)"
+  },
+  {
+   "fieldname": "tracked_grades",
+   "fieldtype": "Table",
+   "label": "Tracked Grades",
+   "options": "Department Report Tracked Grade",
+   "description": "Add employee grades whose daily report submission should be tracked in the Department Report Sheet"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 0,
+ "issingle": 1,
+ "links": [],
+ "modified": "2026-06-08 12:30:00.000000",
+ "modified_by": "Administrator",
+ "module": "BDF Dairy",
+ "name": "Department Report Settings",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

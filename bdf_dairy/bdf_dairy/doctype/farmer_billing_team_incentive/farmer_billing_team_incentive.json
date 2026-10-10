@@ -1,0 +1,99 @@
+{
+ "actions": [],
+ "creation": "2026-09-22 10:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "team_lead",
+  "team_lead_name",
+  "members",
+  "qty",
+  "incentive_amount",
+  "column_break_payout",
+  "month_incentive",
+  "purchase_invoice"
+ ],
+ "fields": [
+  {
+   "columns": 2,
+   "fieldname": "team_lead",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Team Lead",
+   "options": "Supplier",
+   "read_only": 1
+  },
+  {
+   "columns": 2,
+   "fetch_from": "team_lead.supplier_name",
+   "fieldname": "team_lead_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Team Lead Name",
+   "read_only": 1
+  },
+  {
+   "columns": 1,
+   "fieldname": "members",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Members",
+   "read_only": 1
+  },
+  {
+   "columns": 1,
+   "fieldname": "qty",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Qty",
+   "precision": "2",
+   "read_only": 1
+  },
+  {
+   "columns": 1,
+   "fieldname": "incentive_amount",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Incentive",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_payout",
+   "fieldtype": "Column Break"
+  },
+  {
+   "columns": 2,
+   "description": "Month-end billing only: everything not yet paid to this team lead for this DCS, including this billing.",
+   "fieldname": "month_incentive",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Payout",
+   "read_only": 1
+  },
+  {
+   "columns": 1,
+   "fieldname": "purchase_invoice",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Purchase Invoice",
+   "no_copy": 1,
+   "options": "Purchase Invoice",
+   "read_only": 1
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 0,
+ "istable": 1,
+ "links": [],
+ "modified": "2026-09-22 10:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "BDF Dairy",
+ "name": "Farmer Billing Team Incentive",
+ "owner": "Administrator",
+ "permissions": [],
+ "row_format": "Dynamic",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

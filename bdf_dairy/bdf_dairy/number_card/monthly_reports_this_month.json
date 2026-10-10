@@ -1,0 +1,20 @@
+{
+ "aggregate_function_based_on": "",
+ "color": "#1a73e8",
+ "creation": "2026-06-06 10:00:00.000000",
+ "doctype": "Number Card",
+ "document_type": "Department Report",
+ "dynamic_filters_json": "[]",
+ "filters_json": "[{\"fieldname\": \"report_type\", \"operator\": \"=\", \"value\": \"Monthly\"}, {\"fieldname\": \"docstatus\", \"operator\": \"=\", \"value\": 1}]",
+ "function": "Count",
+ "is_public": 1,
+ "label": "Monthly Reports This Year",
+ "modified": "2026-06-06 10:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "BDF Dairy",
+ "name": "Monthly Reports This Year",
+ "owner": "Administrator",
+ "show_percentage_stats": 1,
+ "stats_time_interval": "Monthly",
+ "type": "Document"
+}

@@ -1,0 +1,118 @@
+{
+ "actions": [],
+ "creation": "2026-09-22 10:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "how_it_works",
+  "enabled",
+  "effective_from",
+  "column_break_main",
+  "slab_based_on",
+  "incentive_item",
+  "dcs_team_leads_section",
+  "dcs_team_leads",
+  "slabs_section",
+  "slabs"
+ ],
+ "fields": [
+  {
+   "fieldname": "how_it_works",
+   "fieldtype": "HTML",
+   "options": "<p style='color:var(--text-muted)'>Team lead incentive on farmers' milk. Every Farmer Billing works out each farmer's incentive from the slabs below and adds it up under the farmer's team lead. Nothing is paid to farmers. The billing whose period ends on the <b>last day of the month</b> pays each team lead everything not yet paid for that DCS, as one Purchase Invoice per team lead.</p><p style='color:var(--text-muted)'>A farmer's team lead is the <b>Team Lead</b> on the farmer's Supplier record if set, otherwise the team lead of the DCS in the table below.</p>"
+  },
+  {
+   "default": "0",
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "label": "Enable Team Lead Incentive"
+  },
+  {
+   "description": "Farmer Billings starting before this date get no incentive.",
+   "fieldname": "effective_from",
+   "fieldtype": "Date",
+   "label": "Effective From",
+   "mandatory_depends_on": "enabled"
+  },
+  {
+   "fieldname": "column_break_main",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Each Member",
+   "description": "<b>Each Member</b>: each farmer's litres in the billing pick that farmer's slab. <b>Team Total</b>: the team's combined litres in the billing pick one slab for the whole team.",
+   "fieldname": "slab_based_on",
+   "fieldtype": "Select",
+   "label": "Slab Based On",
+   "options": "Each Member\nTeam Total"
+  },
+  {
+   "description": "Non-stock item used for the rows on the team lead's Purchase Invoice. The incentive is booked to this item's expense account.",
+   "fieldname": "incentive_item",
+   "fieldtype": "Link",
+   "label": "Incentive Item",
+   "mandatory_depends_on": "enabled",
+   "options": "Item"
+  },
+  {
+   "fieldname": "dcs_team_leads_section",
+   "fieldtype": "Section Break",
+   "label": "DCS Team Leads"
+  },
+  {
+   "description": "Every farmer billed at this DCS counts for this team lead, unless the farmer's own Supplier record has a Team Lead.",
+   "fieldname": "dcs_team_leads",
+   "fieldtype": "Table",
+   "label": "DCS Team Leads",
+   "options": "Farmer Incentive DCS Team Lead"
+  },
+  {
+   "fieldname": "slabs_section",
+   "fieldtype": "Section Break",
+   "label": "Slabs"
+  },
+  {
+   "description": "Litres fall in a slab when they are more than <b>Above</b> and at most <b>Up To</b>.",
+   "fieldname": "slabs",
+   "fieldtype": "Table",
+   "label": "Slabs",
+   "mandatory_depends_on": "enabled",
+   "options": "Farmer Incentive Slab"
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 0,
+ "issingle": 1,
+ "links": [],
+ "modified": "2026-09-22 10:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "BDF Dairy",
+ "name": "Farmer Incentive Settings",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "Accounts Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "row_format": "Dynamic",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

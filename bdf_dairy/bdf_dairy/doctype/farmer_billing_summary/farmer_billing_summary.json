@@ -11,7 +11,15 @@
   "column_break_yobe",
   "qty",
   "rate",
-  "amount"
+  "amount",
+  "net_amount",
+  "adjustment_amount",
+  "adjustment_reason",
+  "incentive_section",
+  "team_lead",
+  "column_break_incentive",
+  "incentive_rate",
+  "incentive_amount"
  ],
  "fields": [
   {
@@ -35,7 +43,7 @@
    "fieldtype": "Column Break"
   },
   {
-   "columns": 2,
+   "columns": 1,
    "fieldname": "qty",
    "fieldtype": "Float",
    "in_list_view": 1,
@@ -53,8 +61,59 @@
    "columns": 2,
    "fieldname": "rate",
    "fieldtype": "Currency",
-   "in_list_view": 1,
+   "in_list_view": 0,
    "label": "Rate",
+   "read_only": 1
+  },
+  {
+   "columns": 2,
+   "description": "What the farmer is actually paid. Overwrite it to correct a farmer's amount.",
+   "fieldname": "net_amount",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Net Amount"
+  },
+  {
+   "columns": 1,
+   "fieldname": "adjustment_amount",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Adjustment",
+   "read_only": 1
+  },
+  {
+   "fieldname": "adjustment_reason",
+   "fieldtype": "Small Text",
+   "label": "Adjustment Reason"
+  },
+  {
+   "fieldname": "incentive_section",
+   "fieldtype": "Section Break",
+   "label": "Team Lead Incentive"
+  },
+  {
+   "fieldname": "team_lead",
+   "fieldtype": "Link",
+   "label": "Team Lead",
+   "options": "Supplier",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_incentive",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "incentive_rate",
+   "fieldtype": "Currency",
+   "label": "Incentive / Litre",
+   "read_only": 1
+  },
+  {
+   "columns": 2,
+   "fieldname": "incentive_amount",
+   "fieldtype": "Currency",
+   "in_list_view": 0,
+   "label": "Incentive",
    "read_only": 1
   }
  ],
@@ -62,7 +121,7 @@
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2025-04-19 11:27:02.237811",
+ "modified": "2026-09-22 10:00:00.000000",
  "modified_by": "Administrator",
  "module": "BDF Dairy",
  "name": "Farmer Billing Summary",

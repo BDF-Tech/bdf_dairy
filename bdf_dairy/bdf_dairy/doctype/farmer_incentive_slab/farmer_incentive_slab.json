@@ -1,0 +1,56 @@
+{
+ "actions": [],
+ "creation": "2026-09-22 10:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "above_qty",
+  "up_to_qty",
+  "rate"
+ ],
+ "fields": [
+  {
+   "columns": 3,
+   "fieldname": "above_qty",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Above (Litre)",
+   "non_negative": 1,
+   "precision": "2"
+  },
+  {
+   "columns": 3,
+   "description": "Leave 0 for no upper limit (last slab only)",
+   "fieldname": "up_to_qty",
+   "fieldtype": "Float",
+   "in_list_view": 1,
+   "label": "Up To (Litre)",
+   "non_negative": 1,
+   "precision": "2"
+  },
+  {
+   "columns": 3,
+   "fieldname": "rate",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Incentive / Litre",
+   "non_negative": 1,
+   "reqd": 1
+  }
+ ],
+ "grid_page_length": 50,
+ "index_web_pages_for_search": 0,
+ "istable": 1,
+ "links": [],
+ "modified": "2026-09-22 10:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "BDF Dairy",
+ "name": "Farmer Incentive Slab",
+ "owner": "Administrator",
+ "permissions": [],
+ "row_format": "Dynamic",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
